@@ -4,6 +4,7 @@ class NotificationJob < ApplicationJob
   def perform(notification)
     notification.user.increment!(:unread)
     ActionCable.server.broadcast "notification_#{notification.user.id}", message: render_notification(notification), unread: notification.user.unread
+    # ActionCable.server.broadcast "notifications:#{notification.recipient_id}", html: html
   end
 
   private

@@ -6,20 +6,21 @@ Rails.application.routes.draw do
               path: '',
               path_names: {sign_in: 'login', sign_out: 'logout', edit: 'profile', sign_up: 'registration'},
               controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations'}
- 		
-   resources :users, only: [:show] do
-     member do
-       post '/verify_phone_number' => 'users#verify_phone_number'
-       patch '/update_phone_number' => 'users#update_phone_number'
-     end
-   end
-
-   resources :bouncehouses do		
-    member do		
+  
+  resources :users, only: [:show] do
+    member do
+      post '/verify_phone_number' => 'users#verify_phone_number'
+      patch '/update_phone_number' => 'users#update_phone_number'
+    end
+  end
+  
+   resources :bouncehouses do
+    member do
       get 'listing'
       get 'pricing'
       get 'description'
       get 'photo_upload'
+      get 'amenities'
       get 'location'
       get 'preload'
       get 'preview'
@@ -27,9 +28,13 @@ Rails.application.routes.draw do
       resources :photos, only: [:create, :destroy]
       resources :reservations, only: [:create]
       resources :calendars
+      resources :calendars
    end
+   
+   resources :rooms do
+    resources :guest_reviews, only: [:create, :destroy]
+  end
   
-   resources :guest_reviews, only: [:create, :destroy]
    resources :host_reviews, only: [:create, :destroy]
   		
    get '/previous_reservations' => 'reservations#previous_reservations'
@@ -70,6 +75,6 @@ Rails.application.routes.draw do
    delete '/notification_settings' => 'settings#destroy'
 
    get '/notifications' => 'notifications#index'
-
+  
    mount ActionCable.server => '/cable'
 end

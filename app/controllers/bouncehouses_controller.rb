@@ -110,7 +110,6 @@ class BouncehousesController < ApplicationController
     end
 
     def bouncehouse_params
-      params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :listing_name, :description, :address, 
-      :price, :active, :instant)
+      params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :listing_name, :description, :address, :price, :active, :instant)
     end
 end
