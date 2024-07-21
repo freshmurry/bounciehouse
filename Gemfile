@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+# ruby '2.6.3'
 ruby '2.7.6'
 
 git_source(:github) do |repo_name|
@@ -65,6 +66,10 @@ group :test, :development do
   gem 'database_cleaner'
 end
 
+source 'https://rails-assets.org/' do
+  gem 'rails-assets-jquery'
+end
+
 gem 'capistrano'
 
 #----  AirKONG  -------
@@ -77,4 +82,4 @@ gem 'rails-assets-card', source: 'https://rails-assets.org'
 
 gem 'omniauth-stripe-connect', '~> 2.10.0'
 
-gem "chartkick", ">= 3.2.0"
+gem "chartkick", '>= 3.2.0'

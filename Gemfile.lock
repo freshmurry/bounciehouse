@@ -347,6 +347,7 @@ DEPENDENCIES
   puma
   rails (~> 5.0.3)
   rails-assets-card!
+  rails-assets-jquery!
   rails_12factor
   ransack (~> 1.7)
   redis
@@ -364,7 +365,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 RUBY VERSION
-   ruby 2.6.3p62
+   ruby 2.7.6
 
 BUNDLED WITH
    1.17.2
