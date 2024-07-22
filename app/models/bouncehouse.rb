@@ -13,6 +13,12 @@ class Bouncehouse < ApplicationRecord
   
   validates :bouncehouse_type, presence: true
   validates :time_limit, presence: true
+  validates :pickup_type, presence: true
+  validates :price, presence: true
+  validates :listing_name, presence: true, length: {maximum: 50}
+  validates :description, presence: true, length: {maximum: 50}
+  validates :address, presence: true
+  # validates :price, numericality: { greater_than_or_equal_to: 0 }
 
   def cover_photo(size)
     if self.photos.length > 0

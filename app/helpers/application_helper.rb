@@ -1,12 +1,56 @@
+require 'net/http'
+
 module ApplicationHelper
-  def avatar_url(user)
-    if user.image
-      "https://graph.facebook.com/#{user.uid}/picture?type=large"
-    else  
+  # def image(user)
+  #   if user.image
+  #     "https://graph.facebook.com/#{user.uid}/picture?type=large"
+  #   elsif
+  #     gravatar_id = Digest::MD5::hexdigest(user.email).downcase
+  #     "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identical&s=150"
+  #   else
+  #     'blank.jpg'
+  #   end
+  # end
+  
+  def image(user)
+    if user.email.present?
+      # Fallback to Gravatar if the email is present
       gravatar_id = Digest::MD5::hexdigest(user.email).downcase
-      "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identical&s=150"
+      gravatar_url = "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=404&s=150"
+
+      # Check if Gravatar image exists
+      if gravatar_exists?(gravatar_url)
+        gravatar_url
+      elsif user.image.present?
+        # Check if the user has uploaded their own image
+        user.image.url
+      else
+        # Fallback to default blank image
+        'blank.jpg'
+      end
+    else
+      # Fallback to default blank image if no email is present
+      'blank.jpg'
     end
   end
+
+  private
+
+  def gravatar_exists?(gravatar_url)
+    response = Net::HTTP.get_response(URI.parse(gravatar_url))
+    response.code == "200"
+  rescue
+     false
+  end
+
+  # def avatar_url(user)
+  #   if user.image
+  #     "https://graph.facebook.com/#{user.uid}/picture?type=large"
+  #   else  
+  #     gravatar_id = Digest::MD5::hexdigest(user.email).downcase
+  #     "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identical&s=150"
+  #   end
+  # end
   
   def stripe_express_path
   # ----- TEST -----

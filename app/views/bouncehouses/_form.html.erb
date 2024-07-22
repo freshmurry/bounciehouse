@@ -1,0 +1,139 @@
+<div class="row">
+  <!-- Form Column -->
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= @bouncehouse.new_record? ? "Create Your Listing" : "Edit Your Listing" %>
+      </div>
+      <div class="panel-body">
+        <%= form_for @bouncehouse, html: { multipart: true } do |f| %>
+          <div class="container">
+            <div class="">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <%= f.label :bouncehouse_type, "Bounce House Type" %>
+                  <%= f.select :bouncehouse_type, [["Regular", "Regular"], ["Waterslide", "Waterslide"], ["Castle", "Castle"]],
+                    id: "bouncehouse_type", prompt: "Select...", class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <%= f.label :time_limit, "Time Limit" %>
+                  <%= f.select :time_limit, [["4hrs.", "4hrs."], ["6hrs.", "6hrs."], ["8hrs.", "8hrs."]],
+                    id: "time_limit", prompt: "Select...", class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <%= f.label :pickup_type, "Pickup Type" %>
+                  <%= f.select :pickup_type, [["Same Day Pickup", "Same Day Pickup"], ["Next Day Pickup", "Next Day Pickup"]],
+                    id: "pickup_type", prompt: "Select...", class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <%= f.label :instant, "Booking Type" %>
+                  <%= f.select :instant, Bouncehouse.instants.map { |key, value| [key.humanize, key] }, prompt: "Select...", class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :listing_name, "Listing Name" %>
+                  <%= f.text_field :listing_name, class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :description, "Description" %>
+                  <%= f.text_area :description, class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :address, "Location" %>
+                  <%= f.text_field :address, class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :price, "Price" %>
+                  <%= f.number_field :price, class: "form-control", required: true %>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :amenities, "Amenities" %>
+                  <div class="">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <%= f.check_box :is_heated %> <%= f.label :is_heated, "Heated" %><br>
+                        <%= f.check_box :is_slide %> <%= f.label :is_slide, "Slide" %><br>
+                        <%= f.check_box :is_waterslide %> <%= f.label :is_waterslide, "Water Slide" %>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <%= f.check_box :is_basketball_hoop %> <%= f.label :is_basketball_hoop, "Basketball Hoop" %><br>
+                        <%= f.check_box :is_lighting %> <%= f.label :is_lighting, "Lighting" %><br>
+                        <%= f.check_box :is_sprinkler %> <%= f.label :is_sprinkler, "Sprinkler" %>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <%= f.check_box :is_speakers %> <%= f.label :is_speakers, "Speakers" %><br>
+                        <%= f.check_box :is_wall_climb %> <%= f.label :is_wall_climb, "Wall Climb" %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :photos, "Photos" %>
+                  <span class="btn btn-default btn-file text-babu">
+                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Photos
+                    <%= f.file_field :photos, multiple: true, accept: 'image/*' %>
+                  </span></br>
+                </div>
+              </div>
+
+              <div id="photos">
+                <%= render 'photos/photos_list', photos: @bouncehouse.photos %>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.check_box :active, class: 'form-check-input', checked: @bouncehouse.active %>
+                  <%= f.label :active, "Active", class: 'form-check-label' %>
+                </div>
+              </div>
+
+              <div class="col-md-12 text-center">
+                <div><%= f.submit @bouncehouse.new_record? ? "Create My Listing" : "Update My Listing", class: "btn btn-normal" %></div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fiverr Ad Column -->
+  <div class="col-md-3">
+    <a href="https://track.fiverr.com/visit/?bta=7074&nci=5479&campaign=19735" target="_top">
+      <img border="0" src="https://fiverr.ck-cdn.com/tn/serve/?cid=1492998" alt="Fiverr Ad">
+    </a>
+    <br><br/>
+  </div>
+</div>

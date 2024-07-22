@@ -9,6 +9,15 @@ class CreateBouncehouses < ActiveRecord::Migration[5.0]
       t.string :time_limit
       t.integer :price
       t.integer :tip
+      t.string :pickup_type
+      t.boolean :is_heated
+      t.boolean :is_slide
+      t.boolean :is_waterslide
+      t.boolean :is_basketball_hoop
+      t.boolean :is_lighting
+      t.boolean :is_speakers
+      t.boolean :is_wall_climb
+      t.boolean :is_sprinkler
       t.boolean :active
       t.float :latitude
       t.float :longitude

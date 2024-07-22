@@ -21,13 +21,22 @@ ActiveRecord::Schema.define(version: 20180109174910) do
     t.string   "time_limit"
     t.integer  "price"
     t.integer  "tip"
+    t.string   "pickup_type"
+    t.boolean  "is_heated"
+    t.boolean  "is_slide"
+    t.boolean  "is_waterslide"
+    t.boolean  "is_basketball_hoop"
+    t.boolean  "is_lighting"
+    t.boolean  "is_speakers"
+    t.boolean  "is_wall_climb"
+    t.boolean  "is_sprinkler"
     t.boolean  "active"
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "instant"
     t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.index ["user_id"], name: "index_bouncehouses_on_user_id"
   end
 

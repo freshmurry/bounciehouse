@@ -1,6 +1,7 @@
 <section class="">
   <div class="container">
     <div class="row">
+      <!-- Sidebar -->
       <div class="col-md-3">
         <ul class="sidebar-list">
           <li class="sidebar-item"><%= link_to "Current Listings", bouncehouses_path, class: "sidebar-link active" %></li>
@@ -8,34 +9,31 @@
           <li class="sidebar-item"><%= link_to "Previous Reservations", previous_reservations_path, class: "sidebar-link" %></li>
         </ul>
       </div>
+      <!-- Main Content -->
       <div class="col-md-9">
         <div class="panel panel-default">
           <div class="panel-heading">
             Listings
           </div>
-          
           <div class="panel-body">
             <div class="container">
               <% @bouncehouses.each do |bouncehouse| %>
-                <div class="container-fluid">
-                  <div class="row">
-                    <div class="container-fluid">
-                      <div class="col-md-2">
-                        <%= image_tag bouncehouse.cover_photo(:thumb) %>
-                      </div>
-                      <div class="col-md-6">
-                        <h5><%= bouncehouse.listing_name %></h5>
-                      </div>
-                      <div class="col-md-2">
-                        <%= link_to "Update", listing_bouncehouse_path(bouncehouse), class: "btn btn-form" %>
-                      </div>
-                      <div class="col-md-2">
-                        <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                          <span class="btn btn-danger">Delete</span>
-                        <% end %>  
-                      </div>
-                    </div>  
-                  </div>  
+                <div class="mb-3">
+                  <!-- Cover Photo -->
+                  <div class="col-md-2">
+                    <%= image_tag bouncehouse.cover_photo(:thumb), class: 'img-fluid' %>
+                  </div>
+                  <!-- Listing Name -->
+                  <div class="col-md-6">
+                    <h5><%= bouncehouse.listing_name %></h5>
+                  </div>
+                  <!-- Action Buttons -->
+                  <div class="col-md-4">
+                    <%= link_to "Update", edit_bouncehouse_path(bouncehouse), class: "btn btn-form" %>
+                    <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger ml-2" do %>
+                      Delete
+                    <% end %>  
+                  </div>
                 </div>
                 <hr/>
               <% end %>
@@ -45,4 +43,4 @@
       </div>
     </div>
   </div>
-</section>  
+</section>

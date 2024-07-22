@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root "pages#home"		 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root "pages#home"  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   devise_for :users,
               path: '',
@@ -13,68 +13,57 @@ Rails.application.routes.draw do
       patch '/update_phone_number' => 'users#update_phone_number'
     end
   end
-  
-   resources :bouncehouses do
+
+  resources :bouncehouses do
     member do
-      get 'listing'
-      get 'pricing'
-      get 'description'
-      get 'photo_upload'
-      get 'amenities'
-      get 'location'
       get 'preload'
       get 'preview'
     end
-      resources :photos, only: [:create, :destroy]
-      resources :reservations, only: [:create]
-      resources :calendars
-      resources :calendars
-   end
-   
-   resources :rooms do
+    resources :photos, only: [:create, :destroy]
+    resources :reservations, only: [:create]
+    resources :calendars
     resources :guest_reviews, only: [:create, :destroy]
   end
+
+  resources :host_reviews, only: [:create, :destroy]
+      
+  get '/previous_reservations' => 'reservations#previous_reservations'
+  get '/current_reservations' => 'reservations#current_reservations'
+
+  get 'about' => 'pages#about'
+  get 'search' => 'pages#search'
+  get 'terms' => 'pages#terms'
+  get 'faq' => 'pages#faq'
+  get 'blog' => 'pages#blog'
+  get 'careers' => 'pages#careers'
+  get 'support' => 'pages#support'
+
+  # ---- AirKong ------
+  get 'dashboard' => 'dashboards#index'
+
+  resources :reservations, only: [] do
+    member do
+      post '/approve' => "reservations#approve"
+      post '/decline' => "reservations#decline"
+    end
+  end
+
+  resources :revenues, only: [:index]
+
+  resources :conversations, only: [:index, :create, :destroy] do
+    resources :messages, only: [:index, :create, :destroy]
+  end
+
+  get '/host_calendar' => "calendars#host"
+  get '/payment_method' => "users#payment"
+  get '/payout_method' => "users#payout"
+  post '/add_card' => "users#add_card"
+
+  get '/notification_settings' => 'settings#edit'
+  post '/notification_settings' => 'settings#update'
+  delete '/notification_settings' => 'settings#destroy'
+
+  get '/notifications' => 'notifications#index'
   
-   resources :host_reviews, only: [:create, :destroy]
-  		
-   get '/previous_reservations' => 'reservations#previous_reservations'
-   get '/current_reservations' => 'reservations#current_reservations'
-
-   get 'about' => 'pages#about'
-   get 'search' => 'pages#search'
-   get 'terms' => 'pages#terms'
-   get 'faq' => 'pages#faq'
-   get 'blog' => 'pages#blog'
-   get 'careers' => 'pages#careers'
-   get 'support' => 'pages#support'
-
-
- # ---- AirKong ------
-   get 'dashboard' => 'dashboards#index'
-
-   resources :reservations, only: [:approve, :decline] do
-     member do
-       post '/approve' => "reservations#approve"
-       post '/decline' => "reservations#decline"
-     end
-   end
-
-   resources :revenues, only: [:index]
-
-   resources :conversations, only: [:index, :create, :destroy]  do
-     resources :messages, only: [:index, :create, :destroy]
-   end
-
-   get '/host_calendar' => "calendars#host"
-   get '/payment_method' => "users#payment"
-   get '/payout_method' => "users#payout"
-   post '/add_card' => "users#add_card"
-
-   get '/notification_settings' => 'settings#edit'
-   post '/notification_settings' => 'settings#update'
-   delete '/notification_settings' => 'settings#destroy'
-
-   get '/notifications' => 'notifications#index'
-  
-   mount ActionCable.server => '/cable'
+  mount ActionCable.server => '/cable'
 end
