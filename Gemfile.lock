@@ -383,6 +383,7 @@ DEPENDENCIES
   rails-assets-card!
   rails-assets-jquery!
   rails_12factor
+  rake (~> 13.0)
   ransack (~> 1.7)
   redis
   rspec-rails
