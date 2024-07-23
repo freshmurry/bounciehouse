@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, only: [:show]
 
   def show
-    @user = User.find(params[:id])
+    if current_user
+      @user = User.find(params[:id])
+    else
+      redirect_to new_user_session_path, notice: 'Please log in to access this page.'
+    end
+
     @bouncehouses = @user.bouncehouses
 
     # Display all the guest reviews to host (if this user is a host)

@@ -12,14 +12,23 @@
       <div class="panel-body">
         <div class="container">
           <ul class="sidebar-list">
-            <% if @user.confirmation_token %>
+
+            <% if current_user && current_user.confirmation_token %>
               <li>Email Address<span class="pull-right"><i class="fas fa-check-circle"></i></span></li>
+            <% else %>
+              <p><i class="fas fa-stop" aria-hidden="true"></i> Your email is not verified.</p>
             <% end %>
-            <% if current_user.phone_verified %>
+
+            <% if current_user && current_user.phone_verified %>
               <li>Phone Number<span class="pull-right"><i class="fas fa-check-circle"></i></span></li>
+            <% else %>
+                <p><i class="fas fa-stop" aria-hidden="true"></i> Your phone number is not verified.</p>
             <% end %>
-            <% if @user.provider %>
+
+            <% if current_user && current_user.provider %>
               <li>Facebook<span class="pull-right"><i class="fas fa-check-circle"></i></span></li>
+            <% else %>
+                <p><i class="fas fa-stop" aria-hidden="true"></i> Your Facebook login is not verified.</p>
             <% end %>
           </ul>
         </div>  
