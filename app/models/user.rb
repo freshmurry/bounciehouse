@@ -8,8 +8,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable  
   
   validates :fullname, presence: true, length: {maximum: 50}
+
+  has_attached_file :image, :default_url => "blank.jpg"
   
-  has_many :bouncehouses
+  has_many :bouncehouses, dependent: :delete_all
   has_many :reservations
   
   has_many :guest_reviews, class_name: "GuestReview", foreign_key: "guest_id"
@@ -67,6 +69,9 @@ class User < ApplicationRecord
     !self.merchant_id.blank?
   end
 
+  # def user_params
+  #   params.require(:user).permit(image: [:image_file_name, :image_file_size, :image_content_type, :image_updated_at])
+  # end
 end
 
 # Strict password security measures. *Uncomment when app goes live!*

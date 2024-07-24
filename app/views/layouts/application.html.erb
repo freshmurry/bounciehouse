@@ -6,66 +6,60 @@
     <%= action_cable_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnqDrT86OzRZVorExsMjFhYdp0TTOKQpE&libraries=places"></script> -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnqDrT86OzRZVorExsMjFhYdp0TTOKQpE&callback=initMap"></script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-   
+
+    <!-- Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=[GOOGLE_API_KEY]&callback=initMap"></script>
+
+    <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu|Cabin" rel="stylesheet">
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-		
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
 
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-   	<meta name="author" content="BouncieHouse" />
-    <meta name="keywords" content="Bounce house rental, bouncy house rentals, Bounce house rental near me" />
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="BouncieHouse">
+    <meta name="keywords" content="Bounce house rental, bouncy house rentals, bouncie house, bounce house inflatable, rent a bounce house, rent a bounce house near me, Bounce house rental near me">
     <meta name="description" content="BouncieHouse allows you to book and rent a bounce house near you.">
-    <meta name="google-site-verification" content="iaOgBh0ngIx4hheLrH4JU1_1Cl2Mq9SBgpVRf_av_zM" />
-    <meta property="og:site_name" content="BouncieHouse" />
-    <meta property="og:url" content="https://bounciehouse.herokuapp.com" />
-    <meta property="og:title" content="BouncieHouse | Book and Rent a Bounce House" />
-    <meta property="og:description" content="" />
-    <meta property="og:type" content="website"/>
-    <meta property="og:locale" content="en_US" />
-    <!--<meta property="og:image" content="https://bounciehouse.s3.us-east-2.amazonaws.com/photos/images/000/bounciehouse.png" />-->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:url" content="https://bounciehouse.herokuapp.com">
-    <meta name="twitter:title" content="BouncieHouse" />
-    <!--<meta name="twitter:image" content="https://bounciehouse.s3.us-east-2.amazonaws.com/photos/images/000/bounciehouse.png" />-->
-    
-    <script type="text/javascript" async="" src="https://secure.quantserve.com/quant.js"></script>
-    <script type="text/javascript" async="" src="https://www.googleadservices.com/pagead/conversion_async.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta name="google-site-verification" content="iaOgBh0ngIx4hheLrH4JU1_1Cl2Mq9SBgpVRf_av_zM">
+    <meta property="og:site_name" content="BouncieHouse">
+    <meta property="og:url" content="https://bounciehouse.com">
+    <meta property="og:title" content="BouncieHouse | Book and Rent a Bounce House">
+    <meta property="og:description" content="BouncieHouse allows you to book and rent a bounce house near you.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="<%= image_url('bounciehouse-social-icon.png') %>">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://bounciehouse.com">
+    <meta name="twitter:title" content="BouncieHouse">
+    <meta name="twitter:image" content="<%= image_url('bounciehouse-social-icon.png') %>">
+
+    <!-- Scripts -->
+    <script src="https://secure.quantserve.com/quant.js" async></script>
+    <script src="https://www.googleadservices.com/pagead/conversion_async.js" async></script>
+    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script>
 
   </head>
-  
   <body>
-    
     <%= render 'shared/navbar' %>
     <%= render 'shared/message' %>
-      
-    <% if current_user %>
-      <input type="hidden" id="user_id" value="<%= current_user.id %>">
-    <% end %>
-    
+
     <div class="container">
-    	<%= yield %>
+      <%= yield %>
     </div>
-    
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6ZCFF13GD"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-W6ZCFF13GD');
-  </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6ZCFF13GD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W6ZCFF13GD');
+    </script>
 
     <%= render 'shared/footer' %>
     <% debug(params) if Rails.env.development? %>
-
   </body>
 </html>

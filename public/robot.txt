@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /admin/
+Sitemap: https://bounciehouse.com/sitemap.xml.gz

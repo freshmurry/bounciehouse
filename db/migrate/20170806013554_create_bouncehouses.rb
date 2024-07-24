@@ -2,7 +2,6 @@ class CreateBouncehouses < ActiveRecord::Migration[5.0]
   def change
     create_table :bouncehouses do |t|
       t.string :bouncehouse_type
-      t.string :location_type
       t.string :address
       t.string :listing_name
       t.text :description

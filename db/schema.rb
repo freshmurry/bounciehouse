@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 20180109174910) do
 
   create_table "bouncehouses", force: :cascade do |t|
     t.string   "bouncehouse_type"
-    t.string   "location_type"
     t.string   "address"
     t.string   "listing_name"
     t.text     "description"

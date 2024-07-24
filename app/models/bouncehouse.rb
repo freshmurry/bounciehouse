@@ -9,7 +9,7 @@ class Bouncehouse < ApplicationRecord
   has_many :calendars
     
   geocoded_by :address
-  after_validation :geocode, if: :address_changed?
+  after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
   
   validates :bouncehouse_type, presence: true
   validates :time_limit, presence: true

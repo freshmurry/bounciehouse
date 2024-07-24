@@ -56,8 +56,12 @@
             <span id="average_rating"></span>
           </div>
           <div class="center">
-            <% if current_user && current_user != @bouncehouse.user %>
-              <%= link_to "Message Host", conversations_path(sender_id: current_user.id, recipient_id: @bouncehouse.user.id), method: :post, class: "btn btn-default" %>
+            <% if user_signed_in? %>
+              <% if current_user != @bouncehouse.user %>
+                <%= link_to "Message Host", conversations_path(sender_id: current_user.id, recipient_id: @bouncehouse.user.id), method: :post, class: "btn btn-default" %>
+              <% end %>
+            <% else %>
+              <%= link_to "Message Host", new_user_registration_path(return_to: bouncehouse_path(@bouncehouse)), class: "btn btn-default" %>
             <% end %>
           </div>
         </div>
@@ -173,7 +177,7 @@
     <div class="container">
       <div class="row">
         <div id="map" style="width: 100%; height: 400px"></div>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwN_tpAAKnHhy14HzNqK-XeuarVJhNHg8"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=[GOOGLE_API_KEY]"></script>
         <script>
          function initialize() {
             var location = {lat: <%= @bouncehouse.latitude %>, lng: <%= @bouncehouse.longitude %>};
