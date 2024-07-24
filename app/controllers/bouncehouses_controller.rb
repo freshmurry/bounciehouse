@@ -1,7 +1,7 @@
 class BouncehousesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_bouncehouse, only: [:show, :edit, :update, :destroy, :preload, :preview]
-  before_action :is_authorized, only: [:listing, :pricing, :description, :photo_upload, :amenities, :address, :update]
+  before_action :is_authorized, only: [:listing, :pricing, :description, :photo_upload, :amenities, :address, :update, :destroy]
 
   def index
     @bouncehouses = current_user.bouncehouses
@@ -14,9 +14,9 @@ class BouncehousesController < ApplicationController
   def create
     @bouncehouse = current_user.bouncehouses.build(bouncehouse_params)
     if @bouncehouse.save
-      if params[:bouncehouse][:photos]
-        params[:bouncehouse][:photos].each do |photo|
-          @bouncehouse.photos.attach(photo)
+      if params[:bouncehouse][:image]
+        params[:bouncehouse][:image].each do |image|
+          @bouncehouse.photos.attach(image)
         end
       end
       redirect_to @bouncehouse, notice: "Bounce house listing was successfully created."
@@ -92,6 +92,6 @@ class BouncehousesController < ApplicationController
   end
 
   def bouncehouse_params
-    params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :pickup_type, :instant, :listing_name, :description, :address, :price, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, :active, photos: [])
+    params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :pickup_type, :instant, :listing_name, :description, :address, :price, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, :active)
   end
 end
