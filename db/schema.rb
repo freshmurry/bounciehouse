@@ -103,9 +103,9 @@ ActiveRecord::Schema.define(version: 20180109174910) do
     t.text     "comment"
     t.integer  "star",           default: 1
     t.integer  "bouncehouse_id"
-    t.integer  "reservation_id"
-    t.integer  "guest_id"
-    t.integer  "host_id"
+    t.integer  "reservation_id",             null: false
+    t.integer  "guest_id",                   null: false
+    t.integer  "host_id",                    null: false
     t.string   "type"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
