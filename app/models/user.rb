@@ -69,9 +69,9 @@ class User < ApplicationRecord
     !self.merchant_id.blank?
   end
 
-  # def user_params
-  #   params.require(:user).permit(image: [:image_file_name, :image_file_size, :image_content_type, :image_updated_at])
-  # end
+  def user_params
+    params.require(:user).permit(image: [:image_file_name, :image_file_size, :image_content_type, :image_updated_at])
+  end
 end
 
 # Strict password security measures. *Uncomment when app goes live!*
