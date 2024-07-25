@@ -1,4 +1,3 @@
-<!-- Image -->
 <div class="row">
   <div class="col-md-12">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -15,7 +14,8 @@
         <% if @photos.present? %>
           <% @photos.each_with_index do |photo, index| %>
             <div class="item <%= 'active' if index == 0 %>">
-              <%= image_tag photo.image.url %>
+              <!-- <%= image_tag photo.image.url %> -->
+              <%= image_tag bouncehouse.image.url %>
             </div>
           <% end %>
         <% end %>
@@ -56,12 +56,8 @@
             <span id="average_rating"></span>
           </div>
           <div class="center">
-            <% if user_signed_in? %>
-              <% if current_user != @bouncehouse.user %>
-                <%= link_to "Message Host", conversations_path(sender_id: current_user.id, recipient_id: @bouncehouse.user.id), method: :post, class: "btn btn-default" %>
-              <% end %>
-            <% else %>
-              <%= link_to "Message Host", new_user_registration_path(return_to: bouncehouse_path(@bouncehouse)), class: "btn btn-default" %>
+            <% if current_user && current_user != @bouncehouse.user %>
+              <%= link_to "Message Host", conversations_path(sender_id: current_user.id, recipient_id: @bouncehouse.user.id), method: :post, class: "btn btn-default" %>
             <% end %>
           </div>
         </div>
@@ -177,7 +173,7 @@
     <div class="container">
       <div class="row">
         <div id="map" style="width: 100%; height: 400px"></div>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=[GOOGLE_API_KEY]"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwN_tpAAKnHhy14HzNqK-XeuarVJhNHg8"></script>
         <script>
          function initialize() {
             var location = {lat: <%= @bouncehouse.latitude %>, lng: <%= @bouncehouse.longitude %>};
@@ -192,7 +188,7 @@
             });
     
             var infoWindow = new google.maps.InfoWindow({
-              content: '<div id="content"><%= image_tag @bouncehouse.cover_photo(:medium) %></div>'
+              content: '<div id="content"><%= image_tag @bouncehouse.photos(:medium) %></div>'
             });
     
             infoWindow.open(map, marker);
@@ -214,7 +210,7 @@
                 <div class="col-md-4">
                   <div class="panel panel-default">
                     <div class="panel-heading preview">
-                      <%= image_tag nearby_bouncehouse.cover_photo(:medium) %>
+                      <%= image_tag @bouncehouse.photos[0].image.url(:medium) %>
                     </div>
                         
                     <div class="panel-body">

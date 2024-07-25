@@ -3,12 +3,13 @@ class PhotosController < ApplicationController
   before_action :set_photo, only: [:destroy]
 
   def destroy
-    @photo.purge
+    @photo = Photo.find(params[:id])
+    @photo.destroy
     respond_to do |format|
-      format.html { redirect_to edit_bouncehouse_path(@bouncehouse), notice: 'Photo was successfully deleted.' }
+      format.html { redirect_to photos_url, notice: 'Photo was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
+  end  
 
   private
 

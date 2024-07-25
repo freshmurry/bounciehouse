@@ -98,18 +98,20 @@
                 </div>
               </div>
 
+              <!-- PHOTO UPLOAD -->
               <div class="col-md-12">
                 <div class="form-group">
                   <%= f.label :photos, "Photos" %>
                   <span class="btn btn-default btn-file text-babu">
                     <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Photos
-                    <%= f.file_field :images, type: :file, multiple: true %>
+                    <%= f.file_field_tag "images[]", type: :file, multiple: true %>
                   </span></br>
                 </div>
               </div>
 
+              <!-- PHOTOS LIST -->
               <div id="photos">
-                <%= render 'photos/photos_list', photos: @bouncehouse.photos %>
+                <%= render 'photos/photos_list' %>
               </div>
 
               <div class="col-md-12">

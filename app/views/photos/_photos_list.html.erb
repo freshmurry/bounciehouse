@@ -1,27 +1,25 @@
-<% if @bouncehouse.photos.present? %>
-  <div class="">
+<% if @photos.present? %>
+  <div class="row">
     <% @photos.each do |photo| %>
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading preview">
-            <%= image_tag photo.image.url %>
+            <%= image_tag photo.image.url(), alt: "Photo", class: "img-responsive" %>
           </div>
 
-        <div class="panel-body">
-           <div class="container"> 
+          <div class="panel-body">
+            <div class="container"> 
               <span class="pull-right">
-                <%= link_to bouncehouse_photo_path(@bouncehouse, photo), remote: true, method: :delete, data: { confirm: "Are you sure?" } do %>
+                <%= link_to photo, remote: true, method: :delete, data: { confirm: "Are you sure?" } do %>
                   <i class="fa fa-trash fa-lg"></i>
                 <% end %>
               </span>
             </div> 
           </div>
-
         </div>
       </div>
     <% end %>
   </div>
-
-  <% else %>
-    <p>No photos available.</p>
+<% else %>
+  <p>No photos available.</p>
 <% end %>

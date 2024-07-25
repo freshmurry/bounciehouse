@@ -25,11 +25,11 @@
                 <p><i class="fas fa-stop" aria-hidden="true"></i> Your phone number is not verified.</p>
             <% end %>
 
-            <% if current_user && current_user.provider %>
+            <!-- <% if current_user && current_user.provider %>
               <li>Facebook<span class="pull-right"><i class="fas fa-check-circle"></i></span></li>
             <% else %>
                 <p><i class="fas fa-stop" aria-hidden="true"></i> Your Facebook login is not verified.</p>
-            <% end %>
+            <% end %> -->
           </ul>
         </div>  
       </div>
@@ -39,7 +39,7 @@
       <div class="panel-body">
         <div class="container">
           <ul class="sidebar-list">
-            <li>Member since: <b><%= @user.created_at.strftime("%B %Y") %></b></li>&nbsp;
+            <li>Member since: <b><%= @user.created_at.strftime("%A, %B %d, %Y") %></b></li>&nbsp;
             <li>Last login: <b><%= @user.last_sign_in_at.strftime("%A, %B %d, %Y") %></b></li>
           </ul>
         </div>  
@@ -79,6 +79,15 @@
         <div class="container">
           <div class="panel-body">
             <%= render "reviews/host_list" %>
+          </div>
+        </div>  
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Badges</div>
+        <div class="container">
+          <div class="panel-body">
+            <!-- <= render "badges/badge_list" %> -->
           </div>
         </div>  
     </div>
