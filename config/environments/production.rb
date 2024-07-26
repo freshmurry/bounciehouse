@@ -88,13 +88,13 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   
   #Required for Heroku
-  # config.action_mailer.default_url_options = { host: 'https://bounciehouse.herokuapp.com' }
+  # config.action_mailer.default_url_options = { host: 'https://bounciehouse.com' }
 
   config.action_mailer.raise_delivery_errors = true
   
     config.action_mailer.delivery_method = :smtp
     host = 'bounciehouse.herokuapp.com'
-    config.action_mailer.default_url_options = { host: host }
+    config.action_mailer.default_url_options = { host: 'https://bounciehouse.com' }
     ActionMailer::Base.smtp_settings = {
       :address        => 'smtp.sendgrid.net',
       :port           => '587',
