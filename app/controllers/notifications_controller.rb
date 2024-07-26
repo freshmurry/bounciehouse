@@ -1,24 +1,20 @@
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_notification, only: [:show,:destroy]
+  before_action :set_notification, only: [:show, :destroy]
 
   def index
-    current_user.unread = 0
-    current_user.save
-    @notifications = current_user.notifications.reverse
+    current_user.update(unread: 0) # Better practice for updating attributes
+    @notifications = current_user.notifications.order(created_at: :desc)
   end
 
   def destroy
     @notification.destroy
-    format.js
-
-    redirect_back(fallback_location: request.referer, notice: "Notification Deleted!")
+    redirect_back(fallback_location: notifications_path, notice: "Notification Deleted!")
   end
 
-    private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_notification
-      @notification = Notifications.find(params[:id])
-    end
-  	
+  private
+
+  def set_notification
+    @notification = current_user.notifications.find(params[:id]) # Ensure the notification belongs to the current user
+  end
 end

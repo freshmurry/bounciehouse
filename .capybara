@@ -1,0 +1,38 @@
+require 'rails_helper'
+
+RSpec.feature 'Managing Bouncehouses', type: :feature do
+  let(:user) { create(:user) }
+  let(:bouncehouse) { create(:bouncehouse, user: user) }
+
+  before do
+    sign_in user
+  end
+
+  scenario 'User creates a bouncehouse' do
+    visit new_bouncehouse_path
+    fill_in 'Listing Name', with: 'New Bouncehouse'
+    fill_in 'Price', with: 100
+    # fill in other fields as necessary
+    click_button 'Create Bouncehouse'
+    
+    expect(page).to have_content('Listing was successfully created.')
+    expect(page).to have_content('New Bouncehouse')
+  end
+
+  scenario 'User updates a bouncehouse' do
+    visit edit_bouncehouse_path(bouncehouse)
+    fill_in 'Price', with: 150
+    click_button 'Update Bouncehouse'
+    
+    expect(page).to have_content('Listing was successfully updated.')
+    expect(page).to have_content('150')
+  end
+
+  scenario 'User deletes a bouncehouse' do
+    visit bouncehouse_path(bouncehouse)
+    click_link 'Delete'
+    
+    expect(page).to have_content('Listing successfully deleted.')
+    expect(page).not_to have_content(bouncehouse.listing_name)
+  end
+end

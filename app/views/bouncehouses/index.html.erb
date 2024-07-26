@@ -17,25 +17,38 @@
           </div>
           <div class="panel-body">
             <div class="container">
-              <% @bouncehouses.each do |bouncehouse| %>
-                <div class="mb-3">
-                  <!-- Cover Photo -->
-                  <div class="col-md-2">
-                    <%= image_tag bouncehouse.cover_photo(:thumb), class: 'img-fluid' %>
+              <% if @bouncehouses.present? %>
+                <% @bouncehouses.each do |bouncehouse| %>
+                  <div class="mb-3">
+
+
+                    <!-- COVER PHOTO -->
+                    <div class="col-md-2">
+                      <% if bouncehouse.photos.any? %>
+                        <%= image_tag bouncehouse.photos.first.image.url(:thumb) %>
+                      <% end %>                   
+                    </div>
+                    
+                    <!-- Listing Name -->
+                    <div class="col-md-6">
+                      <h5><%= bouncehouse.listing_name %></h5>
+                    </div>
+                    
+                    <!-- ACTION BUTTONS -->
+                    <div class="col-md-4">
+                      <%= link_to "Update", edit_bouncehouse_path(bouncehouse), class: "btn btn-form" %>
+                      <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger ml-2" do %>
+                        Delete
+                      <% end %>  
+                    </div>
                   </div>
-                  <!-- Listing Name -->
-                  <div class="col-md-6">
-                    <h5><%= bouncehouse.listing_name %></h5>
-                  </div>
-                  <!-- Action Buttons -->
-                  <div class="col-md-4">
-                    <%= link_to "Update", edit_bouncehouse_path(bouncehouse), class: "btn btn-form" %>
-                    <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger ml-2" do %>
-                      Delete
-                    <% end %>  
-                  </div>
+                  <hr/>
+                <% end %>
+              <% else %>
+                <div class="text-center">
+                  <h4>You do not have any current listings.</h4>
+                  <%= link_to "List a Bouncehouse", new_bouncehouse_path, class: "btn btn-primary" %>
                 </div>
-                <hr/>
               <% end %>
             </div>
           </div>

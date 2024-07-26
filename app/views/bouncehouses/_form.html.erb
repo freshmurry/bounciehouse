@@ -7,6 +7,7 @@
       </div>
       <div class="panel-body">
         <%= form_for @bouncehouse, html: { multipart: true } do |f| %>
+
           <div class="container">
             <div class="">
               <div class="col-md-4">
@@ -68,6 +69,7 @@
                 </div>
               </div>
 
+              <!-- AMENITIES -->
               <div class="col-md-12">
                 <div class="form-group">
                   <%= f.label :amenities, "Amenities" %>
@@ -102,16 +104,16 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <%= f.label :photos, "Photos" %>
-                  <span class="btn btn-default btn-file text-babu">
+                  <div class="btn btn-default btn-file text-babu">
                     <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Photos
-                    <%= f.file_field_tag "images[]", type: :file, multiple: true %>
-                  </span></br>
+                    <%= f.file_field :photos, multiple: true, class: "form-control-file" %>
+                  </div>
                 </div>
               </div>
 
               <!-- PHOTOS LIST -->
               <div id="photos">
-                <%= render 'photos/photos_list' %>
+                <%= render 'bouncehouses/photos_list' %>
               </div>
 
               <div class="col-md-12">
@@ -131,7 +133,7 @@
     </div>
   </div>
 
-  <!-- Fiverr Ad Column -->
+  <!-- FIVERR AD COLUMN -->
   <div class="col-md-3">
     <a href="https://track.fiverr.com/visit/?bta=7074&nci=5479&campaign=19735" target="_top">
       <img border="0" src="https://fiverr.ck-cdn.com/tn/serve/?cid=1492998" alt="Fiverr Ad">

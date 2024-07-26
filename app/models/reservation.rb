@@ -1,14 +1,14 @@
 class Reservation < ApplicationRecord
-  enum status: {Waiting: 0, Approved: 1, Declined: 2}
-  
+  enum status: { Waiting: 0, Approved: 1, Declined: 2 }
+
   after_create_commit :create_notification
-  
+
   belongs_to :user
   belongs_to :bouncehouse
-  
+
   scope :current_week_revenue, -> (user) {
     joins(:bouncehouse)
-    .where("bouncehouses.user_id = ? AND reservations.updated_at >= ? AND reservations.status = ?", user.id, 1.week.ago, 1)
+    .where("bouncehouses.user_id = ? AND reservations.updated_at >= ? AND reservations.status = ?", user.id, 1.week.ago, statuses[:Approved])
     .order(updated_at: :asc)
   }
 

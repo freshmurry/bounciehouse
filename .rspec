@@ -1,1 +1,48 @@
---require spec_helper
+require 'rails_helper'
+
+RSpec.describe BouncehousesController, type: :controller do
+  let(:user) { create(:user) }
+  let(:bouncehouse) { create(:bouncehouse, user: user) }
+
+  before { sign_in user }
+
+  describe 'GET #show' do
+    it 'assigns the requested bouncehouse to @bouncehouse' do
+      get :show, params: { id: bouncehouse }
+      expect(assigns(:bouncehouse)).to eq(bouncehouse)
+    end
+
+    it 'renders the :show template' do
+      get :show, params: { id: bouncehouse }
+      expect(response).to render_template(:show)
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'creates a new bouncehouse' do
+        expect {
+          post :create, params: { bouncehouse: attributes_for(:bouncehouse) }
+        }.to change(Bouncehouse, :count).by(1)
+      end
+
+      it 'redirects to the new bouncehouse' do
+        post :create, params: { bouncehouse: attributes_for(:bouncehouse) }
+        expect(response).to redirect_to(assigns(:bouncehouse))
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the new bouncehouse' do
+        expect {
+          post :create, params: { bouncehouse: attributes_for(:invalid_bouncehouse) }
+        }.to_not change(Bouncehouse, :count)
+      end
+
+      it 're-renders the :new template' do
+        post :create, params: { bouncehouse: attributes_for(:invalid_bouncehouse) }
+        expect(response).to render_template(:new)
+      end
+    end
+  end
+end

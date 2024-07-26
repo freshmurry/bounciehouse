@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user! 
-  before_action :set_conversation, only: [:show, :destroy]
+  before_action :authenticate_user!
+  before_action :set_conversation, only: [:index, :create, :destroy]
 
   def index
     if current_user == @conversation.sender || current_user == @conversation.recipient
@@ -13,43 +13,44 @@ class MessagesController < ApplicationController
 
   def create
     @message = @conversation.messages.new(message_params)
-    @messages = @conversation.messages.order("created_at DESC")
 
-    if current_user == bouncehouse.user
-      flash[:alert] = "You cannot send a message to yourself!"
-      redirect_to bouncehouse
+    if current_user == @conversation.sender || current_user == @conversation.recipient
+      if @message.save
+        ActionCable.server.broadcast "conversation_#{@conversation.id}", message: render_message(@message)
+        head :ok
+      else
+        flash[:alert] = "Message could not be sent."
+      end
+    else
+      flash[:alert] = "You cannot send a message in this conversation."
     end
-      
-    if @message.save
-      ActionCable.server.broadcast "conversation_#{@conversation.id}", message: render_message(@message)
-    end
+
+    redirect_back(fallback_location: conversations_path)
   end
 
   def destroy
-    @message.destroy
-    redirect_to messages_url
-    # @message = Message.find(params[:id])
-    # @conversation = @message.conversation
+    @message = @conversation.messages.find(params[:id])
+    
+    if @message.destroy
+      flash[:notice] = "Message deleted successfully."
+    else
+      flash[:alert] = "Message could not be deleted."
+    end
 
-    # @message.destroy
-    # @messages = Message.where(conversation_id: @conversation.id)
-
-    # respond_to :js
-
-    redirect_back(fallback_location: request.referer, notice: "Message Deleted!")
+    redirect_back(fallback_location: conversations_path)
   end
-  
+
   private
 
-    def render_message(message)
-      self.render(partial: 'messages/message', locals: {message: message})
-    end
+  def render_message(message)
+    render(partial: 'messages/message', locals: { message: message })
+  end
 
-    def set_conversation
-      @conversation = Conversation.find(params[:conversation_id])
-    end
+  def set_conversation
+    @conversation = Conversation.find(params[:conversation_id])
+  end
 
-    def message_params
-      params.require(:message).permit(:context, :user_id)
-    end
+  def message_params
+    params.require(:message).permit(:context, :user_id)
+  end
 end
