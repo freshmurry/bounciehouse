@@ -41,6 +41,11 @@ Rails.application.routes.draw do
         post '/approve', to: "reservations#approve"
         post '/decline', to: "reservations#decline"
       end
+
+      collection do
+        get '/preload' => 'reservations#preload'
+        get '/preview' => 'reservations#preview'
+      end  
     end
     resources :calendars
     resources :guest_reviews, only: [:create, :destroy]
@@ -52,8 +57,6 @@ Rails.application.routes.draw do
   # Reservations routes
   get '/previous_reservations', to: 'reservations#previous_reservations'
   get '/current_reservations', to: 'reservations#current_reservations'
-  get '/preload' => 'reservations#preload'
-  get '/preview' => 'reservations#preview'
 
   # Dashboard
   get 'dashboard', to: 'dashboards#index'

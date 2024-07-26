@@ -1,10 +1,31 @@
 class ReservationsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:notify]
   before_action :set_reservation, only: [:approve, :decline]
+
+  def preload
+    bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
+    today = Date.today
+    reservations = bouncehouse.reservations.where("start_date >= ? OR end_date >= ?", today, today)
+
+    render json: reservations
+
+  end
+
+  def preview
+    @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
+    start_date = Date.parse(params[:start_date])
+    end_date = Date.parse(params[:end_date])
+
+    conflict = is_conflict(start_date, end_date) # Ensure this method exists and works as expected
+    output = {
+      conflict: conflict
+    }
+    render json: output
+  end
 
   def create
     bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
-
+  
     if current_user == bouncehouse.user
       flash[:alert] = "You cannot book your own Bouncehouse!"
       redirect_to bouncehouse and return
@@ -12,16 +33,16 @@ class ReservationsController < ApplicationController
       flash[:alert] = "Please update your payment method!"
       redirect_to payment_method_path and return
     end
-
+  
     start_date = Date.parse(reservation_params[:start_date])
     end_date = Date.parse(reservation_params[:end_date])
     days = (end_date - start_date).to_i + 1
-
+  
     special_dates = bouncehouse.calendars.where(
       "status = ? AND day BETWEEN ? AND ? AND price <> ?",
       0, start_date, end_date, bouncehouse.price
     )
-    
+  
     @reservation = current_user.reservations.build(reservation_params)
     @reservation.bouncehouse = bouncehouse
     @reservation.price = bouncehouse.price
@@ -29,7 +50,7 @@ class ReservationsController < ApplicationController
     special_dates.each do |date|
       @reservation.total += date.price
     end
-    
+  
     if @reservation.Waiting!
       if bouncehouse.Request?
         flash[:notice] = "Request sent successfully"
@@ -39,10 +60,10 @@ class ReservationsController < ApplicationController
     else
       flash[:alert] = "Cannot make a reservation"
     end
-
+  
     redirect_to bouncehouse
   end
-
+  
   def previous_reservations
     @spaces = current_user.reservations.order(start_date: :asc)
   end

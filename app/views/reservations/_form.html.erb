@@ -89,7 +89,7 @@
     };
 
     $.ajax({
-      url: '<%= new_bouncehouse_path(@bouncehouse) %>',
+      url: '<%= preview_bouncehouse_reservations_path(@bouncehouse) %>',
       data: input,
       success: function(data) {
         if (data.conflict) {
@@ -133,7 +133,7 @@
   }
 
   $.ajax({
-    url: '<%= bouncehouse_path(@bouncehouse) %>',
+    url: '<%= preload_bouncehouse_reservations_path(@bouncehouse) %>',
     dataType: 'json',
     success: function(data) {
       specialDates = data.special_dates;

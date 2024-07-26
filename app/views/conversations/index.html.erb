@@ -4,44 +4,47 @@
       <div class="panel-heading">Messages</div>
       <div class="panel-body">
         <div class="container">
-          <% @conversations.each do |conversation| %>
-            <% other = current_user == conversation.sender ? conversation.recipient : conversation.sender %>
-            <%= link_to conversation_messages_path(conversation) do %>
-                            
-              <div class="container">
-                <div class="row conversation">
-                  <% if conversation.messages.any? %>
-                    <div class="col-md-2">
-                      <% if other %>
-                        <%= image_tag (other.image), class: "img-circle avatar-medium" %>
-                      <% end %>  
-                    </div>
-                    <div class="col-md-8">
-                      <%= conversation.messages.last.context %>
-                    </div>
-                    <div class="col-md-1">
-                      <% if other %>
-                        <b><%= other.fullname %></b>
-                      <% end %>  
-                      <%= conversation.messages.last.message_time %>
-                    </div>
+          <% if @conversations.any? %>
+            <% @conversations.each do |conversation| %>
+              <% other = current_user == conversation.sender ? conversation.recipient : conversation.sender %>
+              <%= link_to conversation_messages_path(conversation) do %>
+                  
+                <div class="container">
+                  <div class="row conversation">
+                    <% if conversation.messages.any? %>
+                      <div class="col-md-2">
+                        <% if other %>
+                          <%= image_tag (other.image), class: "img-circle avatar-medium" %>
+                        <% end %>  
+                      </div>
+                      <div class="col-md-8">
+                        <%= conversation.messages.last.context %>
+                      </div>
+                      <div class="col-md-1">
+                        <% if other %>
+                          <b><%= other.fullname %></b>
+                        <% end %>  
+                        <%= conversation.messages.last.message_time %>
+                      </div>
 
-                    <div>
-                      <span class="col-md-1 pull-right">
-                        <%= link_to conversation_path(conversation), remote: true, method: :delete, data: {confirm: "Are you sure?"} do %>
-                          <i class="fas fa-trash-alt fa-md" aria-hidden="true"></i>
-                        <% end %>   
-                      </span>
-                    </div>
-                  <% else %>
-                    <p>You don't have any messages.</p>
-                  <% end %>
+                      <div>
+                        <span class="col-md-1 pull-right">
+                          <%= link_to conversation_path(conversation), remote: true, method: :delete, data: {confirm: "Are you sure?"} do %>
+                            <i class="fas fa-trash-alt fa-md" aria-hidden="true"></i>
+                          <% end %>   
+                        </span>
+                      </div>
+                    <% else %>
+                      <h3 class="text-center">No messages in this conversation.</h3>
+                    <% end %>
+                  </div>
                 </div>
-              </div>
-                
+                  
+              <% end %>
             <% end %>
+          <% else %>
+            <h3 class="text-center">You don't have any messages.</h3>
           <% end %>
-            
         </div>
       </div>
     </div>
