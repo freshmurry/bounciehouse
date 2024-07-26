@@ -1,3 +1,29 @@
+<head>
+  <title><%= @bouncehouse.listing_name %></title>
+  <meta property="og:title" content="<%= @bouncehouse.listing_name %>" />
+  <meta property="og:description" content="Rent this amazing bounce house for <%= number_to_currency(@bouncehouse.price/ 100.0) %>!" />
+  <meta property="og:image" content="<%= @bouncehouse.photos %>" />
+  <meta property="og:url" content="<%= bouncehouse_url(@bouncehouse) %>" />
+</head>
+
+<script>
+  function copyLink() {
+    var copyText = document.getElementById("share-link");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand("copy");
+    alert("Copied the link: " + copyText.value);
+  }
+</script>
+
+<script>
+  $('#average_rating').raty({
+    path: '/assets',
+    readOnly: true,
+    score: <%= @bouncehouse.average_rating %>
+  });
+</script>
+
 <div class="row">
   <div class="col-md-12">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -237,11 +263,3 @@
     <%= render 'reservations/form' %>
   </div>
 </div>
-
-<script>
-  $('#average_rating').raty({
-    path: '/assets',
-    readOnly: true,
-    score: <%= @bouncehouse.average_rating %>
-  });
-</script>

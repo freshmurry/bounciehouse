@@ -12,12 +12,20 @@ class Reservation < ApplicationRecord
     .order(updated_at: :asc)
   }
 
+  def self.is_conflict(bouncehouse, start_date, end_date)
+    bouncehouse.reservations.where("start_date < ? AND end_date > ?", end_date, start_date).exists?
+  end
+
+  def booking_fee
+    total * 0.05 # 5% booking fee
+  end
+
   private
 
-    def create_notification
-      type = self.bouncehouse.Instant? ? "New Booking" : "New Request"
-      guest = User.find(self.user_id)
+  def create_notification
+    type = self.bouncehouse.Instant? ? "New Booking" : "New Request"
+    guest = User.find(self.user_id)
 
-      Notification.create(content: "#{type} from #{guest.fullname}", user_id: self.bouncehouse.user_id)
-    end
+    Notification.create(content: "#{type} from #{guest.fullname}", user_id: self.bouncehouse.user_id)
+  end
 end

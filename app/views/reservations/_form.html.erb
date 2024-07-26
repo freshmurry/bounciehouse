@@ -19,7 +19,6 @@
               <%= f.text_field :end_date, readonly: true, placeholder: "End Date", class: "form-control datepicker" %>
             </div>
 
-            <hr></hr>
           </div>  
         </div>
   
@@ -31,10 +30,24 @@
                 <td>Price</td>
                 <td class="text-right">$<%= @bouncehouse.price %></td>
               </tr>
-              <!--<tr>-->
-              <!--  <td>Booking Fee</td>-->
-              <!--  <td class="text-right">x <span id="reservation_fees"></span></td>-->
-              <!--</tr>-->
+              
+              <tr>
+                <td>Booking Fee</td>
+                <% if @reservation %>
+                  <td class="text-right">
+                    <span id="reservation_price_booking_fee">
+                      <%= number_to_currency(@reservation.booking_fee || 0) %>
+                    </span>
+                  </td>
+                <% else %>
+                  <td class="text-right">
+                    $<span id="reservation_price_booking_fee">
+                      <%= number_to_currency(0) %>
+                    </span>
+                  </td>
+                <% end %>
+              </tr>
+              
               <tr>
                 <td>Day(s)</td>
                 <td class="text-right">x <span id="reservation_days"></span></td>
@@ -45,13 +58,14 @@
                   <ul id="special_list"></ul>
                 </td>
               </tr>
+              
               <tr>
-                <td class="total">Total</td>
+                <strong><td class="total">Total</td></strong>
                 <td class="text-right">$<span id="reservation_total"></span></td>
               </tr>
             </tbody>
           </table>
-          <h6>*All bookings are subject to a 20% booking fee</h6>
+          <h6>*All bookings are subject to a 5% booking fee</h6>
         </div>
   
         <br/>
@@ -68,109 +82,117 @@
 </div>
 
 <script>
-
   $(function() {
-  var unavailableDates = [];
-  var specialDates = [];
+    var unavailableDates = [];
+    var specialDates = [];
 
-  function checkDate(date) {
-    var mdy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-    return [$.inArray(mdy, unavailableDates) === -1];
-  }
+    function checkDate(date) {
+      var mdy = $.datepicker.formatDate('m/d/yy', date);
+      return [$.inArray(mdy, unavailableDates) === -1];
+    }
 
-  function specialCheck() {
-    var start_date = $('#reservation_start_date').datepicker('getDate');
-    var end_date = $('#reservation_end_date').datepicker('getDate');
-    var days = (end_date - start_date) / 1000 / 60 / 60 / 24 + 1;
+    function specialCheck() {
+      var start_date = $('#reservation_start_date').datepicker('getDate');
+      var end_date = $('#reservation_end_date').datepicker('getDate');
 
-    var input = {
-      'start_date': start_date,
-      'end_date': end_date
-    };
+      if (!start_date || !end_date) return;
 
-    $.ajax({
-      url: '<%= preview_bouncehouse_reservations_path(@bouncehouse) %>',
-      data: input,
-      success: function(data) {
-        if (data.conflict) {
-          $('#message').text("These dates are not available");
-          $('#preview').hide();
-          $('#btn_book').attr('disabled', true);
-        } else {
-          $('#message').text("");
-          $('#preview').show();
-          $('#btn_book').attr('disabled', false);
+      var days = Math.floor((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
 
-          $('#special_list').empty();
-          var selectedDates = [];
+      var formattedStartDate = start_date.toISOString().split('T')[0];
+      var formattedEndDate = end_date.toISOString().split('T')[0];
 
-          while (start_date <= end_date) {
-            selectedDates.push($.datepicker.formatDate('m-d-yy', new Date(start_date)));
-            start_date.setDate(start_date.getDate() + 1);
-          }
-
-          var selectedSpecialDate = specialDates.filter(function(sDate) {
-            var d = $.datepicker.formatDate('m-d-yy', new Date(sDate.day));
-            return selectedDates.indexOf(d) !== -1;
-          });
-
-          var total = (days - selectedSpecialDate.length) * <%= @bouncehouse.price %>;
-          if (selectedSpecialDate.length > 0) {
-            $('#special_details').show();
-            selectedSpecialDate.map(function(date) {
-              total += date.price;
-              $('#special_list').append('<li class="text-right">(' + date.day + '): $' + date.price + '</li>');
-            });
+      $.ajax({
+        url: '/bouncehouses/' + <%= @bouncehouse.id %> + '/preview_reservations?start_date=' + formattedStartDate + '&end_date=' + formattedEndDate,
+        dataType: 'json',
+        success: function(data) {
+          var conflict = data.conflict;
+          if (conflict) {
+            $('#message').text("These dates are not available");
+            $('#preview').hide();
+            $('#btn_book').attr('disabled', true);
           } else {
-            $('#special_details').hide();
+            $('#message').text("");
+            $('#preview').show();
+            $('#btn_book').attr('disabled', false);
+
+            $('#special_list').empty();
+            var selectedDates = [];
+
+            var currentDate = new Date(start_date);
+            while (currentDate <= end_date) {
+              selectedDates.push($.datepicker.formatDate('m-d-yy', currentDate));
+              currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            var selectedSpecialDates = specialDates.filter(function(sDate) {
+              var d = $.datepicker.formatDate('m-d-yy', new Date(sDate.day));
+              return selectedDates.indexOf(d) !== -1;
+            });
+
+            var total = (days - selectedSpecialDates.length) * <%= @bouncehouse.price %>;
+            
+            if (selectedSpecialDates.length > 0) {
+              $('#special_details').show();
+              selectedSpecialDates.forEach(function(date) {
+                total += date.price;
+                $('#special_list').append('<li class="text-right">(' + date.day + '): $' + date.price + '</li>');
+              });
+            } else {
+              $('#special_details').hide();
+            }
+
+            // Calculate and display the booking fee (5% of total)
+            var bookingFee = total * 0.05;
+            $('#reservation_price_booking_fee').text(bookingFee.toFixed(2));
+
+            // Update reservation details
+            $('#reservation_days').text(days);
+            $('#reservation_total').text((total + bookingFee).toFixed(2));
           }
-
-          $('#reservation_days').text(days);
-          $('#reservation_total').text(total);
-        }
-      }
-    });
-  }
-
-  $.ajax({
-    url: '<%= preload_bouncehouse_reservations_path(@bouncehouse) %>',
-    dataType: 'json',
-    success: function(data) {
-      specialDates = data.special_dates;
-
-      $.each(data.reservations, function(arrID, arrValue) {
-        for (var d = new Date(arrValue.start_date); d <= new Date(arrValue.end_date); d.setDate(d.getDate() + 1)) {
-          unavailableDates.push($.datepicker.formatDate('m/d/yy', d));
-        }
-      });
-
-      $.each(data.unavailable_dates, function(arrID, arrValue) {
-        unavailableDates.push($.datepicker.formatDate('m/d/yy', new Date(arrValue.day)));
-      });
-
-      $('#reservation_start_date').datepicker({
-        dateFormat: 'mm/dd/yy',
-        minDate: 0,
-        maxDate: '3m',
-        beforeShowDay: checkDate,
-        onSelect: function(selected) {
-          $('#reservation_end_date').datepicker("option", "minDate", selected);
-          $('#reservation_end_date').attr("disabled", false);
-          specialCheck();
-        }
-      });
-
-      $('#reservation_end_date').datepicker({
-        dateFormat: 'mm/dd/yy',
-        minDate: 0,
-        maxDate: '3m',
-        beforeShowDay: checkDate,
-        onSelect: function(selected) {
-          $('#reservation_start_date').datepicker("option", "maxDate", selected);
-          specialCheck();
         }
       });
     }
+
+    $.ajax({
+      url: '/bouncehouses/' + <%= @bouncehouse.id %> + '/preload_reservations',
+      dataType: 'json',
+      success: function(data) {
+        specialDates = data.special_dates || [];
+
+        $.each(data.reservations || [], function(arrID, arrValue) {
+          for (var d = new Date(arrValue.start_date); d <= new Date(arrValue.end_date); d.setDate(d.getDate() + 1)) {
+            unavailableDates.push($.datepicker.formatDate('m/d/yy', d));
+          }
+        });
+
+        $.each(data.unavailable_dates || [], function(arrID, arrValue) {
+          unavailableDates.push($.datepicker.formatDate('m/d/yy', new Date(arrValue.day)));
+        });
+
+        $('#reservation_start_date').datepicker({
+          dateFormat: 'mm/dd/yy',
+          minDate: 0,
+          maxDate: '3m',
+          beforeShowDay: checkDate,
+          onSelect: function(selected) {
+            $('#reservation_end_date').datepicker("option", "minDate", selected);
+            $('#reservation_end_date').attr("disabled", false);
+            specialCheck();
+          }
+        });
+
+        $('#reservation_end_date').datepicker({
+          dateFormat: 'mm/dd/yy',
+          minDate: 0,
+          maxDate: '3m',
+          beforeShowDay: checkDate,
+          onSelect: function(selected) {
+            $('#reservation_start_date').datepicker("option", "maxDate", selected);
+            specialCheck();
+          }
+        });
+      }
+    });
   });
-});
 </script>

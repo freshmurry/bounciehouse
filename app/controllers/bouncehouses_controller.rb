@@ -54,6 +54,27 @@ class BouncehousesController < ApplicationController
     end
   end
   
+  # ----- RESERVATIONS -----
+  def preload_reservations
+    @bouncehouse = Bouncehouse.find(params[:id])
+    @reservations = @bouncehouse.reservations.where("start_date <= ? AND end_date >= ?", Date.today, Date.today)
+    
+    respond_to do |format|
+      format.json { render json: @reservations }
+    end
+  end
+
+  def preview_reservations
+    @bouncehouse = Bouncehouse.find(params[:id])
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    @conflict = Reservation.is_conflict(@bouncehouse, start_date, end_date)
+
+    respond_to do |format|
+      format.json { render json: { conflict: @conflict } }
+    end
+  end
+  
   def destroy
     @bouncehouse.destroy
     redirect_to root_path, notice: "Deleted..."

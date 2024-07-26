@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   # User resources with phone number management
   resources :users, only: [:show] do
     member do
-      post '/verify_phone_number', to: 'users#verify_phone_number'
-      patch '/update_phone_number', to: 'users#update_phone_number'
+      post 'verify_phone_number'
+      patch 'update_phone_number'
     end
   end
 
@@ -32,21 +32,24 @@ Rails.application.routes.draw do
   resources :bouncehouses do
     member do
       get 'photo_upload'
+      get 'preview_reservations'
+      get 'preload_reservations'
     end
-    
+
     resources :photos, only: [:create, :destroy]
 
     resources :reservations, only: [:create] do
       member do
-        post '/approve', to: "reservations#approve"
-        post '/decline', to: "reservations#decline"
+        post 'approve'
+        post 'decline'
       end
 
       collection do
-        get '/preload' => 'reservations#preload'
-        get '/preview' => 'reservations#preview'
+        get 'preload'
+        get 'preview'
       end  
     end
+
     resources :calendars
     resources :guest_reviews, only: [:create, :destroy]
   end
@@ -55,8 +58,8 @@ Rails.application.routes.draw do
   resources :host_reviews, only: [:create, :destroy]
 
   # Reservations routes
-  get '/previous_reservations', to: 'reservations#previous_reservations'
-  get '/current_reservations', to: 'reservations#current_reservations'
+  get 'previous_reservations', to: 'reservations#previous_reservations'
+  get 'current_reservations', to: 'reservations#current_reservations'
 
   # Dashboard
   get 'dashboard', to: 'dashboards#index'
@@ -70,16 +73,16 @@ Rails.application.routes.draw do
   end
 
   # User settings and notifications
-  get '/host_calendar', to: 'calendars#host'
-  get '/payment_method', to: 'users#payment'
-  get '/payout_method', to: 'users#payout'
-  post '/add_card', to: 'users#add_card'
+  get 'host_calendar', to: 'calendars#host'
+  get 'payment_method', to: 'users#payment'
+  get 'payout_method', to: 'users#payout'
+  post 'add_card', to: 'users#add_card'
 
-  get '/notification_settings', to: 'settings#edit'
-  post '/notification_settings', to: 'settings#update'
-  delete '/notification_settings', to: 'settings#destroy'
+  get 'notification_settings', to: 'settings#edit'
+  post 'notification_settings', to: 'settings#update'
+  delete 'notification_settings', to: 'settings#destroy'
 
-  get '/notifications', to: 'notifications#index'
+  get 'notifications', to: 'notifications#index'
 
   # Action Cable
   mount ActionCable.server => '/cable'

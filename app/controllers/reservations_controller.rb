@@ -1,69 +1,56 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_user!, except: [:notify]
   before_action :set_reservation, only: [:approve, :decline]
-
-  def preload
-    bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
-    today = Date.today
-    reservations = bouncehouse.reservations.where("start_date >= ? OR end_date >= ?", today, today)
-
-    render json: reservations
-
-  end
+  before_action :set_bouncehouse, only: [:create, :preview]
 
   def preview
-    @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
-    start_date = Date.parse(params[:start_date])
-    end_date = Date.parse(params[:end_date])
-
-    conflict = is_conflict(start_date, end_date) # Ensure this method exists and works as expected
-    output = {
-      conflict: conflict
-    }
-    render json: output
+    start_date = params[:start_date].to_date
+    end_date = params[:end_date].to_date
+    @conflict = Reservation.is_conflict(@bouncehouse, start_date, end_date)
+    respond_to do |format|
+      format.json { render json: { conflict: @conflict } }
+    end
   end
 
   def create
-    bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
-  
-    if current_user == bouncehouse.user
+    if current_user == @bouncehouse.user
       flash[:alert] = "You cannot book your own Bouncehouse!"
-      redirect_to bouncehouse and return
+      redirect_to @bouncehouse and return
     elsif current_user.stripe_id.blank?
       flash[:alert] = "Please update your payment method!"
       redirect_to payment_method_path and return
     end
-  
+
     start_date = Date.parse(reservation_params[:start_date])
     end_date = Date.parse(reservation_params[:end_date])
     days = (end_date - start_date).to_i + 1
-  
-    special_dates = bouncehouse.calendars.where(
+
+    special_dates = @bouncehouse.calendars.where(
       "status = ? AND day BETWEEN ? AND ? AND price <> ?",
-      0, start_date, end_date, bouncehouse.price
+      0, start_date, end_date, @bouncehouse.price
     )
-  
+
     @reservation = current_user.reservations.build(reservation_params)
-    @reservation.bouncehouse = bouncehouse
-    @reservation.price = bouncehouse.price
-    @reservation.total = bouncehouse.price * (days - special_dates.count)
+    @reservation.bouncehouse = @bouncehouse
+    @reservation.price = @bouncehouse.price
+    @reservation.total = @bouncehouse.price * (days - special_dates.count)
     special_dates.each do |date|
       @reservation.total += date.price
     end
-  
+
     if @reservation.Waiting!
-      if bouncehouse.Request?
+      if @bouncehouse.Request?
         flash[:notice] = "Request sent successfully"
       else
-        charge(bouncehouse, @reservation)
+        charge(@bouncehouse, @reservation)
       end
     else
       flash[:alert] = "Cannot make a reservation"
     end
-  
-    redirect_to bouncehouse
+
+    redirect_to @bouncehouse
   end
-  
+
   def previous_reservations
     @spaces = current_user.reservations.order(start_date: :asc)
   end
@@ -83,16 +70,15 @@ class ReservationsController < ApplicationController
   end
 
   private
-  
-  def send_sms(bouncehouse, reservation)
-    @client = Twilio::REST::Client.new
-    @client.messages.create(
-      from: ENV['TWILIO_PHONE_NUMBER'],
-      to: bouncehouse.user.phone_number,
-      body: "#{reservation.user.fullname} booked your '#{bouncehouse.listing_name}'"
-    )
+
+  def set_bouncehouse
+    @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
   end
-  
+
+  def set_reservation
+    @reservation = Reservation.find(params[:id])
+  end
+
   def charge(bouncehouse, reservation)
     return if reservation.user.stripe_id.blank?
 
@@ -103,7 +89,7 @@ class ReservationsController < ApplicationController
       description: bouncehouse.listing_name,
       currency: "usd",
       destination: {
-        amount: reservation.total * 80, # 80% of the total amount goes to the Host, 20% is company fee
+        amount: reservation.total * 95, # 95% of the total amount goes to the Host, 5% is company fee
         account: bouncehouse.user.merchant_id # bouncehouse's Stripe customer ID
       }
     )
@@ -121,12 +107,8 @@ class ReservationsController < ApplicationController
     reservation.Declined!
     flash[:alert] = e.message
   end
-  
-  def set_reservation
-    @reservation = Reservation.find(params[:id])
-  end
 
   def reservation_params
-    params.require(:reservation).permit(:start_date, :end_date)
+    params.require(:reservation).permit(:start_date, :end_date, :price, :total, :bouncehouse_id)
   end
 end
