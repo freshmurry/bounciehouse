@@ -14,10 +14,11 @@ class PhotosController < ApplicationController
 
   def destroy
     @photo = @bouncehouse.photos.find(params[:id])
-    if @photo.destroy
-      redirect_to @bouncehouse, notice: 'Photo was successfully deleted.'
-    else
-      redirect_to @bouncehouse, alert: 'Failed to delete photo.'
+    @photo.destroy
+    
+    respond_to do |format|
+      format.html { redirect_to @bouncehouse, notice: 'Photo was successfully deleted.' }
+      format.js   # This will render destroy.js.erb
     end
   end
 

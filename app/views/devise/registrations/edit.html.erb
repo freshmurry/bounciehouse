@@ -34,11 +34,11 @@
             <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
             <%= render 'shared/devisemes' %>
             
-            <%= form_tag [@user], html: { multipart: true } do |form| %>
+            <%= form_tag [@user], url: user_photos_path(@user), method: 'post', html: { multipart: true } do |form| %>
               <div class="form-group">
                 <span class="btn btn-default btn-file text-babu">
                   <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Select A Profile Photo
-                    <%= f.file_field :image %>
+                    <%= f.file_field 'images[]' %>
                 </span></br>                
               </div>
 

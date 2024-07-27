@@ -1,4 +1,7 @@
-$('#photos').html("<%= j render 'photos_list' %>")
+// Directly remove the photo element
+$('#photo_<%= @photo.id %>').remove();
+
+// Hide the photo check element if there are no photos
 <% if @bouncehouse.photos.blank? %>
   $('#photo_check').hide();
 <% end %>
