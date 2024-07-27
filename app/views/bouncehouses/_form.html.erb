@@ -6,7 +6,7 @@
         <%= @bouncehouse.new_record? ? "Create Your Listing" : "Edit Your Listing" %>
       </div>
       <div class="panel-body">
-        <%= form_for @bouncehouse, html: { multipart: true } do |f| %>
+        <%= form_for @bouncehouse, url: bouncehouse_photos_path(@bouncehouse), method: 'post', html: { multipart: true } do |f| %>
 
           <div class="container">
             <div class="">
@@ -106,7 +106,9 @@
                   <%= f.label :photos, "Photos" %>
                   <div class="btn btn-default btn-file text-babu">
                     <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Photos
-                    <%= f.file_field :photos, multiple: true, class: "form-control-file" %>
+                    <!-- <= f.file_field :photos, multiple: true, class: "form-control-file" %> -->
+                    <!-- <= form.file_field :photos, multiple: true %> -->
+                    <%= file_field_tag "images[]", type: :file, multiple: true %>
                   </div>
                 </div>
               </div>
