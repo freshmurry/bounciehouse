@@ -17,7 +17,7 @@ class PhotosController < ApplicationController
     @photo.destroy
     
     respond_to do |format|
-      format.html { redirect_to @bouncehouse, notice: 'Photo was successfully deleted.' }
+      format.html { redirect_to edit_bouncehouse_path(@bouncehouse), notice: 'Photo was successfully deleted.' }
       format.js   # This will render destroy.js.erb
     end
   end

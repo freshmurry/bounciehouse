@@ -10,6 +10,7 @@ class BouncehousesController < ApplicationController
     @bouncehouse = Bouncehouse.find(params[:id])
     @photos = @bouncehouse.photos
     @guest_reviews = Review.where(type: "GuestReview", bouncehouse_id: @bouncehouse.id)
+    @reservation = Reservation.new
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Bouncehouse not found."
     redirect_to root_path

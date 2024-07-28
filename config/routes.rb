@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  # Root route
+  # ROOT ROUTE
   root "pages#home"
+
+  # STATIC PAGES
   get 'about', to: 'pages#about'
   get 'search', to: 'pages#search'
   get 'terms', to: 'pages#terms'
@@ -9,18 +11,18 @@ Rails.application.routes.draw do
   get 'careers', to: 'pages#careers'
   get 'support', to: 'pages#support'
 
-  # Devise routes for user authentication
+  # DEVISE ROUTES FOR USER AUTHENTICATION
   devise_for :users,
              path: '',
              path_names: { sign_in: 'login', sign_out: 'logout', edit: 'profile', sign_up: 'registration' },
-             controllers: { omniauth_callbacks: 'omniauth_callbacks', omniauth_providers: [:google_oauth2], registrations: 'registrations' }
+             controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
 
-  # OmniAuth and session management
+  # OMNIAUTH AND SESSION MANAGEMENT
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: redirect('/')
   delete '/logout', to: 'sessions#destroy'
 
-  # User resources with phone number management
+  # USER RESOURCES WITH PHONE NUMBER MANAGEMENT
   resources :users, only: [:show] do
     member do
       post '/verify_phone_number', to: 'users#verify_phone_number'
@@ -28,45 +30,51 @@ Rails.application.routes.draw do
     end
   end
 
-  # Bouncehouses management
+  # BOUNCEHOUSES MANAGEMENT
   resources :bouncehouses do
     member do
       get 'photo_upload'
+      get 'preload_reservations'
+      get 'preview_reservations'
     end
-    
-    resources :photos, only: [:create, :destroy]
 
+    # RESERVATIONS AND RELATED ACTIONS
     resources :reservations, only: [:create] do
+      collection do
+        get 'preload', to: 'reservations#preload'
+        get 'preview', to: 'reservations#preview'
+      end
+
       member do
-        post '/approve', to: "reservations#approve"
-        post '/decline', to: "reservations#decline"
+        post 'approve', to: "reservations#approve"
+        post 'decline', to: "reservations#decline"
       end
     end
+
+    resources :photos, only: [:create, :destroy]
     resources :calendars
     resources :guest_reviews, only: [:create, :destroy]
   end
 
-  # Host reviews
+  # HOST REVIEWS
   resources :host_reviews, only: [:create, :destroy]
 
-  # Reservations routes
+  # RESERVATIONS ROUTES FOR SPECIFIC USER ACTIONS
   get '/previous_reservations', to: 'reservations#previous_reservations'
   get '/current_reservations', to: 'reservations#current_reservations'
-  get '/preload' => 'reservations#preload'
-  get '/preview' => 'reservations#preview'
 
-  # Dashboard
+  # DASHBOARD
   get 'dashboard', to: 'dashboards#index'
 
-  # Revenue management
+  # REVENUE MANAGEMENT
   resources :revenues, only: [:index]
 
-  # Conversations and messages
+  # CONVERSATIONS AND MESSAGES
   resources :conversations, only: [:index, :create, :destroy] do
     resources :messages, only: [:index, :create, :destroy]
   end
 
-  # User settings and notifications
+  # USER SETTINGS AND NOTIFICATIONS
   get '/host_calendar', to: 'calendars#host'
   get '/payment_method', to: 'users#payment'
   get '/payout_method', to: 'users#payout'
@@ -78,6 +86,6 @@ Rails.application.routes.draw do
 
   get '/notifications', to: 'notifications#index'
 
-  # Action Cable
+  # ACTION CABLE
   mount ActionCable.server => '/cable'
 end

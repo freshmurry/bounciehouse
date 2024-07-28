@@ -14,6 +14,7 @@ class Bouncehouse < ApplicationRecord
 
   validates :bouncehouse_type, :time_limit, :pickup_type, :price, :listing_name, :description, :address, presence: true
   validates :listing_name, :description, length: { maximum: 50 }
+  validates :price, numericality: { greater_than: 0 } # Ensure price is positive
 
   def cover_photo(size)
     photos.first&.image&.url(size) || ActionController::Base.helpers.asset_path("blank.jpg")

@@ -1,27 +1,28 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <span><% if @bouncehouse.Instant? %><i class="fa fa-bolt" style="color: #ffb400"></i> <% end %> $<%= @bouncehouse.price %></span>
+    <span>
+      <% if @bouncehouse.Instant? %>
+        <i class="fa fa-bolt" style="color: #ffb400"></i>
+      <% end %>
+      $<%= @bouncehouse.price %>
+    </span>
     <span class="pull-right">Per Day</span>
   </div>
   <div class="panel-body">
-    <div class="container">  
+    <div class="container">
       <%= form_for([@bouncehouse, @bouncehouse.reservations.new]) do |f| %>
         <div class="row">
           <div class="container">
-            
             <div class="col-md-12">
               <label>Start Date</label>
-              <%= f.text_field :start_date, readonly: true, placeholder: "Start Date", class: "form-control datepicker" %>
+              <%= f.text_field :start_date, readonly: true, placeholder: "Start Date", class: "form-control datepicker", id: "reservation_start_date" %>
             </div>
-            
             <div class="col-md-12">
               <label>End Date</label>
-              <%= f.text_field :end_date, readonly: true, placeholder: "End Date", class: "form-control datepicker" %>
+              <%= f.text_field :end_date, readonly: true, placeholder: "End Date", class: "form-control datepicker", id: "reservation_end_date" %>
             </div>
-
-          </div>  
+          </div>
         </div>
-  
         <h4 class="message-alert text-center"><span id="message"></span></h4>
         <div id="preview" style="display: none">
           <table class="reservation-table">
@@ -30,24 +31,18 @@
                 <td>Price</td>
                 <td class="text-right">$<%= @bouncehouse.price %></td>
               </tr>
-              
               <tr>
                 <td>Booking Fee</td>
                 <% if @reservation %>
                   <td class="text-right">
-                    <span id="reservation_price_booking_fee">
-                      <%= number_to_currency(@reservation.booking_fee || 0) %>
-                    </span>
+                    $<span id="reservation_price_booking_fee"><%= number_to_currency(@reservation.booking_fee || 0) %></span>
                   </td>
                 <% else %>
                   <td class="text-right">
-                    $<span id="reservation_price_booking_fee">
-                      <%= number_to_currency(0) %>
-                    </span>
+                    $<span id="reservation_price_booking_fee"><%= number_to_currency(0) %></span>
                   </td>
                 <% end %>
               </tr>
-              
               <tr>
                 <td>Day(s)</td>
                 <td class="text-right">x <span id="reservation_days"></span></td>
@@ -58,7 +53,6 @@
                   <ul id="special_list"></ul>
                 </td>
               </tr>
-              
               <tr>
                 <strong><td class="total">Total</td></strong>
                 <td class="text-right">$<span id="reservation_total"></span></td>
@@ -67,11 +61,9 @@
           </table>
           <h6>*All bookings are subject to a 5% booking fee</h6>
         </div>
-  
         <br/>
-        
         <% if @bouncehouse.Instant? %>
-          <%= f.submit "Book Now", id: "btn_book", class: "btn btn-normal btn-block", disabled: true %>        
+          <%= f.submit "Book Now", id: "btn_book", class: "btn btn-normal btn-block", disabled: true %>
         <% else %>
           <%= f.submit "Request Now", id: "btn_book", class: "btn btn-normal btn-block", disabled: true %>
         <% end %>
@@ -106,6 +98,8 @@
         url: '/bouncehouses/' + <%= @bouncehouse.id %> + '/preview_reservations?start_date=' + formattedStartDate + '&end_date=' + formattedEndDate,
         dataType: 'json',
         success: function(data) {
+          console.log('Preview Reservations Data:', data);
+
           var conflict = data.conflict;
           if (conflict) {
             $('#message').text("These dates are not available");
@@ -131,7 +125,8 @@
             });
 
             var total = (days - selectedSpecialDates.length) * <%= @bouncehouse.price %>;
-            
+            console.log('Initial Total:', total);
+
             if (selectedSpecialDates.length > 0) {
               $('#special_details').show();
               selectedSpecialDates.forEach(function(date) {
@@ -158,6 +153,8 @@
       url: '/bouncehouses/' + <%= @bouncehouse.id %> + '/preload_reservations',
       dataType: 'json',
       success: function(data) {
+        console.log('Preload Reservations Data:', data);
+
         specialDates = data.special_dates || [];
 
         $.each(data.reservations || [], function(arrID, arrValue) {

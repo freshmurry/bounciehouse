@@ -6,6 +6,8 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :bouncehouse
 
+  validates :start_date, :end_date, :bouncehouse_id, presence: true
+
   scope :current_week_revenue, -> (user) {
     joins(:bouncehouse)
     .where("bouncehouses.user_id = ? AND reservations.updated_at >= ? AND reservations.status = ?", user.id, 1.week.ago, statuses[:Approved])
@@ -17,6 +19,7 @@ class Reservation < ApplicationRecord
   end
 
   def booking_fee
+    return 0 if total.nil? || total.zero?
     total * 0.05 # 5% booking fee
   end
 

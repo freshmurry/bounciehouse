@@ -33,10 +33,7 @@ class ReservationsController < ApplicationController
     @reservation = current_user.reservations.build(reservation_params)
     @reservation.bouncehouse = @bouncehouse
     @reservation.price = @bouncehouse.price
-    @reservation.total = @bouncehouse.price * (days - special_dates.count)
-    special_dates.each do |date|
-      @reservation.total += date.price
-    end
+    @reservation.total = calculate_total(days, special_dates)
 
     if @reservation.Waiting!
       if @bouncehouse.Request?
@@ -82,30 +79,40 @@ class ReservationsController < ApplicationController
   def charge(bouncehouse, reservation)
     return if reservation.user.stripe_id.blank?
 
-    customer = Stripe::Customer.retrieve(reservation.user.stripe_id)
-    charge = Stripe::Charge.create(
-      customer: customer.id,
-      amount: reservation.total * 100,
-      description: bouncehouse.listing_name,
-      currency: "usd",
-      destination: {
-        amount: reservation.total * 95, # 95% of the total amount goes to the Host, 5% is company fee
-        account: bouncehouse.user.merchant_id # bouncehouse's Stripe customer ID
-      }
-    )
+    begin
+      customer = Stripe::Customer.retrieve(reservation.user.stripe_id)
+      charge = Stripe::Charge.create(
+        customer: customer.id,
+        amount: reservation.total * 100,
+        description: bouncehouse.listing_name,
+        currency: "usd",
+        destination: {
+          amount: reservation.total * 95, # 95% of the total amount goes to the Host, 5% is company fee
+          account: bouncehouse.user.merchant_id # bouncehouse's Stripe customer ID
+        }
+      )
 
-    if charge
-      reservation.Approved!
-      ReservationMailer.send_email_to_guest(reservation.user, bouncehouse).deliver_later if reservation.user.setting.enable_email
-      send_sms(bouncehouse, reservation) if bouncehouse.user.setting.enable_sms
-      flash[:notice] = "Reservation created successfully!"
-    else
+      if charge
+        reservation.Approved!
+        ReservationMailer.send_email_to_guest(reservation.user, bouncehouse).deliver_later if reservation.user.setting.enable_email
+        send_sms(bouncehouse, reservation) if bouncehouse.user.setting.enable_sms
+        flash[:notice] = "Reservation created successfully!"
+      else
+        reservation.Declined!
+        flash[:alert] = "Cannot charge with this payment method!"
+      end
+    rescue Stripe::CardError => e
       reservation.Declined!
-      flash[:alert] = "Cannot charge with this payment method!"
+      flash[:alert] = e.message
     end
-  rescue Stripe::CardError => e
-    reservation.Declined!
-    flash[:alert] = e.message
+  end
+
+  def calculate_total(days, special_dates)
+    base_total = @bouncehouse.price * (days - special_dates.count)
+    special_dates.each do |date|
+      base_total += date.price
+    end
+    base_total
   end
 
   def reservation_params
