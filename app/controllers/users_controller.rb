@@ -65,12 +65,21 @@ class UsersController < ApplicationController
     end
   end
 
+  # def update
+  #   if @user.update(user_params)
+  #     flash[:notice] = "Profile updated successfully."
+  #     redirect_to @user
+  #   else
+  #     flash[:alert] = "Failed to update profile."
+  #     render :edit
+  #   end
+  # end
+
   def update
+    @user = current_user
     if @user.update(user_params)
-      flash[:notice] = "Profile updated successfully."
-      redirect_to @user
+      redirect_to edit_user_registration_path, notice: 'Profile updated successfully.'
     else
-      flash[:alert] = "Failed to update profile."
       render :edit
     end
   end
