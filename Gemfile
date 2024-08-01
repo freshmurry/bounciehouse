@@ -15,7 +15,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'delayed_job'
 gem 'rails-assets-jquery', :source => 'https://rails-assets.org/'
-
+gem 'activeadmin'
 
 group :development, :test do
   gem 'byebug', '>= 4.2.6', platform: :mri
@@ -45,6 +45,7 @@ gem 'ransack', '~> 1.7'
 gem 'puma'
 gem 'figaro'
 gem 'redis'
+gem 'groupdate'
 
 group :production do
   gem 'pg', '~> 0.20.0'

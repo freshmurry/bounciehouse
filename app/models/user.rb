@@ -8,6 +8,7 @@ class User < ApplicationRecord
 
   # Validations
   validates :fullname, presence: true, length: { maximum: 50 }
+  validates :email, presence: true, uniqueness: true
 
   # Associations
   has_many :bouncehouses, dependent: :delete_all

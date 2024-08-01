@@ -1,0 +1,63 @@
+// app/assets/stylesheets/active_admin.scss
+
+@import "active_admin/mixins";
+@import "active_admin/base";
+
+// Customize navbar color
+.navbar-fixed {
+  background-color: #ffffff !important; // White background for navbar
+}
+
+// Card styles
+.card {
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+// Card title styling
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+}
+
+// Collection list styling
+.collection-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.collection-item:last-child {
+  border-bottom: none;
+}
+
+.collection-item a {
+  color: #333;
+  text-decoration: none;
+}
+
+// Remove bullet points from list
+ul.collection {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// Pie chart specific styling
+#pie-chart {
+  width: 100%;
+  height: 200px; // Adjusted to a smaller size
+}
+
+// Responsive design adjustments
+@media only screen and (max-width: 600px) {
+  .card {
+    margin-bottom: 10px;
+  }
+
+  .card-content {
+    padding: 15px;
+  }
+}

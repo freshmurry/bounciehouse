@@ -31,6 +31,18 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    activeadmin (1.4.3)
+      arbre (>= 1.1.1)
+      coffee-rails
+      formtastic (~> 3.1)
+      formtastic_i18n
+      inherited_resources (>= 1.9.0)
+      jquery-rails (>= 4.2.0)
+      kaminari (>= 0.15)
+      railties (>= 4.2, < 5.3)
+      ransack (>= 1.8.7)
+      sass (~> 3.1)
+      sprockets (< 4.1)
     activejob (5.0.7.2)
       activesupport (= 5.0.7.2)
       globalid (>= 0.3.6)
@@ -49,6 +61,9 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     airbrussh (1.5.2)
       sshkit (>= 1.6.1, != 1.7.0)
+    arbre (2.0.0)
+      activesupport (>= 3.0.0)
+      ruby2_keywords (>= 0.0.2)
     arel (7.1.4)
     autoprefixer-rails (10.4.16.0)
       execjs (~> 2)
@@ -130,6 +145,9 @@ GEM
     ffi (1.17.0)
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
+    formtastic (3.1.5)
+      actionpack (>= 3.2.13)
+    formtastic_i18n (0.7.0)
     fullcalendar-rails (3.4.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
       jquery-ui-rails (>= 5.0.2)
@@ -139,9 +157,19 @@ GEM
       csv (>= 3.0.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    groupdate (5.2.4)
+      activesupport (>= 5)
+    has_scope (0.7.2)
+      actionpack (>= 4.1)
+      activesupport (>= 4.1)
     hashie (5.0.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
+    inherited_resources (1.11.0)
+      actionpack (>= 5.0, < 6.1)
+      has_scope (~> 0.6)
+      railties (>= 5.0, < 6.1)
+      responders (>= 2, < 4)
     jbuilder (2.12.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -153,6 +181,18 @@ GEM
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
     jwt (1.5.6)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -299,6 +339,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.13.1)
+    ruby2_keywords (0.0.5)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -375,6 +416,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activeadmin
   aws-sdk-s3
   bootstrap-sass (>= 3.4.1)
   byebug (>= 4.2.6)
@@ -389,6 +431,7 @@ DEPENDENCIES
   figaro
   fullcalendar-rails (~> 3.4.0)
   geocoder (~> 1.5)
+  groupdate
   jbuilder (~> 2.5)
   jquery-rails
   jquery-ui-rails (~> 5.0)
