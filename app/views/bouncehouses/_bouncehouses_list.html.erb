@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div class="panel-heading preview">
         <!-- <= link_to image_tag(bouncehouse.cover_photo(:medium)), bouncehouse %> -->
-        <%= image_tag bouncehouse.photos[0].image.url(:thumb) if bouncehouse.photos.length > 0 %>
+        <%= image_tag bouncehouse.photos[0].image.url(:medium) if bouncehouse.photos.length > 0 %>
       </div>
       <div class="panel-body">
         <div class="container">
