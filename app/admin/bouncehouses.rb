@@ -6,9 +6,9 @@ ActiveAdmin.register Bouncehouse do
   form do |f|
     f.inputs do
       f.input :user, as: :select, collection: User.all.collect { |user| [user.email, user.id] }
-      f.input :bouncehouse_type
-      f.input :time_limit
-      f.input :pickup_type
+      f.input :bouncehouse_type, as: :select, collection: ['Regular', 'Castle', 'Waterslide']
+      f.input :time_limit, as: :select, collection: ['4 hrs.', '6 hrs.', '8  hrs.']
+      f.input :pickup_type, ss: :select, collection: ['Same Day', 'Next Day']
       f.input :listing_name
       f.input :description
       f.input :address

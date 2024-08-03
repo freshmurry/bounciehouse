@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
-  # Set up ActiveAdmin routes
   ActiveAdmin.routes(self)
-  
+
   # ROOT ROUTE
   root "pages#home"
 
