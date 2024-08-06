@@ -30,7 +30,7 @@
 
           <div class="form-group">
             <label>Bounce House Type</label>
-            <%= f.select :bouncehouse_type_gteq, [["Regular", "Regular"], ["Castle", "Castle"], ["Waterslide","Waterslide"]],
+            <%= f.select :bouncehouse_type_gteq, [["Regular", "Regular"], ["Castle", "Castle"], ["Waterslide","Waterslide"], ["Obstacle Course","Obstacle Course"]],
                          prompt: "Select...", class: "form-control" %>
           </div>
 
@@ -66,10 +66,76 @@
       </div>
     </div>
     <br>
-    <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
 
-  </div>
+    <!-- GOOGLE MAP -->
+    <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
     
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
+
+    <script>
+      function initialize(bouncehouses) {
+        var location = {lat: 41.881832, lng: -87.623177}      
+        if (bouncehouses.length > 0) {
+          location = {lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude}
+        }
+    
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: location,
+          zoom: 12
+        });
+    
+        var marker, inforwindow;
+    
+        bouncehouses.forEach(function(bouncehouse) {
+          marker = new google.maps.Marker({
+            position: {lat: bouncehouse.latitude, lng: bouncehouse.longitude},
+            map: map
+          });
+    
+          inforwindow = new google.maps.InfoWindow({
+            content: "<div class='map_price'>$" + bouncehouse.price + "</div>"
+          });
+    
+          inforwindow.open(map, marker);
+        })
+      }
+    
+      google.maps.event.addDomListener(window, 'load', function() {
+        initialize(<%= raw @arrBouncehouses.to_json %>)
+      });
+    </script>
+
+    <div id="map" style="width: 100%; height: 400px"></div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
+    <script>
+      function initialize(bouncehouses) {
+        var location = {lat: 41.881832, lng: -87.623177};
+        if (bouncehouses.length > 0) {
+          location = {lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude};
+        }
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: location,
+          zoom: 12
+        });
+
+        var marker, inforwindow;
+
+        bouncehouses.forEach(function(bouncehouse) {
+          var marker = new google.maps.Marker({
+            position: {lat: bouncehouse.latitude, lng: bouncehouse.longitude},
+            map: map
+          });
+          var infowindow = new google.maps.InfoWindow({
+            content: "<div class='map_price'>$" + bouncehouse.price + "</div>"
+          });
+          infowindow.open(map, marker);
+        });
+      }
+      google.maps.event.addDomListener(window, 'load', function() {
+        initialize(<%= raw @arrBouncehouses.to_json %>);
+      });
+    </script>
+  
   </div>
 </div>
 
@@ -122,38 +188,6 @@
     $(".ui-widget-header").css('background', '#2C3E50');
     $(".ui-state-default, .ui-widget-content").css('background', 'white');
     $(".ui-state-default, .ui-widget-content").css('border-color', '#2C3E50');
-  });
-
-  function initialize(bouncehouses) {
-    var location = {lat: 41.881832, lng: -87.623177};
-
-    if (bouncehouses.length > 0) {
-      location = {lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude};
-    }
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: location,
-      zoom: 12
-    });
-
-    var marker, infowindow;
-
-    bouncehouses.forEach(function(bouncehouse) {
-      marker = new google.maps.Marker({
-        position: {lat: bouncehouse.latitude, lng: bouncehouse.longitude},
-        map: map
-      });
-
-      infowindow = new google.maps.InfoWindow({
-        content: "<div class='map_price'>$" + bouncehouse.price + "</div>"
-      });
-
-      infowindow.open(map, marker);
-    });
-  }
-
-  google.maps.event.addDomListener(window, 'load', function() {
-    initialize(<%= raw @arrBouncehouses.to_json %>);
   });
 </script>
 

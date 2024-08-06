@@ -4,25 +4,31 @@
   <meta property="og:description" content="Rent this amazing bounce house for <%= number_to_currency(@bouncehouse.price/ 100.0) %>!" />
   <meta property="og:image" content="<%= @bouncehouse.photos %>" />
   <meta property="og:url" content="<%= bouncehouse_url(@bouncehouse) %>" />
-</head>
 
-<script>
-  function copyLink() {
-    var copyText = document.getElementById("share-link");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-    document.execCommand("copy");
-    alert("Copied the link: " + copyText.value);
+  <style>
+  .social-icon:hover {
+    color: #007bff !important;
   }
-</script>
+</style>
 
-<script>
-  $('#average_rating').raty({
-    path: '/assets',
-    readOnly: true,
-    score: <%= @bouncehouse.average_rating %>
-  });
-</script>
+  <script>
+    function copyLink() {
+      var copyText = document.getElementById("share-link");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+      document.execCommand("copy");
+      alert("Copied the link: " + copyText.value);
+    }
+  </script>
+
+  <script>
+    $('#average_rating').raty({
+      path: '/assets',
+      readOnly: true,
+      score: <%= @bouncehouse.average_rating %>
+    });
+  </script>
+</head>
 
 <div class="row">
   <div class="col-md-12">
@@ -198,31 +204,30 @@
     <div class="container">
       <div class="row">
         <div id="map" style="width: 100%; height: 400px"></div>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwN_tpAAKnHhy14HzNqK-XeuarVJhNHg8"></script>
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script> -->
+        <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
         <script>
-         function initialize() {
+          function initMap() {
             var location = {lat: <%= @bouncehouse.latitude %>, lng: <%= @bouncehouse.longitude %>};
             var map = new google.maps.Map(document.getElementById('map'), {
               center: location,
               zoom: 12
             });
-    
+
             var marker = new google.maps.Marker({
               position: location,
               map: map
             });
-    
+
             var infoWindow = new google.maps.InfoWindow({
               content: '<div id="content"><%= image_tag @bouncehouse.photos(:medium) %></div>'
             });
-    
+
             infoWindow.open(map, marker);
           }
-    
-          google.maps.event.addDomListener(window, 'load', initialize);
         </script>
       </div>
-    </div>  
+    </div>
     <hr/>
 
     <!-- NEARBY BOUNCE HOUSES -->
@@ -261,5 +266,38 @@
   <div class="col-md-4">
     <!-- RESERVATION FORM -->
     <%= render 'reservations/form', reservation: @reservation %>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Share this Listing</div>
+      <div class="panel-body" style="display: flex; justify-content: center; align-items: center; padding: 20px;">
+        
+        <div class="social-share">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=<%= request.original_url %>&quote=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?url=<%= request.original_url %>&text=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://www.instagram.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.pinterest.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+            <i class="fab fa-pinterest"></i>
+          </a>
+          <a href="https://www.dscord.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+            <i class="fab fa-discord"></i>
+          </a>
+          <a href="mailto:?subject=Check%20out%20this%20awesome%20bounce%20house&body=Check out this awesome bounce house. Don't wait! Book today for your upcoming party. <%= request.original_url %>" target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+
+
   </div>
 </div>
