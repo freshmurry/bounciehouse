@@ -77,14 +77,18 @@ class BouncehousesController < ApplicationController
   end
   
   def destroy
-    @bouncehouse.destroy
-    redirect_to root_path, notice: "Deleted..."
+    if @bouncehouse
+      @bouncehouse.destroy
+      redirect_to bouncehouses_url, notice: 'Deleted...'
+    else
+      redirect_to bouncehouses_url, alert: 'Bouncehouse not found.'
+    end
   end
   
   private
 
   def set_bouncehouse
-    @bouncehouse = Bouncehouse.find(params[:id])
+    @bouncehouse = Bouncehouse.find_by(id: params[:id])
   end
 
   def authorized_user!
