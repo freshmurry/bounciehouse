@@ -1,6 +1,6 @@
 class BouncehousesController < ApplicationController
-  before_action :set_bouncehouse, only: [:update, :edit]
-
+  before_action :set_bouncehouse, only: [:update, :edit, :destroy]
+  before_action :authorized_user!, only: [:edit, :update, :destroy]
 
   def index
     @bouncehouses = current_user.bouncehouses
