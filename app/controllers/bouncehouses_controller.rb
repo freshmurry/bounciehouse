@@ -1,19 +1,18 @@
 class BouncehousesController < ApplicationController
   before_action :set_bouncehouse, only: [:update, :edit, :destroy]
   before_action :authorized_user!, only: [:edit, :update, :destroy]
+  before_action :find_bouncehouse, only: [:show, :edit, :update, :destroy, :preload_reservations, :preview_reservations]
+
 
   def index
     @bouncehouses = current_user.bouncehouses
   end
 
   def show
-    @bouncehouse = Bouncehouse.find(params[:id])
+    # @bouncehouse = Bouncehouse.find(params[:id])
     @photos = @bouncehouse.photos
     @guest_reviews = Review.where(type: "GuestReview", bouncehouse_id: @bouncehouse.id)
     @reservation = Reservation.new
-  rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "Bouncehouse not found."
-    redirect_to root_path
   end
 
   def new
@@ -30,7 +29,7 @@ class BouncehousesController < ApplicationController
         end
       end
 
-      @photos = @bouncehouse.photos
+    @photos = @bouncehouse.photos
       redirect_to bouncehouse_path(@bouncehouse), notice: "Saved..."
     else
       render :new
@@ -44,7 +43,7 @@ class BouncehousesController < ApplicationController
 
   def update
     if @bouncehouse.update(bouncehouse_params)
-      if params[:bouncehouse][:photos]
+      if params[:bouncehouse][:photos].present?
         params[:bouncehouse][:photos].each do |photo|
           @bouncehouse.photos.create(image: photo)
         end
@@ -77,15 +76,22 @@ class BouncehousesController < ApplicationController
   end
   
   def destroy
-    if @bouncehouse
-      @bouncehouse.destroy
+    # if @bouncehouse
+    @bouncehouse.destroy
       redirect_to bouncehouses_url, notice: 'Deleted...'
-    else
-      redirect_to bouncehouses_url, alert: 'Bouncehouse not found.'
-    end
+    # else
+      # redirect_to bouncehouses_url, alert: 'Bouncehouse not found.'
+    # end
   end
   
   private
+
+  def find_bouncehouse
+    @bouncehouse = Bouncehouse.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    flash[:alert] = "Bouncehouse not found."
+    redirect_to root_path
+  end
 
   def set_bouncehouse
     @bouncehouse = Bouncehouse.find_by(id: params[:id])

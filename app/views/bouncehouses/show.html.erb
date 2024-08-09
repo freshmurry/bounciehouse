@@ -1,15 +1,15 @@
 <head>
   <title><%= @bouncehouse.listing_name %></title>
   <meta property="og:title" content="<%= @bouncehouse.listing_name %>" />
-  <meta property="og:description" content="Rent this amazing bounce house for <%= number_to_currency(@bouncehouse.price/ 100.0) %>!" />
-  <meta property="og:image" content="<%= @bouncehouse.photos %>" />
+  <meta property="og:description" content="Rent this amazing bounce house for <%= number_to_currency(@bouncehouse.price / 100.0) %>!" />
+  <meta property="og:image" content="<%= @bouncehouse.photos.first %>" />
   <meta property="og:url" content="<%= bouncehouse_url(@bouncehouse) %>" />
 
   <style>
-  .social-icon:hover {
-    color: #007bff !important;
-  }
-</style>
+    .social-icon:hover {
+      color: #007bff !important;
+    }
+  </style>
 
   <script>
     function copyLink() {
@@ -22,161 +22,172 @@
   </script>
 
   <script>
-    $('#average_rating').raty({
-      path: '/assets',
-      readOnly: true,
-      score: <%= @bouncehouse.average_rating %>
+    document.addEventListener("DOMContentLoaded", function() {
+      $('#average_rating').raty({
+        path: '/assets',
+        readOnly: true,
+        score: <%= @bouncehouse.average_rating %>
+      });
     });
+  </script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=[GOOGLE_MAPS_API]&callback=initialize" defer></script>
+  
+  <script type="text/javascript">
+    function initMap() {
+      var location = { lat: <%= @bouncehouse.latitude %>, lng: <%= @bouncehouse.longitude %> };
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: location,
+        zoom: 12
+      });
+
+      var marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+
+      var infoWindow = new google.maps.InfoWindow({
+        content: '<div id="content"><%= image_tag @bouncehouse.cover_photo(:medium) %></div>'
+      });
+
+      marker.addListener('click', function() {
+        infoWindow.open(map, marker);
+      });
+    }
   </script>
 </head>
 
-<div class="row">
-  <div class="col-md-12">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <% if @photos.present? %>
-        <ol class="carousel-indicators">
-          <% @photos.each_with_index do |photo, index| %>
-            <li data-target="#myCarousel" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>"></li>
-          <% end %>
-        </ol>
-      <% end %>
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox">
+<body>
+  <div class="row">
+    <div class="col-md-12">
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <% if @photos.present? %>
-          <% @photos.each_with_index do |photo, index| %>
-            <div class="item <%= 'active' if index == 0 %>">
-              <%= image_tag photo.image.url %>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-  
-      <!-- Left and right controls -->
-      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-  </div>
-</div>
-
-<br/>
-
-<div class="row">
-  <!-- LEFT PANEL -->
-  <div class="col-md-8">
-    <!-- Listing Name -->
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9">
-          <h2><%= @bouncehouse.listing_name %></h2>
-          <%= @bouncehouse.address %>
-        </div>
-
-        <div class="col-md-3 text-center">
-          <%= image_tag @bouncehouse.user.image, class: "img-circle avatar-large" %><br/>
-          <%= link_to user_path(@bouncehouse.user) do %>
-            <%= @bouncehouse.user.fullname %>
-          <% end %>
-          <div>
-            <span id="average_rating"></span>
-          </div>
-          <div class="center">
-            <% if current_user && current_user != @bouncehouse.user %>
-              <%= link_to "Message Host", conversations_path(sender_id: current_user.id, recipient_id: @bouncehouse.user.id), method: :post, class: "btn btn-default" %>
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <% @photos.each_with_index do |photo, index| %>
+              <li data-target="#myCarousel" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>"></li>
+            <% end %>
+          </ol>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <% @photos.each_with_index do |photo, index| %>
+              <div class="item <%= 'active' if index == 0 %>">
+                <%= image_tag photo.image.url %>
+              </div>
             <% end %>
           </div>
-        </div>
-      </div>
-    </div>  
-    <hr/>
-      
-    <!-- bouncehouse Info -->
-    <div class="container">
-      <div class="row text-center">
-        <div class="col-xs-3 col-sm-3 col-md-3">
-          <i class="fas fa-home fa-2x"></i>
-        </div>
-
-        <div class="col-xs-3 col-sm-3 col-md-3">
-          <i class="fa fa-clock fa-2x"></i>
-        </div>
-
-        <div class="col-xs-3 col-sm-3 col-md-3">
-          <i class="fa fa-truck fa-2x"></i>
-        </div>
-
-        <div class="col-xs-3 col-sm-3 col-md-3">
-          <i class="fa fa-bolt fa-2x"></i>
-        </div>
-      </div>
-    
-      <div class="row text-center">
-        <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.bouncehouse_type %></div>
-
-        <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.time_limit %></div>
-
-        <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.pickup_type %></div>
-
-        <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.instant %></div>
-
-      </div>
-    </div>  
-    <hr/>
   
-    <!-- About -->
-    <div class="container">
-      <div class="row">
-        <div class="panel panel-default">
-          <div class="panel-heading">Description</div>
-          <div class="panel-body">
-            <div class="container">
-              <p><%= @bouncehouse.description %></p>
-             </div>  
+          <!-- Left and right controls -->
+          <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+
+  <div class="row">
+    <!-- LEFT PANEL -->
+    <div class="col-md-8">
+      <!-- Listing Name -->
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <h2><%= @bouncehouse.listing_name %></h2>
+            <%= @bouncehouse.address %>
+          </div>
+
+          <div class="col-md-3 text-center">
+            <%= image_tag @bouncehouse.user.image, class: "img-circle avatar-large" %><br/>
+            <%= link_to user_path(@bouncehouse.user) do %>
+              <%= @bouncehouse.user.fullname %>
+            <% end %>
+            <div>
+              <span id="average_rating"></span>
+            </div>
+            <div class="center">
+              <% if current_user && current_user != @bouncehouse.user %>
+                <%= link_to "Message Host", conversations_path(sender_id: current_user.id, recipient_id: @bouncehouse.user.id), method: :post, class: "btn btn-default" %>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
-    </div>  
-    <br/>
-  
-    <!-- AMENITIES --> 
-    <div class="container">
+      </div>  
+      <hr/>
+        
+      <!-- Bouncehouse Info -->
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-xs-3 col-sm-3 col-md-3">
+            <i class="fas fa-home fa-2x"></i>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3">
+            <i class="fa fa-clock fa-2x"></i>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3">
+            <i class="fa fa-truck fa-2x"></i>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3">
+            <i class="fa fa-bolt fa-2x"></i>
+          </div>
+        </div>
+      
+        <div class="row text-center">
+          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.bouncehouse_type %></div>
+          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.time_limit %></div>
+          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.pickup_type %></div>
+          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.instant %></div>
+        </div>
+      </div>  
+      <hr/>
+    
+      <!-- About -->
+      <div class="container">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">Description</div>
+            <div class="panel-body" style="margin-left: 0">
+              <p><%= @bouncehouse.description %></p>
+            </div>
+          </div>
+        </div>
+      </div>  
+      <br/>
+    
+      <!-- AMENITIES --> 
+      <div class="container">
         <div class="row">
           <div class="panel panel-default">
             <div class="panel-heading">Amenities</div>
-            <div class="panel-body">
+            <div class="">
               <div class="container">
-                <div class="col-md-12">
-                  <div class="row">
-                    
-                    <div class="col-xs-4 col-sm-4 col-md-4">
-                      <ul class="amenities">
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_slide %>">Slide</li>
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_waterslide %>">Waterslide</li>
-                      </ul>
-                    </div>
-
-                    <div class="col-xs-4 col-sm-4 col-md-4">
-                      <ul class="amenities">
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_basketball_hoop %>">Basketball Hoop</li>
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_lighting %>">Lighting</li>
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_sprinkler %>">Sprinkler</li>
-                      </ul>
-                    </div>
-
-                    <!-- <div class="col-xs-4 col-sm-4 col-md-4"> -->
-                      <ul class="amenities">
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_speakers %>">Wifi Speakers</li>
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_wall_climb %>">Wall Climb</li>
-                        <li class="<%= 'text-line-through' if !@bouncehouse.is_heated %>">Heated</li>
-                        <!-- <li class="<= 'text-line-through' if !@bouncehouse.is_wifi %>">Wifi</li> -->
-                      </ul>
-                    <!-- </div> -->
+                <div class="row">
+                  <div class="col-xs-4 col-sm-4 col-md-4">
+                    <ul class="amenities">
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_slide %>">Slide</li>
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_waterslide %>">Waterslide</li>
+                    </ul>
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-md-4">
+                    <ul class="amenities">
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_basketball_hoop %>">Basketball Hoop</li>
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_lighting %>">Lighting</li>
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_sprinkler %>">Sprinkler</li>
+                    </ul>
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-md-4">
+                    <ul class="amenities">
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_speakers %>">Wifi Speakers</li>
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_wall_climb %>">Wall Climb</li>
+                      <li class="<%= 'text-line-through' if !@bouncehouse.is_heated %>">Heated</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -185,119 +196,93 @@
         </div>
       </div>
       <hr/>
-  
-    <!-- REVIEWS -->
-    <div class="container">
-      <div class="row">
-        <div class="panel panel-default">
-          <div class="panel-heading">Guest Reviews (<%= @guest_reviews.count %>) <span id="average_rating"></span></div>
-          <div class="container">
-            <div class="panel-body">
-              <div><%= render "reviews/guest_list" %></div>
+
+      <!-- REVIEWS -->
+      <div class="container">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">Guest Reviews (<%= @guest_reviews.count %>) <span id="average_rating"></span></div>
+            <div class="container">
+              <div class="panel-body">
+                <div><%= render "reviews/guest_list" %></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-      
-    <!-- GOOGLE MAP -->
-    <div class="container">
-      <div class="row">
-        <div id="map" style="width: 100%; height: 400px"></div>
-        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script> -->
-        <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
-        <script>
-          function initMap() {
-            var location = {lat: <%= @bouncehouse.latitude %>, lng: <%= @bouncehouse.longitude %>};
-            var map = new google.maps.Map(document.getElementById('map'), {
-              center: location,
-              zoom: 12
-            });
-
-            var marker = new google.maps.Marker({
-              position: location,
-              map: map
-            });
-
-            var infoWindow = new google.maps.InfoWindow({
-              content: '<div id="content"><%= image_tag @bouncehouse.photos(:medium) %></div>'
-            });
-
-            infoWindow.open(map, marker);
-          }
-        </script>
+        
+      <!-- GOOGLE MAP -->
+      <div class="container">
+        <div class="row">
+          <div id="map" style="width: 100%; height: 400px"></div>
+        </div>
       </div>
-    </div>
-    <hr/>
+      <hr/>
 
-    <!-- NEARBY BOUNCE HOUSES -->
-    <div class="container">
-      <div class="row">
-        <div class="panel panel-default">
-          <div class="panel-heading">Nearby Bounce Houses</div>
-            <% if @bouncehouse.nearbys(10).present? %>
-              <% @bouncehouse.nearbys(10).each do |nearby_bouncehouse| %>
-                <div class="col-md-4">
-                  <div class="panel panel-default">
-                    <div class="panel-heading preview">
-                      <%= image_tag @bouncehouse.photos(:medium) %>
-                    </div>
-                        
-                    <div class="panel-body">
-                      <div class="container">
-                        <%= link_to nearby_bouncehouse.listing_name, nearby_bouncehouse %><br/>
-                        (<%= nearby_bouncehouse.distance.round(2) %> miles away)
+      <!-- NEARBY BOUNCE HOUSES -->
+      <div class="container">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">Nearby Bounce Houses</div>
+              <% if @bouncehouse.nearbys(10).present? %>
+                <% @bouncehouse.nearbys(10).each do |nearby_bouncehouse| %>
+                  <div class="col-md-4">
+                    <div class="panel panel-default">
+                      <div class="panel-heading preview">
+                        <%= image_tag bouncehouse.cover_photo(:medium) %>
                       </div>
-                    </div>
-                  </div>  
+                      <div class="panel-body">
+                        <div class="container">
+                          <%= link_to bouncehouse.listing_name, bouncehouse %><br/>
+                          (<%= bouncehouse.distance.round(2) %> miles away)
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="text-center">
+                  <h4>There are no nearby bouncehouses.</h4>
                 </div>
               <% end %>
-            <% else %>
-              <div class="text-center">
-                <h4>There are no nearby bouncehouses.</h4>
-              </div>
-            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="col-md-4">
+      <!-- RESERVATION FORM -->
+      <%= render 'reservations/form', reservation: @reservation %>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Share this Listing</div>
+        <div class="panel-body" style="display: flex; justify-content: center; align-items: center; padding: 20px;">
+          <div class="social-share">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= request.original_url %>&quote=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://twitter.com/intent/tweet?url=<%= request.original_url %>&text=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.instagram.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.pinterest.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+              <i class="fab fa-pinterest"></i>
+            </a>
+            <a href="https://www.discord.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+              <i class="fab fa-discord"></i>
+            </a>
+            <a href="mailto:?subject=Check%20out%20this%20awesome%20bounce%20house&body=Check out this awesome bounce house. Don't wait! Book today for your upcoming party. <%= request.original_url %>" target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- RIGHT PANEL -->
-  <div class="col-md-4">
-    <!-- RESERVATION FORM -->
-    <%= render 'reservations/form', reservation: @reservation %>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">Share this Listing</div>
-      <div class="panel-body" style="display: flex; justify-content: center; align-items: center; padding: 20px;">
-        
-        <div class="social-share">
-          <a href="https://www.facebook.com/sharer/sharer.php?u=<%= request.original_url %>&quote=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="https://twitter.com/intent/tweet?url=<%= request.original_url %>&text=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="https://www.instagram.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://www.pinterest.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
-            <i class="fab fa-pinterest"></i>
-          </a>
-          <a href="https://www.dscord.com/sharing/share-offsite/?url=<%= request.original_url %>&summary=Check out this awesome bounce house. Don't wait! Book today for your upcoming party." target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
-            <i class="fab fa-discord"></i>
-          </a>
-          <a href="mailto:?subject=Check%20out%20this%20awesome%20bounce%20house&body=Check out this awesome bounce house. Don't wait! Book today for your upcoming party. <%= request.original_url %>" target="_blank" class="social-icon" style="text-decoration: none; font-size: 32px; color: #333; transition: color 0.3s;">
-            <i class="fas fa-envelope"></i>
-          </a>
-        </div>
-        
-      </div>
-    </div>
-
-
-  </div>
-</div>
+</body>

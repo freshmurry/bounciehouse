@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require jquery-ui/datepicker
 //= require jquery-ui/slider
+//= require jquery.raty
 //= require toastr
 //= require moment
 //= require fullcalendar

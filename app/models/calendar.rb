@@ -1,5 +1,5 @@
 class Calendar < ApplicationRecord
-  enum status: { available: 0, not_available: 1 }
+  enum status: [:Available, :Not_Available]
 
   validates :day, presence: true
   belongs_to :bouncehouse

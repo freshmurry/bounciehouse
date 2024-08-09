@@ -48,5 +48,10 @@ ActiveAdmin.register User do
       row :updated_at
     end
     active_admin_comments
+    
+    # Custom button to create a Bouncehouse listing
+    panel "Actions" do
+      link_to "List a Bouncehouse", new_admin_bouncehouse_path(user_id: user.id)
+    end
   end
 end

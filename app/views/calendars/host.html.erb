@@ -3,8 +3,9 @@
     <%= search_form_for @search, class: 'form-group', remote: true, url: host_calendar_path do |f| %>
       <div class="col-md-6 select">
         <div class="form-group">
-          <label>Your Listings</label>
+          <label for="bouncehouse_select">Your Listings</label>
           <%= f.select :bouncehouse_id, options_for_select(@bouncehouses.collect {|u| [u.listing_name, u.id]}, params[:bouncehouse_id]), {}, {
+            id: "bouncehouse_select",
             onchange: "$(this.form).submit()",
             class: "form-control"
           } %>
@@ -72,30 +73,20 @@
         return e.day === date.format();
       });
 
-      console.log(dayInfo);
-
-      <% if !@bouncehouses.blank? %>
-        if (dayInfo.length > 0) {
-          if (dayInfo[0].status == "Not_Available") {
-            cell.addClass('fc-past');
-          } else {
-            cell.append('<span class="day-price">' + '$' + dayInfo[0].price + '</span>')
-          }
+      if (dayInfo.length > 0) {
+        if (dayInfo[0].status == "Not_Available") {
+          cell.addClass('fc-past');
         } else {
-          cell.append('<span class="day-price">' + '$<%= @bouncehouse.price %>' + '</span>')
+          cell.append('<span class="day-price">' + '$' + dayInfo[0].price + '</span>')
         }
-      <% end %>
-
-
+      } else {
+        cell.append('<span class="day-price">' + '$250' + '</span>')
+      }
     },
     selectable: true,
     select: function(start, end, jsEvent, view) {
       var start_date = moment(start);
       var end_date = moment(end).subtract(1, "days");
-
-      <% if @bouncehouses.blank? %>
-          $('#calendar').fullCalendar('unselect');
-      <% end %>
 
       var overlap = reservations.filter(function(e) {
         var r_start_date = moment(e.start_date);
@@ -137,6 +128,4 @@
     $('#start-date').val(moment(next).format('MM/DD/YYYY'))
     $('#start-date').trigger('change')
   });
-
-
 </script>

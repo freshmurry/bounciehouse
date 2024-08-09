@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+  authenticated :admin_user do
+    root to: "admin/dashboard#index", as: :authenticated_admin_root
+  end
+
   # ROOT ROUTE
   root "pages#home"
 

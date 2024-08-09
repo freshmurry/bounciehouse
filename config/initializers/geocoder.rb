@@ -1,12 +1,6 @@
-# Geocoder.configure(
-#   units: :mi,
-#   :timeout=>15
-# )
-
 Geocoder.configure(
-  lookup: :google,
-  api_key: ENV['AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk'],
-  units: :mi,      
-  use_https: true,   
-  language: :en            
+  lookup: :google,                  # Service to use for geocoding
+  api_key: ENV['GEOCODER_API_KEY'], # Your API key
+  timeout: 15,                      # Timeout in seconds
+  units: :km                        # Units of measurement
 )

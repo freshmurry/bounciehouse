@@ -42,14 +42,16 @@
 
           <div class="form-group">
             <label>Amenities</label>
-            <%= check_box_tag "q[is_slide_eq_any]", "true" %> Slide<br>
-            <%= check_box_tag "q[is_waterslide_eq_any]", "true" %> Waterslide<br>
-            <%= check_box_tag "q[is_basketball_hoop_eq_any]", "true" %> Basketball Hoop<br>
-            <%= check_box_tag "q[is_speaker_eq_any]", "true" %> Wifi Speakers<br>
-            <%= check_box_tag "q[is_lighting_eq_any]", "true" %> Lighting<br>
-            <%= check_box_tag "q[is_sprinkler_eq_any]", "true" %> Sprinkler<br>
-            <%= check_box_tag "q[is_heated_eq_any]", "true" %> Heated<br>
-            <%= check_box_tag "q[is_wall_climb_eq_any]", "true" %> Wall Climb
+            <div>
+              <%= check_box_tag "q[is_slide_eq_any]", "true" %> Slide<br>
+              <%= check_box_tag "q[is_waterslide_eq_any]", "true" %> Waterslide<br>
+              <%= check_box_tag "q[is_basketball_hoop_eq_any]", "true" %> Basketball Hoop<br>
+              <%= check_box_tag "q[is_speaker_eq_any]", "true" %> Wifi Speakers<br>
+              <%= check_box_tag "q[is_lighting_eq_any]", "true" %> Lighting<br>
+              <%= check_box_tag "q[is_sprinkler_eq_any]", "true" %> Sprinkler<br>
+              <%= check_box_tag "q[is_heated_eq_any]", "true" %> Heated<br>
+              <%= check_box_tag "q[is_wall_climb_eq_any]", "true" %> Wall Climb
+            </div>
           </div>
 
           <div class="text-center">
@@ -59,7 +61,7 @@
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="">
       <!-- LISTINGS -->
       <div id="bouncehouse_listing">
         <%= render partial: "bouncehouses/bouncehouses_list", locals: {bouncehouses: @arrBouncehouses} %>
@@ -68,109 +70,80 @@
     <br>
 
     <!-- GOOGLE MAP -->
-    <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
-    
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
+    <%# <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div> %>
+    <div id="map" style="width: 100%; height: 500px;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
 
     <script>
       function initialize(bouncehouses) {
-        var location = {lat: 41.881832, lng: -87.623177}      
+        var location = { lat: 41.881832, lng: -87.623177 }
+
         if (bouncehouses.length > 0) {
-          location = {lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude}
+          location = { lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude }
         }
-    
+
         var map = new google.maps.Map(document.getElementById('map'), {
           center: location,
           zoom: 12
         });
-    
-        var marker, inforwindow;
-    
-        bouncehouses.forEach(function(bouncehouse) {
+
+        var marker, infowindow;
+
+        bouncehouses.forEach(function (bouncehouse) {
           marker = new google.maps.Marker({
-            position: {lat: bouncehouse.latitude, lng: bouncehouse.longitude},
+            position: { lat: bouncehouse.latitude, lng: bouncehouse.longitude },
             map: map
           });
-    
-          inforwindow = new google.maps.InfoWindow({
+
+          infowindow = new google.maps.InfoWindow({
             content: "<div class='map_price'>$" + bouncehouse.price + "</div>"
           });
-    
-          inforwindow.open(map, marker);
-        })
+
+          infowindow.open(map, marker);
+        });
       }
-    
-      google.maps.event.addDomListener(window, 'load', function() {
+
+      google.maps.event.addDomListener(window, 'load', function () {
         initialize(<%= raw @arrBouncehouses.to_json %>)
       });
     </script>
 
-    <div id="map" style="width: 100%; height: 400px"></div>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
-    <script>
-      function initialize(bouncehouses) {
-        var location = {lat: 41.881832, lng: -87.623177};
-        if (bouncehouses.length > 0) {
-          location = {lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude};
-        }
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: location,
-          zoom: 12
-        });
-
-        var marker, inforwindow;
-
-        bouncehouses.forEach(function(bouncehouse) {
-          var marker = new google.maps.Marker({
-            position: {lat: bouncehouse.latitude, lng: bouncehouse.longitude},
-            map: map
-          });
-          var infowindow = new google.maps.InfoWindow({
-            content: "<div class='map_price'>$" + bouncehouse.price + "</div>"
-          });
-          infowindow.open(map, marker);
-        });
-      }
-      google.maps.event.addDomListener(window, 'load', function() {
-        initialize(<%= raw @arrBouncehouses.to_json %>);
-      });
-    </script>
-  
   </div>
 </div>
 
 <script>
-  $('#start_date').datepicker({
-    dateFormat: 'mm/dd/yy',
-    minDate: 0,
-    maxDate: '3m',
-    onSelect: function(selected) {
-      $('#end_date').datepicker("option", "minDate", selected);
-      $('#end_date').attr("disabled", false);
-    }
-  });
+  $(document).ready(function() {
+    $('#start_date').datepicker({
+      dateFormat: 'mm/dd/yy',
+      minDate: 0,
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#end_date').datepicker("option", "minDate", selected);
+        $('#end_date').attr("disabled", false);
+      }
+    });
 
-  $('#end_date').datepicker({
-    dateFormat: 'mm/dd/yy',
-    minDate: 0, 
-    maxDate: '3m',
-    onSelect: function(selected) {
-      $('#start_date').datepicker("option", "maxDate", selected);
-    }
-  });
+    $('#end_date').datepicker({
+      dateFormat: 'mm/dd/yy',
+      minDate: 0, 
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#start_date').datepicker("option", "maxDate", selected);
+      }
+    });
 
-  var open = true;
+    var open = true;
 
-  $('#filter').click(function() {
-    if (open) {
-      $('#filter').html("More filters <i class='fa fa-chevron-up'></i>");
-    } else {
-      $('#filter').html("More filters <i class='fa fa-chevron-down'></i>");
-    }
-    open = !open;
-  });
+    $('#filter').click(function() {
+      if (open) {
+        $('#filter').html("More filters <i class='fa fa-chevron-up'></i>");
+      } else {
+        $('#filter').html("More filters <i class='fa fa-chevron-down'></i>");
+      }
+      open = !open;
+    });
 
-  $(function() {
     $("#q_price_gteq").val('50');
     $("#q_price_lteq").val('5000');
 
