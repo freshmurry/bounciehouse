@@ -2,13 +2,28 @@ ActiveAdmin.register Bouncehouse do
   # Permit params for Bouncehouse and nested Photos
   permit_params :user_id, :bouncehouse_type, :time_limit, :pickup_type, :listing_name, :description, :address, :price, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, :active, photos_attributes: [:id, :image, :_destroy]
 
+  # Ensure nested attributes are handled correctly
+  controller do
+    def update
+      if params[:bouncehouse][:photos_attributes]
+        params[:bouncehouse][:photos_attributes].each do |_key, value|
+          if value[:image].blank?
+            value.delete(:image)
+            value[:_destroy] = '1' if value[:_destroy] == '0'
+          end
+        end
+      end
+      super
+    end
+  end
+
   # Form for creating/updating Bouncehouse
   form do |f|
     f.inputs do
       f.input :user, as: :select, collection: User.all.collect { |user| [user.email, user.id] }
       f.input :bouncehouse_type, as: :select, collection: ['Regular', 'Castle', 'Waterslide']
-      f.input :time_limit, as: :select, collection: ['4 hrs.', '6 hrs.', '8  hrs.']
-      f.input :pickup_type, ss: :select, collection: ['Same Day', 'Next Day']
+      f.input :time_limit, as: :select, collection: ['4 hrs.', '6 hrs.', '8 hrs.']
+      f.input :pickup_type, as: :select, collection: ['Same Day', 'Next Day']
       f.input :listing_name
       f.input :description
       f.input :address
@@ -17,7 +32,7 @@ ActiveAdmin.register Bouncehouse do
       
       f.inputs "Images" do
         f.has_many :photos, allow_destroy: true, new_record: true do |pf|
-          pf.input :image, as: :file
+          pf.input :image, as: :file, hint: pf.object.image.present? ? image_tag(pf.object.image.url(:thumb)) : content_tag(:span, "No image uploaded yet")
         end
       end
 
