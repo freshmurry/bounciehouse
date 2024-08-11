@@ -2,7 +2,7 @@
 ActiveAdmin.register User do
   # Conditionally permit the password field
   permit_params do
-    permitted = [:fullname, :email, :image, :enable_sms, :enable_email]
+    permitted = [:fullname, :email, :image, :enable_email]
     permitted << :password if params[:user][:password].present?
     permitted
   end
@@ -15,8 +15,8 @@ ActiveAdmin.register User do
     end
     column :fullname
     column :email
-    column :enable_sms
-    column :enable_email
+    # column :description
+    # column :enable_email
     column :created_at
     actions
   end
@@ -24,8 +24,7 @@ ActiveAdmin.register User do
   filter :image
   filter :fullname
   filter :email
-  filter :enable_sms
-  filter :enable_email
+  # filter :description
   filter :created_at
 
   form do |f|
@@ -33,9 +32,8 @@ ActiveAdmin.register User do
       f.input :fullname
       f.input :email
       f.input :password, input_html: { autocomplete: "new-password" }, hint: "Leave blank if you don't want to change it"
-      f.input :image, as: :file, hint: image_tag(f.object.image.url(:thumb)) if f.object.image.present?
-      f.input :enable_sms
-      f.input :enable_email
+      f.input :image, as: :file, hint: image_tag(f.object.image.url(:thumb))
+      # f.input :description
     end
     f.actions
   end
@@ -47,8 +45,7 @@ ActiveAdmin.register User do
       end
       row :fullname
       row :email
-      row :enable_sms
-      row :enable_email
+      # row :description
       row :created_at
       row :updated_at
     end
