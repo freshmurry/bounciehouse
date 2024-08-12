@@ -7,9 +7,13 @@ class ApplicationController < ActionController::Base
 
   protected
   
-  # Define the path to redirect after sign-in
-  def after_sign_in_path_for(resource_or_scope)
-    dashboard_path  # Replace with your desired path
+  # Define the path to redirect after sign-in based on user type
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(AdminUser)
+      authenticated_admin_root_path  # Redirect admin users to the admin dashboard
+    else
+      root_path  # Redirect regular users to the main app's root path
+    end
   end
 
   # Handle ActiveRecord::RecordNotFound exception
@@ -21,5 +25,14 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname])
     devise_parameter_sanitizer.permit(:account_update, keys: [:fullname, :phone_number, :description, :image])
+  end
+
+  before_action :authenticate_admin_user!, if: :admin_controller?
+
+  private
+
+  # Determine if the current request is for an admin controller
+  def admin_controller?
+    controller_path.start_with?('admin/')
   end
 end

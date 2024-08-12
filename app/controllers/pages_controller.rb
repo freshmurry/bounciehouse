@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    @bouncehouses = Bouncehouse.where(active: true).limit(3)
+    @bouncehouses = Bouncehouse.where(active: true).limit(5)
   end
 
   def search

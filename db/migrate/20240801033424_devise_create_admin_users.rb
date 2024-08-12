@@ -1,16 +1,10 @@
-class DeviseCreateAdminUsers < ActiveRecord::Migration
-  def migrate(direction)
-    super
-    # Create a default user
-    AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if direction == :up
-  end
-
+class DeviseCreateAdminUsers < ActiveRecord::Migration[5.0]
   def change
-    create_table(:admin_users) do |t|
+    create_table :admin_users do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
-      t.string :name,              null: false, default: ""
-      t.string :description,              null: false, default: ""
+      t.string :name,               null: false, default: ""
+      t.string :description,        null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
@@ -37,7 +31,6 @@ class DeviseCreateAdminUsers < ActiveRecord::Migration
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
-
 
       t.timestamps
     end

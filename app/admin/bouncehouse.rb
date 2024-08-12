@@ -21,8 +21,8 @@ ActiveAdmin.register Bouncehouse do
 
     f.inputs 'Photos' do
       f.object.photos.each do |photo|
-        f.input :photos, as: :file, hint: image_tag(photo.image.url(:thumb))
-        # f.input "photos_#{photo}_image", as: :file, input_html: { value: photo.image.url }, hint: photo.image.present? ? image_tag(photo.image.url(:medium)) : "No Photos Yet"
+        # f.input :photos, as: :file, hint: image_tag(photo.image.url(:thumb))
+        f.input "photos", as: :file, hint: photo.image.present? ? image_tag(photo.image.url(:thumb)) : "No Photos Yet"
         f.input :_destroy, as: :boolean, label: 'Remove image' if f.object.persisted?
       end
     end
@@ -53,17 +53,17 @@ ActiveAdmin.register Bouncehouse do
       row :price
       row :active
 
-      row "Photos" do
-        if bouncehouse.photos.any?
-          bouncehouse.photos.each do |photo|
-            div do
-              image_tag photo.image.url(:medium), size: "200x200" if photo.image.present?
-            end
-          end
-        else
-          "No photos available"
-        end
-      end
+      # row "Photos" do
+      #   if bouncehouse.photos.any?
+      #     bouncehouse.photos.each do |photo|
+      #       div do
+      #         image_tag photo.image.url(:thumb), size: "200x200" if photo.image.present?
+      #       end
+      #     end
+      #   else
+      #     "No photos available"
+      #   end
+      # end
 
       row :is_heated
       row :is_slide
