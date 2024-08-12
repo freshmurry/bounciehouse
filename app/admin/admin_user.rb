@@ -42,6 +42,7 @@ ActiveAdmin.register AdminUser do
   show do |user|
     attributes_table do
       row :email
+      row :description
       row :profile_image do
         if user.profile_image.present?
           image_tag user.profile_image.url(:medium)
