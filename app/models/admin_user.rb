@@ -2,7 +2,7 @@ class AdminUser < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_attached_file :profile_image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: 'blank.jpg'
+  has_attached_file :profile_image, styles: { medium: "300x300>", thumb: "100x100>" }
   validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\z/
 
   def self.after_sign_in_path_for(resource)

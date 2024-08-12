@@ -19,6 +19,7 @@ gem 'activeadmin'
 
 group :development, :test do
   gem 'byebug', '>= 4.2.6', platform: :mri
+  gem 'bcrypt', '~> 3.1.7'
 end
 
 group :development do

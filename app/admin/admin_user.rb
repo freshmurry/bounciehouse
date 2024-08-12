@@ -1,6 +1,6 @@
 ActiveAdmin.register AdminUser do
   # Permit parameters
-  permit_params :email, :description, :profile_image, :password, :password_confirmation
+  permit_params :email, :description, :profile_image, :password, :password_confirmation, :current_password
 
   # Index page configuration
   index do
@@ -9,7 +9,9 @@ ActiveAdmin.register AdminUser do
     column :email
     column :profile_image do |user|
       if user.profile_image.present?
-        image_tag user.profile_image.url(:thumb)
+        image_tag user.profile_image.url(:thumb), size: '50x50'
+      else
+        "No profile image"
       end
     end
     column :current_sign_in_at
@@ -49,7 +51,7 @@ ActiveAdmin.register AdminUser do
         else
           "No profile image"
         end
-      end  
+      end
     end
     active_admin_comments
   end
@@ -60,13 +62,15 @@ ActiveAdmin.register AdminUser do
     def update
       @admin_user = AdminUser.find(params[:id])
 
+      # Check for password update
       if params[:admin_user][:password].present? || params[:admin_user][:password_confirmation].present?
         if params[:admin_user][:current_password].blank?
-          flash[:error] = "Current password must be provided to update password."
+          flash[:error] = "Current password must be provided to update the password."
           render :edit and return
         end
       end
 
+      # Update the admin user
       if @admin_user.update(admin_user_params)
         flash[:notice] = "Admin user updated successfully."
         redirect_to admin_admin_user_path(@admin_user)
@@ -78,7 +82,7 @@ ActiveAdmin.register AdminUser do
     private
 
     def admin_user_params
-      params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation)
+      params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation, :current_password)
     end
   end
 end
