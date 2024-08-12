@@ -15,8 +15,7 @@ ActiveAdmin.register User do
     end
     column :fullname
     column :email
-    # column :description
-    # column :enable_email
+    column :last_sign_in_at # Display last sign-in time
     column :created_at
     actions
   end
@@ -24,7 +23,7 @@ ActiveAdmin.register User do
   filter :image
   filter :fullname
   filter :email
-  # filter :description
+  filter :last_sign_in_at # Add filter for last sign-in time
   filter :created_at
 
   form do |f|
@@ -45,12 +44,12 @@ ActiveAdmin.register User do
       end
       row :fullname
       row :email
-      # row :description
+      row :last_sign_in_at # Display last sign-in time
       row :created_at
       row :updated_at
     end
     active_admin_comments
-    
+
     panel "Actions" do
       link_to "List a Bouncehouse", new_admin_bouncehouse_path(user_id: user.id)
     end
