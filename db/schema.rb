@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20240811072130) do
     t.datetime "updated_at",                              null: false
     t.string   "profile_image_file_name"
     t.string   "profile_image_content_type"
-    t.bigint   "profile_image_file_size"
+    t.integer  "profile_image_file_size"
     t.datetime "profile_image_updated_at"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
