@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 20240808193750) do
     t.datetime "updated_at",         null: false
     t.string   "image_file_name"
     t.string   "image_content_type"
-    t.integer  "image_file_size"
+    t.bigint   "image_file_size"
     t.datetime "image_updated_at"
     t.index ["bouncehouse_id"], name: "index_photos_on_bouncehouse_id"
   end
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 20240808193750) do
     t.integer  "unread",                 default: 0
     t.string   "image_file_name"
     t.string   "image_content_type"
-    t.integer  "image_file_size"
+    t.bigint   "image_file_size"
     t.datetime "image_updated_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
