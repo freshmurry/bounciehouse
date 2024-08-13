@@ -45,7 +45,7 @@ gem 'jquery-ui-rails', '~> 5.0'
 gem 'ransack'
 gem 'puma'
 gem 'figaro'
-gem 'redis'
+# gem 'redis'
 gem 'groupdate'
 
 group :production do

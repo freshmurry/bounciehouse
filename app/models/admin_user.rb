@@ -5,6 +5,8 @@ class AdminUser < ApplicationRecord
   has_attached_file :profile_image, styles: { medium: "300x300>", thumb: "100x100>" }
   validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\z/
 
+  validates :email, presence: true, uniqueness: true
+
   def self.after_sign_in_path_for(resource)
     if resource.is_a?(AdminUser)
       Rails.application.routes.url_helpers.authenticated_admin_root_path

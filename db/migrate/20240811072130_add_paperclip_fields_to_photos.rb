@@ -1,6 +1,5 @@
 class AddPaperclipFieldsToPhotos < ActiveRecord::Migration[5.0]
-  def change    
-    # Only add columns if they do not already exist
+  def change
     unless column_exists?(:photos, :image_file_name)
       add_column :photos, :image_file_name, :string
     end
