@@ -5,7 +5,7 @@ ActiveAdmin.register Bouncehouse do
   form do |f|
     f.inputs 'Bouncehouse Details' do
       f.input :user, as: :select, collection: User.all.collect { |user| [user.email, user.id] }
-      f.input :bouncehouse_type
+      f.input :bouncehouse_type, as: :select, collection: ["Regular", "Castle", "Waterslide"], include_blank: false
       f.input :time_limit, as: :select, collection: ["4 hrs.", "6 hrs.", "8 hrs."], include_blank: false
       f.input :pickup_type, as: :select, collection: ["Next Day", "Same Day"], include_blank: false
       f.input :listing_name
@@ -57,7 +57,7 @@ ActiveAdmin.register Bouncehouse do
         if bouncehouse.photos.any?
           bouncehouse.photos.each do |photo|
             div do
-              image_tag photo.image.url(:thumb), size: "200x200" if photo.image.present?
+              image_tag photo.image.url(:thumb), if photo.image.present?
             end
           end
         else
