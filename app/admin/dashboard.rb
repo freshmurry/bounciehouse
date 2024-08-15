@@ -14,7 +14,6 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Recent Bouncehouses" do
           ul do
             Bouncehouse.order(created_at: :desc).limit(5).map do |bouncehouse|
-              # li link_to(bouncehouse.listing_name, Rails.application.routes.url_helpers.edit_dashboard_bouncehouse_path(bouncehouse))
               li link_to(bouncehouse.listing_name, edit_admin_bouncehouse_path(bouncehouse))
             end
           end
@@ -35,7 +34,17 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Recent Reviews" do
           ul do
             Review.order(created_at: :desc).limit(5).map do |review|
-              li link_to("Review ##{review.id}", Rails.application.routes.url_helpers.dashboard_review_path(review))
+              li link_to("Review ##{review.id}", Rails.application.routes.url_helpers.admin_comment_path(review))
+            end
+          end
+        end
+      end
+
+      column do
+        panel "Recent Reservations" do
+          ul do
+            Reservation.order(created_at: :desc).limit(5).map do |reservation|
+              li link_to("Reservation ##{reservation.id}", Rails.application.routes.url_helpers.bouncehouse_reservation_path(reservation.bouncehouse_id, reservation))
             end
           end
         end
@@ -44,10 +53,8 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Quick Actions" do
           ul do
-            # li link_to("Add New Bouncehouse", Rails.application.routes.url_helpers.new_dashboard_bouncehouse_path)
-            li link_to("Add New User", Rails.application.routes.url_helpers.new_admin_admin_user_path)
-            # Remove or adjust this line based on the correct path helper
-            # li link_to("View All Reservations", Rails.application.routes.url_helpers.admin_user_reservations_path)
+            # Adjust the path for adding a new regular user
+            li link_to("Add New User", Rails.application.routes.url_helpers.new_user_registration_path)
           end
         end
       end
