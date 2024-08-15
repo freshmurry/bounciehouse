@@ -67,7 +67,7 @@ class Bouncehouse < ApplicationRecord
     if self.photos.length > 0
       self.photos[0].image.url(size)
     else
-      "https://images.unsplash.com/photo-1531265726475-52ad60219627?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1191&q=80"
+
     end
   end
 

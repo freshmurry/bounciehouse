@@ -53,11 +53,11 @@ ActiveAdmin.register Bouncehouse do
       row :price
       row :active
 
-      row "Photos" do
+      row "Photos" do |bouncehouse|
         if bouncehouse.photos.any?
           bouncehouse.photos.each do |photo|
             div do
-              image_tag photo.image.url(:thumb), if photo.image.present?
+              image_tag(photo.image.url(:thumb)) if photo.image.present?
             end
           end
         else
