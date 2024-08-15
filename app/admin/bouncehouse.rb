@@ -53,17 +53,17 @@ ActiveAdmin.register Bouncehouse do
       row :price
       row :active
 
-      # row "Photos" do
-      #   if bouncehouse.photos.any?
-      #     bouncehouse.photos.each do |photo|
-      #       div do
-      #         image_tag photo.image.url(:thumb), size: "200x200" if photo.image.present?
-      #       end
-      #     end
-      #   else
-      #     "No photos available"
-      #   end
-      # end
+      row "Photos" do
+        if bouncehouse.photos.any?
+          bouncehouse.photos.each do |photo|
+            div do
+              image_tag photo.image.url(:thumb), size: "200x200" if photo.image.present?
+            end
+          end
+        else
+          "No photos available"
+        end
+      end
 
       row :is_heated
       row :is_slide

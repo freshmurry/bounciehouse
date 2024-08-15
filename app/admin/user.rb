@@ -1,9 +1,10 @@
-# app/admin/users.rb
 ActiveAdmin.register User do
   # Conditionally permit the password field
   permit_params do
     permitted = [:fullname, :email, :image, :enable_email]
-    permitted << :password if params[:user][:password].present?
+    if params[:user] && params[:user][:password].present?
+      permitted << :password
+    end
     permitted
   end
 
@@ -32,7 +33,6 @@ ActiveAdmin.register User do
       f.input :email
       f.input :password, input_html: { autocomplete: "new-password" }, hint: "Leave blank if you don't want to change it"
       f.input :image, as: :file, hint: image_tag(f.object.image.url(:thumb))
-      # f.input :description
     end
     f.actions
   end

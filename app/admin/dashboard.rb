@@ -49,15 +49,6 @@ ActiveAdmin.register_page "Dashboard" do
           end
         end
       end
-
-      column do
-        panel "Quick Actions" do
-          ul do
-            # Adjust the path for adding a new regular user
-            li link_to("Add New User", Rails.application.routes.url_helpers.new_user_registration_path)
-          end
-        end
-      end
     end
   end
 end
