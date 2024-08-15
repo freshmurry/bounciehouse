@@ -45,7 +45,7 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Quick Actions" do
           ul do
             # li link_to("Add New Bouncehouse", Rails.application.routes.url_helpers.new_dashboard_bouncehouse_path)
-            li link_to("Add New User", Rails.application.routes.url_helpers.new_admin_user_path)
+            li link_to("Add New User", Rails.application.routes.url_helpers.new_admin_admin_user_path)
             # Remove or adjust this line based on the correct path helper
             # li link_to("View All Reservations", Rails.application.routes.url_helpers.admin_user_reservations_path)
           end
