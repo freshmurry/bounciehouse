@@ -1,4 +1,17 @@
 ActiveAdmin.register User do
+  controller do
+    def create
+      # Allow for creation without email and password
+      @user = User.new(permitted_params[:user])
+
+      if @user.save
+        redirect_to admin_user_path(@user), notice: "User created successfully."
+      else
+        render :new
+      end
+    end
+  end
+  
   # Conditionally permit the password field
   permit_params do
     permitted = [:fullname, :email, :image, :enable_email]
