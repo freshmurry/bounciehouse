@@ -2,6 +2,7 @@ ActiveAdmin.register User do
   # Conditionally permit the password field
   permit_params do
     permitted = [:fullname, :email, :image, :enable_email]
+    # Always include the password if it is present in the params
     if params[:user] && params[:user][:password].present?
       permitted << :password
     end
@@ -30,8 +31,8 @@ ActiveAdmin.register User do
   form do |f|
     f.inputs do
       f.input :fullname
-      f.input :email
-      f.input :password, input_html: { autocomplete: "new-password" }, hint: "Leave blank if you don't want to change it"
+      f.input :email, hint: "Optional - Leave blank if you don't want to provide an email"
+      f.input :password, input_html: { autocomplete: "password" }, hint: "Leave blank if you don't want to change it"
       f.input :image, as: :file, hint: image_tag(f.object.image.url(:thumb))
     end
     f.actions
