@@ -21,12 +21,11 @@ ActiveAdmin.register Bouncehouse do
 
     f.inputs 'Photos' do
       f.object.photos.each do |photo|
-        # f.input :photos, as: :file, hint: image_tag(photo.image.url(:thumb))
-        f.input "photos", as: :file, hint: photo.image.present? ? image_tag(photo.image.url(:thumb)) : "No Photos Yet"
+        f.input :photos, as: :file, hint: photo.image.present? ? image_tag(photo.image.url(:thumb)) : "No Photos Yet"
         f.input :_destroy, as: :boolean, label: 'Remove image' if f.object.persisted?
       end
     end
-    
+
     f.inputs 'Amenities' do
       f.input :is_heated, label: "Heated"
       f.input :is_slide, label: "Slide"
@@ -81,19 +80,20 @@ ActiveAdmin.register Bouncehouse do
   controller do
     before_action :find_bouncehouse, only: [:show, :edit, :update, :destroy]
 
-    def update
-      Rails.logger.info "Params: #{params.inspect}"
+    def create
+      @bouncehouse = Bouncehouse.new(bouncehouse_params)
 
+      if @bouncehouse.save
+        handle_new_photos
+        redirect_to admin_bouncehouse_path(@bouncehouse), notice: 'Bouncehouse successfully created.'
+      else
+        render :new
+      end
+    end
+
+    def update
       if @bouncehouse.update(bouncehouse_params)
-        Rails.logger.info "Photos Params: #{params[:bouncehouse][:new_photos].inspect}"
-        
-        # Handle new photos
-        if params[:bouncehouse][:new_photos].present?
-          params[:bouncehouse][:new_photos].each do |photo|
-            @bouncehouse.photos.create(image: photo)
-          end
-        end
-        
+        handle_new_photos
         redirect_to admin_bouncehouse_path(@bouncehouse), notice: 'Bouncehouse successfully updated.'
       else
         render :edit
@@ -108,6 +108,14 @@ ActiveAdmin.register Bouncehouse do
 
     def bouncehouse_params
       params.require(:bouncehouse).permit(:user_id, :bouncehouse_type, :time_limit, :pickup_type, :listing_name, :description, :address, :price, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, :active, photos_attributes: [:id, :image, :_destroy])
+    end
+
+    def handle_new_photos
+      if params[:bouncehouse][:new_photos].present?
+        params[:bouncehouse][:new_photos].each do |photo|
+          @bouncehouse.photos.create(image: photo)
+        end
+      end
     end
   end
 end
