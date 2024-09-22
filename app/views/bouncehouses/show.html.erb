@@ -31,7 +31,7 @@
     });
   </script>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=[GOOGLE_MAPS_API]&callback=initialize" defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js" defer></script>
   
   <script type="text/javascript">
     function initMap() {
@@ -153,8 +153,8 @@
         <div class="row">
           <div class="panel panel-default">
             <div class="panel-heading">Description</div>
-            <div class="panel-body" style="margin-left: 0">
-              <p><%= @bouncehouse.description %></p>
+            <div class="panel-body" style="margin: 0">
+              <p class="container col-md-12"><%= @bouncehouse.description %></p>
             </div>
           </div>
         </div>
