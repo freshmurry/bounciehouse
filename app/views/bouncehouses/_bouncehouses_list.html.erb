@@ -9,10 +9,10 @@
         <div class="container">
           <span class="col-md-12" style="padding-left: 0px; padding-right: 0px;"><strong><%= link_to bouncehouse.listing_name, bouncehouse %></strong></span></br>
           <span class="col-md-12" style="padding-left: 0px; padding-right: 0px;"><span id="star_<%= bouncehouse.id %>"></span>&nbsp;<%= pluralize(bouncehouse.guest_reviews.count, "review") %>
+          <div>
+            <b>$<%= bouncehouse.price %></b>
+          </div> 
         </div>
-        <div>
-          <b>$<%= bouncehouse.price %></b>
-        </div> 
       </div>
     </div>
   </div>
