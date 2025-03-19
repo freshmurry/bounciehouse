@@ -1,56 +1,74 @@
-<div class="container">
+<div class="">
   <div class="row">
+    <!-- Filter Column (First Column) -->
     <div class="col-md-3" id="filter-column">
       <!-- SEARCH PANEL -->
-      <button id="filter" class="btn btn-default" data-toggle="collapse" data-target="#collapsePanel">
+      <button id="filter" class="btn btn-default" data-toggle="collapse" data-target="#collapsePanel" aria-expanded="false" aria-controls="collapsePanel">
         More Filters <i class="fa fa-chevron-down"></i>
       </button><hr>
 
       <div class="collapse" id="collapsePanel">
         <%= search_form_for @search, url: search_path, remote: true do |f| %>
           <div class="form-group">
-            <label>Price range:</label>
+            <label for="price_gteq">Price range:</label>
             <div id="slider-range"></div>
-            <label>Min Price:</label>
-            <%= f.text_field :price_gteq, class: "form-control" %>
-            <label>Max Price:</label>
-            <%= f.text_field :price_lteq, class: "form-control" %>
+            <label for="price_gteq">Min Price:</label>
+            <%= f.text_field :price_gteq, class: "form-control", id: "price_gteq", value: params[:price_gteq] || 50 %>
+            <label for="price_lteq">Max Price:</label>
+            <%= f.text_field :price_lteq, class: "form-control", id: "price_lteq", value: params[:price_lteq] || 5000 %>
           </div>
 
           <div class="form-group">
-            <%= text_field_tag :start_date, params[:start_date], readonly: true, placeholder: "Start Date", class: "form-control datepicker" %>
-            <%= text_field_tag :end_date, params[:end_date], readonly: true, placeholder: "End Date", class: "form-control datepicker" %>
+            <label for="start_date">Start Date</label>
+            <%= text_field_tag :start_date, params[:start_date], readonly: true, placeholder: "Start Date", class: "form-control datepicker", id: "start_date" %>
+            <label for="end_date">End Date</label>
+            <%= text_field_tag :end_date, params[:end_date], readonly: true, placeholder: "End Date", class: "form-control datepicker", id: "end_date" %>
           </div>
 
           <div class="form-group">
-            <label>Time Limit</label>
+            <label for="time_limit_gteq">Time Limit</label>
             <%= f.select :time_limit_gteq, [["2hrs.", "2hrs."], ["4hrs.", "4hrs."], ["6hrs.", "6hrs."], ["8hrs.", "8hrs."]],
-                         prompt: "Select...", class: "form-control" %>
+                         prompt: "Select...", class: "form-control", id: "time_limit_gteq" %>
           </div>
 
           <div class="form-group">
-            <label>Bounce House Type</label>
+            <label for="bouncehouse_type_gteq">Bounce House Type</label>
             <%= f.select :bouncehouse_type_gteq, [["Regular", "Regular"], ["Castle", "Castle"], ["Waterslide","Waterslide"], ["Obstacle Course","Obstacle Course"]],
-                         prompt: "Select...", class: "form-control" %>
+                         prompt: "Select...", class: "form-control", id: "bouncehouse_type_gteq" %>
           </div>
 
           <div class="form-group">
-            <label>Pickup Type</label>
+            <label for="pickup_type_gteq">Pickup Type</label>
             <%= f.select :pickup_type_gteq, [["Same Day", "Same Day"], ["Next Day", "Next Day"]],
-                         prompt: "Select...", class: "form-control" %>
+                         prompt: "Select...", class: "form-control", id: "pickup_type_gteq" %>
           </div>
 
           <div class="form-group">
             <label>Amenities</label>
             <div>
-              <%= check_box_tag "q[is_slide_eq_any]", "true" %> Slide<br>
-              <%= check_box_tag "q[is_waterslide_eq_any]", "true" %> Waterslide<br>
-              <%= check_box_tag "q[is_basketball_hoop_eq_any]", "true" %> Basketball Hoop<br>
-              <%= check_box_tag "q[is_speaker_eq_any]", "true" %> Wifi Speakers<br>
-              <%= check_box_tag "q[is_lighting_eq_any]", "true" %> Lighting<br>
-              <%= check_box_tag "q[is_sprinkler_eq_any]", "true" %> Sprinkler<br>
-              <%= check_box_tag "q[is_heated_eq_any]", "true" %> Heated<br>
-              <%= check_box_tag "q[is_wall_climb_eq_any]", "true" %> Wall Climb
+              <%= check_box_tag "q[is_slide_eq_any]", "true", false, id: "is_slide_eq_any" %>
+              <label for="is_slide_eq_any">Slide</label><br>
+
+              <%= check_box_tag "q[is_waterslide_eq_any]", "true", false, id: "is_waterslide_eq_any" %>
+              <label for="is_waterslide_eq_any">Waterslide</label><br>
+
+              <%= check_box_tag "q[is_basketball_hoop_eq_any]", "true", false, id: "is_basketball_hoop_eq_any" %>
+              <label for="is_basketball_hoop_eq_any">Basketball Hoop</label><br>
+
+              <%= check_box_tag "q[is_speaker_eq_any]", "true", false, id: "is_speaker_eq_any" %>
+              <label for="is_speaker_eq_any">Wifi Speakers</label><br>
+
+              <%= check_box_tag "q[is_lighting_eq_any]", "true", false, id: "is_lighting_eq_any" %>
+              <label for="is_lighting_eq_any">Lighting</label><br>
+
+              <%= check_box_tag "q[is_sprinkler_eq_any]", "true", false, id: "is_sprinkler_eq_any" %>
+              <label for="is_sprinkler_eq_any">Sprinkler</label><br>
+
+              <%= check_box_tag "q[is_heated_eq_any]", "true", false, id: "is_heated_eq_any" %>
+              <label for="is_heated_eq_any">Heated</label><br>
+
+              <%= check_box_tag "q[is_wall_climb_eq_any]", "true", false, id: "is_wall_climb_eq_any" %>
+              <label for="is_wall_climb_eq_any">Wall Climb</label>
             </div>
           </div>
 
@@ -61,59 +79,59 @@
       </div>
     </div>
 
-    <div class="">
-      <!-- LISTINGS -->
+    <!-- Bouncehouse Listings Column (Middle Column) -->
+    <div class="col-md-6">
       <div id="bouncehouse_listing">
         <%= render partial: "bouncehouses/bouncehouses_list", locals: {bouncehouses: @arrBouncehouses} %>
       </div>
     </div>
-    <br>
 
-    <!-- GOOGLE MAP -->
-    <%# <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div> %>
-    <div id="map" style="width: 100%; height: 500px;"></div>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk"></script>
-
-    <script>
-      function initialize(bouncehouses) {
-        var location = { lat: 41.881832, lng: -87.623177 }
-
-        if (bouncehouses.length > 0) {
-          location = { lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude }
-        }
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: location,
-          zoom: 12
-        });
-
-        var marker, infowindow;
-
-        bouncehouses.forEach(function (bouncehouse) {
-          marker = new google.maps.Marker({
-            position: { lat: bouncehouse.latitude, lng: bouncehouse.longitude },
-            map: map
-          });
-
-          infowindow = new google.maps.InfoWindow({
-            content: "<div class='map_price'>$" + bouncehouse.price + "</div>"
-          });
-
-          infowindow.open(map, marker);
-        });
-      }
-
-      google.maps.event.addDomListener(window, 'load', function () {
-        initialize(<%= raw @arrBouncehouses.to_json %>)
-      });
-    </script>
-
+    <!-- Google Map Column (Third Column) -->
+    <div class="col-md-3">
+      <div id="map" style="width: 100%; height: 100%"></div>
+    </div>
   </div>
 </div>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+
+<script>
+  function initialize(bouncehouses) {
+    var location = { lat: 41.881832, lng: -87.623177 };
+
+    if (bouncehouses.length > 0) {
+      location = { lat: bouncehouses[0].latitude, lng: bouncehouses[0].longitude };
+    }
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: location,
+      zoom: 12
+    });
+
+    var marker, infowindow;
+
+    bouncehouses.forEach(function (bouncehouse) {
+      marker = new google.maps.Marker({
+        position: { lat: bouncehouse.latitude, lng: bouncehouse.longitude },
+        map: map
+      });
+
+      infowindow = new google.maps.InfoWindow({
+        content: "<div class='map_price'>$" + bouncehouse.price + "</div>"
+      });
+
+      infowindow.open(map, marker);
+    });
+  }
+
+  google.maps.event.addDomListener(window, 'load', function () {
+    initialize(<%= raw @arrBouncehouses.to_json %>);
+  });
+</script>
+
 <script>
   $(document).ready(function() {
+    // Datepicker for start and end date
     $('#start_date').datepicker({
       dateFormat: 'mm/dd/yy',
       minDate: 0,
@@ -144,6 +162,7 @@
       open = !open;
     });
 
+    // Setting initial values for price range
     $("#q_price_gteq").val('50');
     $("#q_price_lteq").val('5000');
 
@@ -158,6 +177,7 @@
       }
     });
 
+    // Customizing slider styles
     $(".ui-widget-header").css('background', '#2C3E50');
     $(".ui-state-default, .ui-widget-content").css('background', 'white');
     $(".ui-state-default, .ui-widget-content").css('border-color', '#2C3E50');

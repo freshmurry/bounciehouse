@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <span>
-      <% if @bouncehouse.Instant? %>
+      <% if @bouncehouse.instant? %>
         <i class="fa fa-bolt" style="color: #ffb400"></i>
       <% end %>
       $<%= @bouncehouse.price %>
@@ -62,7 +62,7 @@
           <h6>*All bookings are subject to a 5% booking fee</h6>
         </div>
         <br/>
-        <% if @bouncehouse.Instant? %>
+        <% if @bouncehouse.instant? %>
           <%= f.submit "Book Now", id: "btn_book", class: "btn btn-normal btn-block", disabled: true %>
         <% else %>
           <%= f.submit "Request Now", id: "btn_book", class: "btn btn-normal btn-block", disabled: true %>
@@ -78,11 +78,13 @@
     var unavailableDates = [];
     var specialDates = [];
 
+    // Function to check if the selected date is unavailable
     function checkDate(date) {
       var mdy = $.datepicker.formatDate('m/d/yy', date);
       return [$.inArray(mdy, unavailableDates) === -1];
     }
 
+    // Function to check if there are any special dates
     function specialCheck() {
       var start_date = $('#reservation_start_date').datepicker('getDate');
       var end_date = $('#reservation_end_date').datepicker('getDate');
@@ -149,6 +151,7 @@
       });
     }
 
+    // Preload unavailable dates and special dates
     $.ajax({
       url: '/bouncehouses/' + <%= @bouncehouse.id %> + '/preload_reservations',
       dataType: 'json',
@@ -189,6 +192,15 @@
             specialCheck();
           }
         });
+      }
+    });
+
+    // Enable or disable the "Book Now" button based on date selection
+    $(document).on("change", "#reservation_start_date, #reservation_end_date", function() {
+      if ($('#reservation_start_date').val() && $('#reservation_end_date').val()) {
+        $('#btn_book').prop('disabled', false);
+      } else {
+        $('#btn_book').prop('disabled', true);
       }
     });
   });

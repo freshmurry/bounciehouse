@@ -1,5 +1,6 @@
 class Reservation < ApplicationRecord
   enum status: { Waiting: 0, Approved: 1, Declined: 2 }
+  enum instant: { request: 0, instant: 1 }  # Add your enum definition here
 
   after_create_commit :create_notification
 
@@ -20,7 +21,7 @@ class Reservation < ApplicationRecord
 
   def booking_fee
     return 0 if total.nil? || total.zero?
-    total * 0.05 # 5% booking fee
+    total * 0.10 # 10% booking fee
   end
 
   private

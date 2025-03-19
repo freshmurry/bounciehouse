@@ -50,5 +50,42 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
     end
+
+    columns do
+      column do
+        panel "Active Reservations" do
+          ul do
+            active_reservations = Reservation.where("start_date <= ? AND end_date >= ?", Date.today, Date.today)
+            if active_reservations.any?
+              active_reservations.map do |reservation|
+                li link_to(
+                  "Reservation ##{reservation.id} - #{reservation.bouncehouse.listing_name}",
+                  Rails.application.routes.url_helpers.bouncehouse_reservation_path(reservation.bouncehouse_id, reservation)
+                )
+              end
+            else
+              li "No active reservations at the moment."
+            end
+          end
+        end
+      end
+
+      column do
+        panel "New Reservation Requests" do
+          ul do
+            new_reservations = Reservation.where(status: 'pending').order(created_at: :desc).limit(5)
+            if new_reservations.any?
+              new_reservations.map do |reservation|
+                li link_to("Request ##{reservation.id} - #{reservation.bouncehouse.listing_name}",
+                           Rails.application.routes.url_helpers.bouncehouse_reservation_path(reservation.bouncehouse_id, reservation)) +
+                  " - Status: #{reservation.status}"
+              end
+            else
+              li "No new reservation requests."
+            end
+          end
+        end
+      end
+    end
   end
 end

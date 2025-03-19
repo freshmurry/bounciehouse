@@ -12,6 +12,10 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def new
+    @reservation = Reservation.new(instant: 'request')  # Set 'request' as the default
+  end
+  
   def create
     if current_user == @bouncehouse.user
       flash[:alert] = "You cannot book your own Bouncehouse!"

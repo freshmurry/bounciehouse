@@ -1,5 +1,6 @@
 class Bouncehouse < ApplicationRecord
   enum instant: { Request: 0, Instant: 1 }
+  enum instant: { request: 'request', instant: 'instant' }
 
   belongs_to :user
   has_many :photos, dependent: :destroy
@@ -30,11 +31,11 @@ class Bouncehouse < ApplicationRecord
   #   end
   # end
 
-  # class GeocodeService
-  #   def initialize(address)
-  #     @address = address
-  #   end
-  
+  class GeocodeService
+    def initialize(address)
+      @address = address
+    end
+  end
   #   def fetch_data
   #     url = URI("https://maps.googleapis.com/maps/api/geocode/json?address=#{URI.encode(@address)}&key=AIzaSyCV181duH-y_7oW373c8YSHpUURXjKMKbk")
   #     response = Net::HTTP.get(url)

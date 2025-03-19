@@ -1,5 +1,4 @@
 ActiveAdmin.register Bouncehouse do
-  # Define permitted parameters for the form
   permit_params :user_id, :bouncehouse_type, :time_limit, :pickup_type, :listing_name, :description, :address, :price, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, :active, photos_attributes: [:id, :image, :_destroy]
 
   form do |f|

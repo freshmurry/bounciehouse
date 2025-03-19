@@ -2,7 +2,7 @@
   <title><%= @bouncehouse.listing_name %></title>
   <meta property="og:title" content="<%= @bouncehouse.listing_name %>" />
   <meta property="og:description" content="Rent this amazing bounce house for <%= number_to_currency(@bouncehouse.price / 100.0) %>!" />
-  <meta property="og:image" content="<%= @bouncehouse.photos.first %>" />
+  <meta property="og:image" content="<%= @bouncehouse.photos.first || 'default_image_url' %>" />
   <meta property="og:url" content="<%= bouncehouse_url(@bouncehouse) %>" />
 
   <style>
@@ -86,6 +86,10 @@
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
+        <% else %>
+          <div class="text-center">
+            <p>No photos available</p>
+          </div>
         <% end %>
       </div>
     </div>
@@ -143,7 +147,7 @@
           <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.bouncehouse_type %></div>
           <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.time_limit %></div>
           <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.pickup_type %></div>
-          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.instant %></div>
+          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.instant ? 'Instant' : 'Request' %></div>
         </div>
       </div>  
       <hr/>
@@ -205,6 +209,9 @@
             <div class="container">
               <div class="panel-body">
                 <div><%= render "reviews/guest_list" %></div>
+                <% if @guest_reviews.count == 0 %>
+                  <p>No reviews yet. Be the first to leave a review!</p>
+                <% end %>
               </div>
             </div>
           </div>
@@ -229,12 +236,12 @@
                   <div class="col-md-4">
                     <div class="panel panel-default">
                       <div class="panel-heading preview">
-                        <%= image_tag bouncehouse.cover_photo(:medium) %>
+                        <%= image_tag nearby_bouncehouse.cover_photo(:medium) %>
                       </div>
                       <div class="panel-body">
                         <div class="container">
-                          <%= link_to bouncehouse.listing_name, bouncehouse %><br/>
-                          (<%= bouncehouse.distance.round(2) %> miles away)
+                          <%= link_to nearby_bouncehouse.listing_name, bouncehouse_path(nearby_bouncehouse) %><br/>
+                          (<%= nearby_bouncehouse.distance.round(2) %> miles away)
                         </div>
                       </div>
                     </div>  

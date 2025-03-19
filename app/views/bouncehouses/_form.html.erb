@@ -9,10 +9,10 @@
         <%= form_for @bouncehouse, html: { multipart: true }, local: true do |f| %>
 
           <div class="container">
-            <div class="">
+            <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
-                  <%= f.label :bouncehouse_type, "Bounce House Type" %>
+                  <%= f.label :bouncehouse_type, "Bounce House Type", for: "bouncehouse_type" %>
                   <%= f.select :bouncehouse_type, [["Regular", "Regular"], ["Waterslide", "Waterslide"], ["Castle", "Castle"], ["Obstacle Course", "Obstacle Course"]],
                     id: "bouncehouse_type", prompt: "Select...", class: "form-control", required: true %>
                 </div>
@@ -20,7 +20,7 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <%= f.label :time_limit, "Time Limit" %>
+                  <%= f.label :time_limit, "Time Limit", for: "time_limit" %>
                   <%= f.select :time_limit, [["4hrs.", "4hrs."], ["6hrs.", "6hrs."], ["8hrs.", "8hrs."]],
                     id: "time_limit", prompt: "Select...", class: "form-control", required: true %>
                 </div>
@@ -28,7 +28,7 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <%= f.label :pickup_type, "Pickup Type" %>
+                  <%= f.label :pickup_type, "Pickup Type", for: "pickup_type" %>
                   <%= f.select :pickup_type, [["Same Day Pickup", "Same Day Pickup"], ["Next Day Pickup", "Next Day Pickup"]],
                     id: "pickup_type", prompt: "Select...", class: "form-control", required: true %>
                 </div>
@@ -36,64 +36,66 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <%= f.label :instant, "Booking Type" %>
-                  <%= f.select :instant, Bouncehouse.instants.map { |key, value| [key.humanize, key] }, prompt: "Select...", class: "form-control", required: true %>
+                  <%= f.label :instant, "Booking Type", for: "instant" %>
+                  <%= f.select :instant, Bouncehouse.instants.map { |key, value| [key.humanize, key] },
+                    { prompt: "Select...", selected: (@bouncehouse&.instant || 'request') },
+                    id: "instant", class: "form-control", required: true %>
+                </div>
+              </div>  
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :listing_name, "Listing Name", for: "listing_name" %>
+                  <%= f.text_field :listing_name, id: "listing_name", class: "form-control", required: true %>
                 </div>
               </div>
 
               <div class="col-md-12">
                 <div class="form-group">
-                  <%= f.label :listing_name, "Listing Name" %>
-                  <%= f.text_field :listing_name, class: "form-control", required: true %>
+                  <%= f.label :description, "Description", for: "description" %>
+                  <%= f.text_area :description, id: "description", class: "form-control", required: true %>
                 </div>
               </div>
 
               <div class="col-md-12">
                 <div class="form-group">
-                  <%= f.label :description, "Description" %>
-                  <%= f.text_area :description, class: "form-control", required: true %>
+                  <%= f.label :address, "Location", for: "address" %>
+                  <%= f.text_field :address, id: "address", class: "form-control", required: true %>
                 </div>
               </div>
 
               <div class="col-md-12">
                 <div class="form-group">
-                  <%= f.label :address, "Location" %>
-                  <%= f.text_field :address, class: "form-control", required: true %>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <div class="form-group">
-                  <%= f.label :price, "Price" %>
-                  <%= f.number_field :price, class: "form-control", required: true %>
+                  <%= f.label :price, "Price", for: "price" %>
+                  <%= f.number_field :price, id: "price", class: "form-control", required: true %>
                 </div>
               </div>
 
               <!-- AMENITIES -->
               <div class="col-md-12">
                 <div class="form-group">
-                  <%= f.label :amenities, "Amenities" %>
-                  <div class="">
+                  <%= f.label :amenities, "Amenities", for: "amenities" %>
+                  <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
-                        <%= f.check_box :is_heated %> <%= f.label :is_heated, "Heated" %><br>
-                        <%= f.check_box :is_slide %> <%= f.label :is_slide, "Slide" %><br>
-                        <%= f.check_box :is_waterslide %> <%= f.label :is_waterslide, "Water Slide" %>
+                        <%= f.check_box :is_heated, id: "is_heated" %> <%= f.label :is_heated, "Heated", for: "is_heated" %><br>
+                        <%= f.check_box :is_slide, id: "is_slide" %> <%= f.label :is_slide, "Slide", for: "is_slide" %><br>
+                        <%= f.check_box :is_waterslide, id: "is_waterslide" %> <%= f.label :is_waterslide, "Water Slide", for: "is_waterslide" %>
                       </div>
                     </div>
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <%= f.check_box :is_basketball_hoop %> <%= f.label :is_basketball_hoop, "Basketball Hoop" %><br>
-                        <%= f.check_box :is_lighting %> <%= f.label :is_lighting, "Lighting" %><br>
-                        <%= f.check_box :is_sprinkler %> <%= f.label :is_sprinkler, "Sprinkler" %>
+                        <%= f.check_box :is_basketball_hoop, id: "is_basketball_hoop" %> <%= f.label :is_basketball_hoop, "Basketball Hoop", for: "is_basketball_hoop" %><br>
+                        <%= f.check_box :is_lighting, id: "is_lighting" %> <%= f.label :is_lighting, "Lighting", for: "is_lighting" %><br>
+                        <%= f.check_box :is_sprinkler, id: "is_sprinkler" %> <%= f.label :is_sprinkler, "Sprinkler", for: "is_sprinkler" %>
                       </div>
                     </div>
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <%= f.check_box :is_speakers %> <%= f.label :is_speakers, "Speakers" %><br>
-                        <%= f.check_box :is_wall_climb %> <%= f.label :is_wall_climb, "Wall Climb" %>
+                        <%= f.check_box :is_speakers, id: "is_speakers" %> <%= f.label :is_speakers, "Speakers", for: "is_speakers" %><br>
+                        <%= f.check_box :is_wall_climb, id: "is_wall_climb" %> <%= f.label :is_wall_climb, "Wall Climb", for: "is_wall_climb" %>
                       </div>
                     </div>
                   </div>
@@ -103,10 +105,10 @@
               <!-- PHOTO UPLOAD -->
               <div class="col-md-12">
                 <div class="form-group">
-                  <%= f.label :photos, "Photos" %>
+                  <%= f.label :photos, "Photos", for: "photos" %>
                   <div class="btn btn-default btn-file text-babu">
                     <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Photos
-                    <%= f.file_field :photos, multiple: true, class: "form-control-file" %>
+                    <%= f.file_field :photos, id: "photos", multiple: true, class: "form-control-file" %>
                   </div>
                 </div>
               </div>
@@ -118,8 +120,8 @@
 
               <div class="col-md-12">
                 <div class="form-group">
-                  <%= f.check_box :active, class: 'form-check-input', checked: @bouncehouse.active %>
-                  <%= f.label :active, "Active", class: 'form-check-label' %>
+                  <%= f.check_box :active, id: "active", class: 'form-check-input', checked: @bouncehouse.active %>
+                  <%= f.label :active, "Active", for: "active", class: 'form-check-label' %>
                 </div>
               </div>
 

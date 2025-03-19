@@ -3,20 +3,19 @@ class BouncehousesController < ApplicationController
   before_action :authorized_user!, only: [:edit, :update, :destroy]
   before_action :find_bouncehouse, only: [:show, :edit, :update, :destroy, :preload_reservations, :preview_reservations]
 
-
   def index
     @bouncehouses = current_user.bouncehouses
   end
 
   def show
-    # @bouncehouse = Bouncehouse.find(params[:id])
     @photos = @bouncehouse.photos
     @guest_reviews = Review.where(type: "GuestReview", bouncehouse_id: @bouncehouse.id)
     @reservation = Reservation.new
   end
 
   def new
-    @bouncehouse = current_user.bouncehouses.build
+    @bouncehouse = Bouncehouse.new(instant: 'request')  # Set 'request' as the default for new bouncehouses
+    @reservation = @bouncehouse.reservations.new  # Initialize @reservation here
   end
 
   def create
@@ -29,8 +28,8 @@ class BouncehousesController < ApplicationController
         end
       end
 
-    @photos = @bouncehouse.photos
-      redirect_to bouncehouse_path(@bouncehouse), notice: "Saved..."
+      @photos = @bouncehouse.photos
+      redirect_to bouncehouse_path(@bouncehouse), notice: "Bouncehouse successfully created."
     else
       render :new
     end
@@ -58,9 +57,12 @@ class BouncehousesController < ApplicationController
   def preload_reservations
     @bouncehouse = Bouncehouse.find(params[:id])
     @reservations = @bouncehouse.reservations.where("start_date <= ? AND end_date >= ?", Date.today, Date.today)
-    
+
+    # We include special dates in the response (if applicable)
+    special_dates = @bouncehouse.special_dates
+
     respond_to do |format|
-      format.json { render json: @reservations }
+      format.json { render json: { reservations: @reservations, special_dates: special_dates } }
     end
   end
 
@@ -68,6 +70,8 @@ class BouncehousesController < ApplicationController
     @bouncehouse = Bouncehouse.find(params[:id])
     start_date = params[:start_date]
     end_date = params[:end_date]
+    
+    # Checking if there is a conflict with the reservation
     @conflict = Reservation.is_conflict(@bouncehouse, start_date, end_date)
 
     respond_to do |format|
@@ -76,12 +80,8 @@ class BouncehousesController < ApplicationController
   end
   
   def destroy
-    # if @bouncehouse
     @bouncehouse.destroy
-      redirect_to bouncehouses_url, notice: 'Deleted...'
-    # else
-      # redirect_to bouncehouses_url, alert: 'Bouncehouse not found.'
-    # end
+    redirect_to bouncehouses_url, notice: 'Bouncehouse deleted successfully.'
   end
   
   private
