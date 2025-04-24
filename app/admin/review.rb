@@ -1,6 +1,11 @@
 ActiveAdmin.register Review do
   permit_params :comment, :star, :bouncehouse_id, :guest_id, :host_id, :created_at
 
+  batch_action :destroy, confirm: "Are you sure you want to delete these reviews?" do |selection|
+      Review.where(id: selection).destroy_all
+      redirect_to collection_path, alert: "The reviews have been deleted."
+    end
+  
   index do
     selectable_column
     id_column
