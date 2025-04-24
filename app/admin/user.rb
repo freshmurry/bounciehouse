@@ -1,3 +1,5 @@
+require_dependency Rails.root.join('app', 'models', 'user').to_s
+
 ActiveAdmin.register User do
   controller do
     def create
