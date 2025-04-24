@@ -9,7 +9,7 @@ ActiveAdmin.register Review do
     column("Bouncehouse ID") { |review| review.bouncehouse_id }
     column("Guest") { |review| review.guest&.fullname }
     column("Host") { |review| review.host&.fullname }
-    column("Reservation Date", :created_at)
+    column :created_at
     actions
   end
 
@@ -21,25 +21,25 @@ ActiveAdmin.register Review do
 
   form do |f|
     f.inputs do
+      f.input :bouncehouse, as: :select, collection: Bouncehouse.all.map { |b| [b.listing_name, b.id] }, prompt: "Select Bouncehouse"
+      f.input :guest, as: :select, collection: User.all.map { |u| [u.fullname, u.id] }, prompt: "Select Guest"
+      f.input :host, as: :select, collection: User.all.map { |u| [u.fullname, u.id] }, prompt: "Select Host"
+      f.input :star, as: :select, collection: 1..5, prompt: "Select Star Rating"
       f.input :comment
-      f.input :star
-      f.input :bouncehouse_id, label: "Bouncehouse ID"
-      f.input :guest, label: "Guest", collection: User.all.map { |u| [u.fullname, u.id] }
-      f.input :host, label: "Host", collection: User.all.map { |u| [u.fullname, u.id] }
-      f.input :created_at, as: :datepicker, label: "Reservation Date"
+      f.input :created_at, as: :datepicker, label: "Review Date"
     end
     f.actions
   end
 
   show do
     attributes_table do
-      row :comment
+      row :bouncehouse
+      row("Guest") { |review| review.guest.fullname if review.guest }
+      row("Host") { |review| review.host.fullname if review.host }
       row :star
-      row("Bouncehouse ID") { |review| review.bouncehouse_id }
-      row("Guest") { |review| review.guest&.fullname }
-      row("Host") { |review| review.host&.fullname }
-      row("Reservation Date") { |review| review.created_at }
-      row :updated_at
+      row :comment
+      row :created_at
     end
+    active_admin_comments
   end
 end
