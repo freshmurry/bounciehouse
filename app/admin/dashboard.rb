@@ -75,17 +75,21 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "New Reservation Requests" do
           ul do
-            new_reservations = Reservation.where(status: 'pending').order(created_at: :desc).limit(5)
-            if new_reservations.any?
-              new_reservations.each do |reservation|
-                li do
-                  link_to("Request ##{reservation.id} - #{reservation.bouncehouse.listing_name}",
-                          Rails.application.routes.url_helpers.bouncehouse_reservation_path(reservation.bouncehouse_id, reservation)) +
-                  content_tag(:span, " - Status: #{reservation.status}", style: "margin-left: 5px;")
+            begin
+              new_reservations = Reservation.where(status: Reservation.statuses[:pending]).order(created_at: :desc).limit(5)
+              if new_reservations.any?
+                new_reservations.each do |reservation|
+                  li do
+                    link_to("Request ##{reservation.id} - #{reservation.bouncehouse&.listing_name || 'Unknown'}",
+                            Rails.application.routes.url_helpers.bouncehouse_reservation_path(reservation.bouncehouse_id, reservation)) +
+                    content_tag(:span, " - Status: #{reservation.status}", style: "margin-left: 5px;")
+                  end
                 end
+              else
+                li "No new reservation requests."
               end
-            else
-              li "No new reservation requests."
+            rescue => e
+              li "Error loading reservation requests: #{e.message}"
             end
           end
         end
