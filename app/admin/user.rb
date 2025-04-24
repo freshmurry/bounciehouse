@@ -1,6 +1,7 @@
 require_dependency Rails.root.join('app', 'models', 'user').to_s
 
 ActiveAdmin.register User do
+  config.batch_actions = true
   controller do
     def create
       # Allow for creation without email and password
@@ -23,7 +24,18 @@ ActiveAdmin.register User do
     end
     permitted
   end
+  
+  batch_action :destroy_bots, confirm: "Are you sure you want to delete selected bot users?" do |selection|
+    users = User.where(id: selection)
 
+    # Custom logic to detect bots — adjust this to your real criteria
+    bot_users = users.select { |u| u.email.blank? && u.fullname.downcase.include?("bot") }
+
+    bot_users.each(&:destroy)
+
+    redirect_to collection_path, notice: "#{bot_users.count} bot users deleted."
+  end
+  
   index do
     selectable_column
     id_column
