@@ -1,7 +1,22 @@
 require_dependency Rails.root.join('app', 'models', 'user').to_s
 
 ActiveAdmin.register User do
+  # Enable batch actions
   config.batch_actions = true
+
+  # Define a custom batch action for deleting users
+  batch_action :destroy, confirm: "Are you sure you want to delete these users?" do |selection|
+    User.where(id: selection).destroy_all
+    redirect_to collection_path, notice: "Successfully deleted #{selection.count} users."
+  end
+
+  # Permit additional parameters
+  permit_params do
+    permitted = [:fullname, :email, :image, :enable_email, :phone_number, :address, :pin, :phone_verified]
+    permitted << :password if params[:user]&.[](:password).present?
+    permitted
+  end
+  
   controller do
     def create
       # Allow for creation without email and password
@@ -25,14 +40,9 @@ ActiveAdmin.register User do
     permitted
   end
   
-  batch_action :destroy_bots, confirm: "Are you sure you want to delete selected bot users?" do |selection|
-    users = User.where(id: selection)
-
-    # Custom logic to detect bots — adjust this to your real criteria
-    bot_users = users.select { |u| u.email.blank? && u.fullname.downcase.include?("bot") }
-
-    bot_users.each(&:destroy)
-
+  # Batch action to delete users
+  batch_action :destroy, confirm: "Are you sure you want to delete these users?" do |selection|
+    User.where(id: selection).destroy_all
     redirect_to collection_path, notice: "#{bot_users.count} bot users deleted."
   end
   
@@ -44,6 +54,10 @@ ActiveAdmin.register User do
     end
     column :fullname
     column :email
+    column :phone_number
+    column :address
+    column :pin
+    column :phone_verified
     column :last_sign_in_at # Display last sign-in time
     column :created_at
     actions
@@ -52,6 +66,9 @@ ActiveAdmin.register User do
   filter :image
   filter :fullname
   filter :email
+  filter :phone_number
+  filter :address
+  filter :phone_verified
   filter :last_sign_in_at # Add filter for last sign-in time
   filter :created_at
 
@@ -60,6 +77,10 @@ ActiveAdmin.register User do
       f.input :fullname
       f.input :email, hint: "Optional - Leave blank if you don't want to provide an email"
       f.input :password, input_html: { autocomplete: "password" }, hint: "Leave blank if you don't want to change it"
+      f.input :phone_number
+      f.input :address
+      f.input :pin
+      f.input :phone_verified
       f.input :image, as: :file, hint: image_tag(f.object.image.url(:thumb))
     end
     f.actions
@@ -72,7 +93,11 @@ ActiveAdmin.register User do
       end
       row :fullname
       row :email
-      row :last_sign_in_at # Display last sign-in time
+      row :phone_number
+      row :address
+      row :pin
+      row :phone_verified
+      row :last_sign_in_at
       row :created_at
       row :updated_at
     end
