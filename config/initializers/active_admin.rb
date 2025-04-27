@@ -140,12 +140,6 @@ ActiveAdmin.setup do |config|
   #
   config.batch_actions = true
 
-  batch_action :destroy, confirm: "Are you sure you want to delete the selected users?" do |ids|
-    AdminUser.where(id: ids).destroy_all
-    flash[:notice] = "Selected users have been deleted."
-    redirect_to collection_path
-  end
-
   # == Controller Filters
   #
   # You can add before, after and around filters to all of your
