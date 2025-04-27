@@ -4,7 +4,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Bouncie House"
+  config.site_title = "BouncieHouse"
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -140,6 +140,12 @@ ActiveAdmin.setup do |config|
   #
   config.batch_actions = true
 
+  batch_action :destroy, confirm: "Are you sure you want to delete the selected users?" do |ids|
+    AdminUser.where(id: ids).destroy_all
+    flash[:notice] = "Selected users have been deleted."
+    redirect_to collection_path
+  end
+
   # == Controller Filters
   #
   # You can add before, after and around filters to all of your
@@ -268,7 +274,7 @@ ActiveAdmin.setup do |config|
   # hand side with a filter for each attribute of the registered model.
   # You can enable or disable them for all resources here.
   #
-  # config.filters = true
+  config.filters = true
   #
   # By default the filters include associations in a select, which means
   # that every record will be loaded for each association.
