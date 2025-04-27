@@ -50,23 +50,53 @@ ActiveAdmin.register User do
     f.actions
   end
 
+  # Show page configuration
   show do
     attributes_table do
-      row :image do
-        image_tag resource.image.url(:medium) if resource.image.present?
-      end
-      row :fullname
       row :email
-      row :phone_number
-      row :address
-      row :pin
-      row :phone_verified
-      row :last_sign_in_at
-      row :created_at
-      row :updated_at
+      row :description
+      row :profile_image do
+        if resource.profile_image.present?
+          image_tag resource.profile_image.url(:medium)
+        else
+          "No profile image"
+        end
+      end
     end
     active_admin_comments
+  end
 
+  # Controller customization
+  controller do
+    def update
+      # If no password is being updated, skip password validation
+      if password_update_required?
+        unless resource.valid_password?(params[:admin_user][:current_password])
+          flash[:error] = "Current password is incorrect."
+          redirect_back fallback_location: edit_admin_admin_user_path(resource) and return
+        end
+      end
+
+      # Update the resource with the permitted parameters
+      if resource.update(admin_user_params)
+        flash[:notice] = "Admin user updated successfully."
+        redirect_to admin_admin_user_path(resource)
+      else
+        render :edit
+      end
+    end
+
+    private
+
+    # Check if password update is being requested
+    def password_update_required?
+      params[:admin_user][:password].present? || params[:admin_user][:password_confirmation].present?
+    end
+
+    def admin_user_params
+      params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation, :current_password)
+    end
+    
     panel "Actions" do
       link_to "List a Bouncehouse", new_admin_bouncehouse_path(user_id: resource.id)
     end
