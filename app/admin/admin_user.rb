@@ -1,7 +1,6 @@
 ActiveAdmin.register AdminUser do
-  actions :all, except: [:destroy] # ✅ Disable delete action globally
+  actions :all, except: [:destroy]
 
-  # Permit parameters
   permit_params :email, :description, :profile_image, :password, :password_confirmation, :current_password
 
   # Index page configuration
@@ -33,9 +32,8 @@ ActiveAdmin.register AdminUser do
     f.inputs 'Admin User Details' do
       f.input :email
       f.input :description
-
-      # Image uploader for profile image
       f.input :profile_image, as: :file, hint: f.object.profile_image.present? ? image_tag(f.object.profile_image.url(:thumb), size: '100x100') : 'No profile image'
+      f.input :current_password, as: :password, required: false, hint: 'Required to change password'
       f.input :password, required: false, hint: 'Leave blank if you do not want to change the password'
       f.input :password_confirmation, required: false, hint: 'Leave blank if you do not want to change the password'
     end
@@ -43,13 +41,13 @@ ActiveAdmin.register AdminUser do
   end
 
   # Show page configuration
-  show do |user|
+  show do
     attributes_table do
       row :email
       row :description
       row :profile_image do
-        if user.profile_image.present?
-          image_tag user.profile_image.url(:medium)
+        if resource.profile_image.present?
+          image_tag resource.profile_image.url(:medium)
         else
           "No profile image"
         end
@@ -61,19 +59,18 @@ ActiveAdmin.register AdminUser do
   # Controller customization
   controller do
     def update
-      @admin_user = AdminUser.find(params[:id])
-
-      # Check for password update
-      if params[:admin_user][:password].present? || params[:admin_user][:password_confirmation].present?
-        if params[:admin_user][:current_password].blank?
-          flash[:error] = "Current password must be provided to update the password."
-          render :edit and return
+      # If no password is being updated, skip password validation
+      if password_update_required?
+        unless resource.valid_password?(params[:admin_user][:current_password])
+          flash[:error] = "Current password is incorrect."
+          redirect_back fallback_location: edit_admin_admin_user_path(resource) and return
         end
       end
 
-      if @admin_user.update(admin_user_params)
+      # Update the resource with the permitted parameters
+      if resource.update(admin_user_params)
         flash[:notice] = "Admin user updated successfully."
-        redirect_to admin_admin_user_path(@admin_user)
+        redirect_to admin_admin_user_path(resource)
       else
         render :edit
       end
@@ -81,8 +78,13 @@ ActiveAdmin.register AdminUser do
 
     private
 
+    # Check if password update is being requested
+    def password_update_required?
+      params[:admin_user][:password].present? || params[:admin_user][:password_confirmation].present?
+    end
+
     def admin_user_params
-      params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation)
+      params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation, :current_password)
     end
   end
 end
