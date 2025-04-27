@@ -1,13 +1,22 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-
-  authenticated :admin_user do
-    root to: "admin/dashboard#index", as: :authenticated_admin_root
-  end
-
   # ROOT ROUTE
   root "pages#home"
+
+  # DEVISE ROUTES FOR USER AUTHENTICATION
+  devise_for :users,
+    path: '',
+    path_names: { sign_in: 'login', sign_out: 'logout', edit: 'profile', sign_up: 'registration' },
+    controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
+
+  # USER RESOURCES WITH PHONE NUMBER MANAGEMENT
+  resources :users, only: [:show] do
+    member do
+      post '/verify_phone_number', to: 'users#verify_phone_number'
+      patch '/update_phone_number', to: 'users#update_phone_number'
+    end
+  end
 
   # STATIC PAGES
   get 'about', to: 'pages#about'
@@ -17,25 +26,6 @@ Rails.application.routes.draw do
   get 'blog', to: 'pages#blog'
   get 'careers', to: 'pages#careers'
   get 'support', to: 'pages#support'
-
-  # DEVISE ROUTES FOR USER AUTHENTICATION
-  devise_for :users,
-             path: '',
-             path_names: { sign_in: 'login', sign_out: 'logout', edit: 'profile', sign_up: 'registration' },
-             controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
-
-  # OMNIAUTH AND SESSION MANAGEMENT
-  get '/auth/:provider/callback', to: 'sessions#create'
-  get '/auth/failure', to: redirect('/')
-  delete '/logout', to: 'sessions#destroy'
-
-  # USER RESOURCES WITH PHONE NUMBER MANAGEMENT
-  resources :users, only: [:show] do
-    member do
-      post '/verify_phone_number', to: 'users#verify_phone_number'
-      patch '/update_phone_number', to: 'users#update_phone_number'
-    end
-  end
 
   # BOUNCEHOUSES MANAGEMENT
   resources :bouncehouses do
@@ -87,9 +77,11 @@ Rails.application.routes.draw do
   get '/payout_method', to: 'users#payout'
   post '/add_card', to: 'users#add_card'
 
-  get '/notification_settings', to: 'settings#edit'
-  post '/notification_settings', to: 'settings#update'
-  delete '/notification_settings', to: 'settings#destroy'
+  # get '/notification_settings', to: 'settings#edit'
+  # post '/notification_settings', to: 'settings#update'
+  # delete '/notification_settings', to: 'settings#destroy'
+  resource :notification_settings, only: [:edit, :update, :destroy]
+
 
   get '/notifications', to: 'notifications#index'
 
