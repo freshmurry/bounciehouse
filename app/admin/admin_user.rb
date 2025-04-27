@@ -1,5 +1,5 @@
 ActiveAdmin.register AdminUser do
-  actions :all, except: [:destroy]
+  actions :all, except: [:destroy]  # You can keep "except: [:destroy]" because batch action will handle deletion
 
   permit_params :email, :description, :profile_image, :password, :password_confirmation, :current_password
 
@@ -86,5 +86,14 @@ ActiveAdmin.register AdminUser do
     def admin_user_params
       params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation, :current_password)
     end
+  end
+
+  # Add batch action to delete users
+  batch_action :destroy, confirm: "Are you sure you want to delete the selected users?" do |ids|
+    AdminUser.find(ids).each do |admin_user|
+      admin_user.destroy
+    end
+    flash[:notice] = "Selected users have been deleted."
+    redirect_to collection_path
   end
 end
