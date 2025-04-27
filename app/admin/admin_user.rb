@@ -1,6 +1,4 @@
 ActiveAdmin.register AdminUser do
-  actions :all, except: [:destroy]  # You can keep "except: [:destroy]" because batch action will handle deletion
-
   permit_params :email, :description, :profile_image, :password, :password_confirmation, :current_password
 
   # Index page configuration
