@@ -298,7 +298,7 @@ GEM
       mime-types
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
-    pg (0.20.0)
+    pg (1.5.9)
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
@@ -471,7 +471,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-stripe-connect (~> 2.10.0)
   paperclip
-  pg (~> 0.20.0)
+  pg (~> 1.1)
   puma
   rails (= 7.0.8)
   rails-assets-card!
