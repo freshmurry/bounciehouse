@@ -85,3 +85,4 @@ ActiveAdmin.register AdminUser do
       params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation, :current_password)
     end
   end
+end
