@@ -12,7 +12,7 @@ ActiveAdmin.register User do
   filter :phone_verified
   filter :last_sign_in_at
   filter :created_at
-  
+
   batch_action :destroy, confirm: "Are you sure you want to delete the selected users?" do |ids|
     batch_action_collection.where(id: ids).destroy_all
     flash[:notice] = "Selected users have been deleted."
@@ -54,15 +54,24 @@ ActiveAdmin.register User do
   show do
     attributes_table do
       row :email
-      row :description
-      row :profile_image do
-        if resource.profile_image.present?
-          image_tag resource.profile_image.url(:medium)
+      row :fullname
+      row :phone_number
+      row :address
+      row :pin
+      row :phone_verified
+      row :image do
+        if resource.image.present?
+          image_tag resource.image.url(:medium)
         else
           "No profile image"
         end
       end
     end
+
+    panel "Actions" do
+      para link_to("List a Bouncehouse", new_admin_bouncehouse_path(user_id: resource.id))
+    end
+
     active_admin_comments
   end
 
@@ -95,10 +104,6 @@ ActiveAdmin.register User do
 
     def admin_user_params
       params.require(:admin_user).permit(:email, :description, :profile_image, :password, :password_confirmation, :current_password)
-    end
-    
-    panel "Actions" do
-      link_to "List a Bouncehouse", new_admin_bouncehouse_path(user_id: resource.id)
     end
   end
 end
