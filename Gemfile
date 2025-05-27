@@ -16,6 +16,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'delayed_job'
 gem 'rails-assets-jquery', :source => 'https://rails-assets.org/'
 gem 'activeadmin'
+gem 'redis', '~> 4.0'
 
 group :development, :test do
   gem 'byebug', '>= 4.2.6', platform: :mri
