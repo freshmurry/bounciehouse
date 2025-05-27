@@ -46,6 +46,7 @@ gem 'ransack'
 gem 'puma'
 gem 'figaro'
 gem 'groupdate'
+gem 'concurrent-ruby', '1.3.4'
 
 group :production do
   gem 'pg', '~> 1.1'
