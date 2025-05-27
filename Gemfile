@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
-ruby '3.2.2'
+ruby '3.1.4'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 6.1.7'
-gem 'sass-rails', '~> 5.0'
+# gem 'rails', '~> 6.1.7'
+gem 'rails', '7.0.8'
+gem 'sass-rails', '>= 6'
 gem 'uglifier', '>= 4.0.2'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
