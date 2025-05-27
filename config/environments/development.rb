@@ -68,7 +68,7 @@ Rails.application.configure do
   
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   
-  config.web_console.whitelisted_ips = '10.0.2.2'
+  config.web_console.allowed_ips = '10.0.2.2'
   
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
