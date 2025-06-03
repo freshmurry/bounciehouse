@@ -4,7 +4,7 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading preview">
-            <%= image_tag photo.image.url(), alt: "Photo", class: "img-responsive" %>
+            <%= image_tag photo.image.url, skip_pipeline: true %>
           </div>
 
           <div class="panel-body">
