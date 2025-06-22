@@ -2,24 +2,7 @@ require 'net/http'
 
 module ApplicationHelper
   def image(user)
-<<<<<<< HEAD
-    if user.email.present?
-      gravatar_id = Digest::MD5.hexdigest(user.email).downcase
-      gravatar_url = "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=404&s=150"
-
-      if gravatar_exists?(gravatar_url)
-        gravatar_url
-      elsif user.image.present?
-        user.image.url
-      else
-        'blank.jpg'
-      end
-    else
-      'blank.jpg'
-    end
-=======
     user.image.attached? ? url_for(user.image) : "blank.jpg"
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   end
 
   private

@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-<% if @photos %>
-  <div class="">
-    <% @bouncehouse.photos.each do |photo| %>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading preview">
-            <%= image_tag photo.image.url, skip_pipeline: true %>
-          </div>
-
-          <div class="panel-body">
-            <div class="container"> 
-              <span class="pull-right">
-                <%= link_to bouncehouse_photo_path(photo.bouncehouse_id, photo), method: :delete, data: {confirm: "Are you sure?"} do %>
-                  <i class="fa fa-trash fa-lg"></i>
-                <% end %>
-              </span>
-            </div> 
-          </div>
-        </div>
-=======
 <% if @bouncehouse.photos.present? %>
   <div class="">
     <% @bouncehouse.photos.each do |photo| %>
@@ -29,14 +8,9 @@
         <%= link_to bouncehouse_photo_path(@bouncehouse, photo), method: :delete, data: { confirm: "Are you sure?" }, class: "rounded-circle d-flex align-items-center justify-content-center", style: "position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; z-index: 2;" do %>
           <i class="fas fa-times-circle fa-lg"></i>
         <% end %>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
       </div>
     <% end %>
   </div>
 <% else %>
   <p>No photos available.</p>
-<<<<<<< HEAD
 <% end %>
-=======
-<% end %>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)

@@ -1,11 +1,6 @@
 <% bouncehouses.each do |bouncehouse| %>
   <div class="col-md-3">
     <div class="">
-<<<<<<< HEAD
-      <div class="panel-heading preview">
-        <!-- <= link_to image_tag(bouncehouse.cover_photo(:medium)), bouncehouse %> -->
-        <%= image_tag CGI.escape(bouncehouse.photos[0].image.url(:medium)) if bouncehouse.photos.length > 0 %>
-=======
       <div class="panel-heading preview" style="position: relative; padding: 0;">
         <% if bouncehouse %>
           <%= link_to bouncehouse do %>
@@ -25,7 +20,6 @@
             </div>
           <% end %>
         <% end %>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
       </div>
       <div class="panel-body">
         <div class="container">
@@ -39,10 +33,6 @@
     </div>
   </div>
   
-<<<<<<< HEAD
-  
-=======
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   <script>
     $('#star_<%= bouncehouse.id %>').raty({
       path: '/assets',

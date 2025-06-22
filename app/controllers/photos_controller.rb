@@ -1,34 +1,10 @@
 class PhotosController < ApplicationController
-<<<<<<< HEAD
-  before_action :set_bouncehouse, only: [:create, :destroy]
-
-  def create
-    if params[:bouncehouse][:photos].present?
-      params[:bouncehouse][:photos].each do |photo_file|
-        @bouncehouse.photos.create(photo_params.merge(image: photo_file)) # Use strong parameters
-      end
-      redirect_to @bouncehouse, notice: 'Photos were successfully uploaded.'
-    else
-      redirect_to @bouncehouse, alert: 'No photos uploaded.'
-    end
-  end
-
-  def destroy
-    @photo = @bouncehouse.photos.find(params[:id])
-    @photo.destroy
-    
-    respond_to do |format|
-      format.html { redirect_to edit_bouncehouse_path(@bouncehouse), notice: 'Photo was successfully deleted.' }
-      format.js   # This will render destroy.js.erb
-    end
-=======
   before_action :set_bouncehouse
 
   def destroy
     photo = @bouncehouse.photos.find(params[:id])
     photo.purge
     redirect_to edit_bouncehouse_path(@bouncehouse), notice: "Photo deleted."
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   end
 
   private
@@ -36,12 +12,4 @@ class PhotosController < ApplicationController
   def set_bouncehouse
     @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
   end
-<<<<<<< HEAD
-
-  def photo_params
-    params.require(:photo).permit(:image) # Use strong parameters for additional security
-  end
 end
-=======
-end
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)

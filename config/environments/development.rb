@@ -68,22 +68,16 @@ Rails.application.configure do
   
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   
-<<<<<<< HEAD
-=======
   config.active_storage.service = :local
   config.active_storage.variant_processor = :mini_magick
 
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   config.web_console.allowed_ips = '10.0.2.2'
   
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-<<<<<<< HEAD
-=======
   config.action_cable.mount_path = '/cable'
   config.action_cable.url = 'ws://localhost:3000/cable'
 
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   # Mailgun Integration

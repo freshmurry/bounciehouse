@@ -17,11 +17,8 @@ class ReservationsController < ApplicationController
   end
   
   def create
-<<<<<<< HEAD
-=======
     set_bouncehouse # Ensure @bouncehouse is set
 
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     if current_user == @bouncehouse.user
       flash[:alert] = "You cannot book your own Bouncehouse!"
       redirect_to @bouncehouse and return
@@ -92,21 +89,12 @@ class ReservationsController < ApplicationController
       customer = Stripe::Customer.retrieve(reservation.user.stripe_id)
       charge = Stripe::Charge.create(
         customer: customer.id,
-<<<<<<< HEAD
-        amount: reservation.total * 100,
-        description: bouncehouse.listing_name,
-        currency: "usd",
-        destination: {
-          amount: reservation.total * 95, # 95% of the total amount goes to the Host, 5% is company fee
-          account: bouncehouse.user.merchant_id # bouncehouse's Stripe customer ID
-=======
         amount: (reservation.total * 100).to_i,
         description: bouncehouse.listing_name,
         currency: "usd",
         destination: {
           amount: (reservation.total * 0.85 * 100).to_i, # 85% of the total amount in cents
           account: bouncehouse.user.merchant_id
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
         }
       )
 

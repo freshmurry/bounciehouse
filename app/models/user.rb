@@ -1,10 +1,5 @@
 class User < ApplicationRecord
-<<<<<<< HEAD
-  has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: 'blank.jpg'
-  validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
-=======
   has_one_attached :image
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 
   # Devise modules
   devise :database_authenticatable, :registerable,
@@ -21,11 +16,8 @@ class User < ApplicationRecord
   has_many :host_reviews, class_name: "HostReview", foreign_key: "host_id"
   has_many :notifications
   has_one :setting, dependent: :destroy
-<<<<<<< HEAD
-=======
   has_many :favorites
   has_many :favorite_bouncehouses, through: :favorites, source: :bouncehouse
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 
   # Callbacks
   after_create :add_setting
