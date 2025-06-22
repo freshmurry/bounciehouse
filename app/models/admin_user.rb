@@ -2,7 +2,6 @@ class AdminUser < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # has_attached_file :profile_image, styles: { medium: "300x300>", thumb: "100x100>" }
   has_one_attached :profile_image
   # validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\z/
   validates_acceptance_of :profile_image, allow_blank: true
