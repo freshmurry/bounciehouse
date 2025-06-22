@@ -313,6 +313,8 @@ GEM
     pg (1.5.9)
     pg (1.5.9-x64-mingw-ucrt)
     public_suffix (6.0.2)
+    puma (6.6.0)
+      nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.17)
     rack-test (2.2.0)
@@ -500,6 +502,7 @@ DEPENDENCIES
   omniauth-stripe-connect (~> 2.10.0)
   paperclip (~> 5.1.0)
   pg (~> 1.1)
+  puma
   rails (= 7.0.8)
   rails-assets-jquery
   rails_12factor
