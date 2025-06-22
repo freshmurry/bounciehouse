@@ -5,7 +5,11 @@
       <div class="panel-heading">
         <%= @bouncehouse.new_record? ? "Create Your Listing" : "Edit Your Listing" %>
       </div>
+<<<<<<< HEAD
       <div class="panel-body">
+=======
+      <div class="">
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
         <%= form_for @bouncehouse, html: { multipart: true }, local: true do |f| %>
 
           <div class="container">
@@ -37,8 +41,13 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <%= f.label :instant, "Booking Type", for: "instant" %>
+<<<<<<< HEAD
                   <%= f.select :instant, Bouncehouse.instants.map { |key, value| [key.humanize, key] },
                     { prompt: "Select...", selected: (@bouncehouse&.instant || 'request') },
+=======
+                  <%= f.select :instant, Bouncehouse.instants.keys.map { |key| [key.humanize, key] },
+                    { prompt: "Select...", selected: (@bouncehouse&.instant.presence || 'request') },
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
                     id: "instant", class: "form-control", required: true %>
                 </div>
               </div>  
@@ -72,10 +81,17 @@
               </div>
 
               <!-- AMENITIES -->
+<<<<<<< HEAD
               <div class="col-md-12">
                 <div class="form-group">
                   <%= f.label :amenities, "Amenities", for: "amenities" %>
                   <div class="row">
+=======
+              <div class="">
+                <div class="form-group">
+                  <%= f.label :amenities, "Amenities", for: "amenities" %>
+                  <div class="">
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
                     <div class="col-md-4">
                       <div class="form-group">
                         <%= f.check_box :is_heated, id: "is_heated" %> <%= f.label :is_heated, "Heated", for: "is_heated" %><br>
@@ -108,15 +124,27 @@
                   <%= f.label :photos, "Photos", for: "photos" %>
                   <div class="btn btn-default btn-file text-babu">
                     <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Photos
+<<<<<<< HEAD
                     <%= f.file_field :photos, id: "photos", multiple: true, class: "form-control-file" %>
                   </div>
+=======
+                    <%= f.file_field :photos, multiple: true, direct_upload: true, class: "form-control-file", id: "photos" %>
+                  </div>
+                  <!-- Hidden input to store the order -->
+                  <input type="hidden" name="photo_order" id="photo_order" />
+                  <div id="photo-preview" class="d-flex flex-wrap mt-2"></div>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
                 </div>
               </div>
 
               <!-- PHOTOS LIST -->
+<<<<<<< HEAD
               <div id="photos">
                 <%= render 'bouncehouses/photos_list' %>
               </div>
+=======
+              <%= render 'bouncehouses/photos_list' %>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 
               <div class="col-md-12">
                 <div class="form-group">
@@ -143,3 +171,72 @@
     <br><br/>
   </div>
 </div>
+<<<<<<< HEAD
+=======
+
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const input = document.getElementById("photos");
+    const preview = document.getElementById("photo-preview");
+    let filesArray = [];
+
+    if (input) {
+      input.addEventListener("change", function(event) {
+        preview.innerHTML = "";
+        filesArray = Array.from(event.target.files);
+
+        filesArray.forEach((file, idx) => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const imgWrapper = document.createElement("div");
+            imgWrapper.className = "m-1";
+            imgWrapper.setAttribute("data-index", idx);
+
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.className = "img-thumbnail";
+            img.style.height = "60px";
+            imgWrapper.appendChild(img);
+
+            preview.appendChild(imgWrapper);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    }
+  });
+
+  document.addEventListener("turbo:load", function() {
+    const input = document.getElementById("photos");
+    const preview = document.getElementById("photo-preview");
+    let filesArray = [];
+
+    if (input) {
+      input.addEventListener("change", function(event) {
+        preview.innerHTML = "";
+        filesArray = Array.from(event.target.files);
+
+        filesArray.forEach((file, idx) => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const imgWrapper = document.createElement("div");
+            imgWrapper.className = "m-1";
+            imgWrapper.setAttribute("data-index", idx);
+
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.className = "img-thumbnail";
+            img.style.height = "60px";
+            imgWrapper.appendChild(img);
+
+            preview.appendChild(imgWrapper);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    }
+  });
+</script>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)

@@ -51,6 +51,10 @@ Rails.application.routes.draw do
     resources :photos, only: [:create, :destroy]
     resources :calendars
     resources :guest_reviews, only: [:create, :destroy]
+<<<<<<< HEAD
+=======
+    resource :favorite, only: [:create, :destroy]
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   end
 
   # HOST REVIEWS

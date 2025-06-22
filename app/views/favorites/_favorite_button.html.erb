@@ -1,0 +1,10 @@
+<!-- filepath: app/views/favorites/_favorite_button.html.erb -->
+<% if user_signed_in? && bouncehouse.user_id != current_user.id %>
+  <div class="absolute top-2 right-2 z-10">
+    <% if current_user.favorite_bouncehouses.include?(bouncehouse) %>
+      <%= button_to "♥", bouncehouse_favorite_path(bouncehouse), method: :delete, form: { data: { turbo_stream: true } }, class: "btn btn-link text-danger p-0 m-0", title: "Remove from favorites" %>
+    <% else %>
+      <%= button_to "♡", bouncehouse_favorite_path(bouncehouse), method: :post, form: { data: { turbo_stream: true } }, class: "btn btn-link text-white p-0 m-0", title: "Add to favorites" %>
+    <% end %>
+  </div>
+<% end %>

@@ -5,9 +5,18 @@
 //= require_self
 //= require_tree ./channels
 
+<<<<<<< HEAD
 (function() {
   this.App || (this.App = {});
 
   App.cable = ActionCable.createConsumer();
 
 }).call(this);
+=======
+  (function() {
+    this.App || (this.App = {});
+  
+    App.cable = ActionCable.createConsumer();
+  
+  }).call(this);
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)

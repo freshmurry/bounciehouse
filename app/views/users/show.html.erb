@@ -1,7 +1,11 @@
 <div class="row">
   <div class="col-md-3">
     <div class="center">
+<<<<<<< HEAD
       <%= image_tag @user.image.url, class: "avatar-full" %>
+=======
+      <%= image_tag image(@user), class: "avatar-full" %>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
       <% if current_user && current_user != @user %>
         <%= link_to "Send Message", conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: :post, class: "btn btn-default" %>
       <% end %>

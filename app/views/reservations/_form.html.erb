@@ -19,7 +19,11 @@
             </div>
             <div class="col-md-12">
               <label>End Date</label>
+<<<<<<< HEAD
               <%= f.text_field :end_date, readonly: true, placeholder: "End Date", class: "form-control datepicker", id: "reservation_end_date" %>
+=======
+              <%= f.text_field :end_date, readonly: true, placeholder: "Pick-Up Date", class: "form-control datepicker", id: "reservation_end_date" %>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
             </div>
           </div>
         </div>
@@ -59,7 +63,11 @@
               </tr>
             </tbody>
           </table>
+<<<<<<< HEAD
           <h6>*All bookings are subject to a 5% booking fee</h6>
+=======
+          <h6>*All bookings are subject to a 15% booking fee</h6>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
         </div>
         <br/>
         <% if @bouncehouse.instant? %>
@@ -139,8 +147,13 @@
               $('#special_details').hide();
             }
 
+<<<<<<< HEAD
             // Calculate and display the booking fee (5% of total)
             var bookingFee = total * 0.05;
+=======
+            // Calculate and display the booking fee (15% of total)
+            var bookingFee = total * 0.15;
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
             $('#reservation_price_booking_fee').text(bookingFee.toFixed(2));
 
             // Update reservation details

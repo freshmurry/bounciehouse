@@ -11,12 +11,28 @@ gem 'sass-rails', '>= 6'
 gem 'uglifier', '>= 4.0.2'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
+<<<<<<< HEAD
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'delayed_job'
 gem 'rails-assets-jquery', :source => 'https://rails-assets.org/'
 gem 'activeadmin'
 gem 'redis', '~> 4.0'
+=======
+gem 'rails-assets-jquery'
+gem 'turbolinks', '~> 5'
+gem 'jbuilder', '~> 2.5'
+gem 'delayed_job'
+gem 'activeadmin'
+gem 'redis', '~> 4.0'
+gem 'paperclip', '~> 5.1.0' do
+  gem 'mimemagic', '~> 0.3.5'
+end
+gem 'image_processing', '~> 1.2'
+gem 'tailwindcss-rails', '~> 2.0'
+gem 'turbo-rails'
+gem 'importmap-rails'
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 
 group :development, :test do
   gem 'byebug', '>= 4.2.6', platform: :mri
@@ -39,7 +55,11 @@ gem "devise", ">= 4.6.0"
 gem 'toastr-rails', '~> 1.0'
 gem 'omniauth', '~> 1.6'
 gem 'omniauth-facebook', '~> 4.0'
+<<<<<<< HEAD
 gem 'paperclip'
+=======
+gem 'carrierwave'
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 gem 'aws-sdk-s3'
 gem 'geocoder', '~> 1.8'
 gem 'jquery-ui-rails', '~> 5.0'
@@ -48,6 +68,10 @@ gem 'puma'
 gem 'figaro'
 gem 'groupdate'
 gem 'concurrent-ruby', '1.3.4'
+<<<<<<< HEAD
+=======
+gem 'wdm' if Gem.win_platform?
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 
 group :production do
   gem 'pg', '~> 1.1'
@@ -63,13 +87,20 @@ end
 
 gem 'capistrano'
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 #----  AirKONG  -------
 gem 'twilio-ruby', '~> 4.11.1'
 gem 'fullcalendar-rails', '~> 3.4.0'
 gem 'momentjs-rails', '~> 2.17.1'
 gem 'stripe', '~> 3.0.0'
+<<<<<<< HEAD
 gem 'rails-assets-card', source: 'https://rails-assets.org'
+=======
+# gem 'rails-assets-card'
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 gem 'omniauth-stripe-connect', '~> 2.10.0'
 gem "chartkick", '>= 3.2.0'
 gem 'omniauth-google-oauth2'

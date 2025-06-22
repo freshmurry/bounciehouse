@@ -23,4 +23,10 @@
 //= require Chart.bundle
 //= require chartkick
 //= require cable
+<<<<<<< HEAD
+=======
+//= require rails-ujs
+//= require turbolinks
+//= require activestorage
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 //= require_tree .

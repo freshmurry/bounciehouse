@@ -1,7 +1,15 @@
 <div class="row">
   <div class="col-md-3">
     <div class="center">
+<<<<<<< HEAD
       <%= image_tag current_user.image, class: "avatar-full" %>
+=======
+      <% if current_user.image.present? %>
+        <%= image_tag image(current_user), class: "avatar-full" %>
+      <% else %>
+        <%= image_tag "blank.jpg", class: "avatar-full" %>
+      <% end %>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     </div>
     <div class="panel panel-default">
       <div class="panel-heading"><%= current_user.fullname %></div>
@@ -59,4 +67,19 @@
       </div>
     </div>
 
+<<<<<<< HEAD
+=======
+    <!-- FAVORITES  -->
+    <div class="panel panel-default">
+      <div class="panel-heading">Favorites (<%= @favorite_bouncehouses.present? ? @favorite_bouncehouses.length : 0 %>)</div>
+      <div class="panel-body">
+        <div class="container">
+          <% (@favorite_bouncehouses || []).each do |bouncehouse| %>
+            <%= render 'bouncehouses/bouncehouse', bouncehouse: bouncehouse %>
+          <% end %>
+        </div>  
+      </div>
+    </div>
+
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 </div>

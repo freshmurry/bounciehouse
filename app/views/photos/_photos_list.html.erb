@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 <% if @bouncehouse.photos.present? %>
+=======
+<% if @bouncehouse.photos.attached? %>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   <div class="row">
     <% @bouncehouse.photos.each do |photo| %>
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading preview">
+<<<<<<< HEAD
             <%= image_tag photo.image.url, alt: "Photo", class: "img-responsive" %>
+=======
+            <%= image_tag url_for(photo), alt: "Photo", class: "img-responsive" %>
+>>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
           </div>
 
           <div class="panel-body">
