@@ -1,14 +1,4 @@
 GEM
-<<<<<<< HEAD
-  remote: https://rails-assets.org/
-  specs:
-    rails-assets-card (2.4.0)
-      rails-assets-jquery (>= 1.5)
-    rails-assets-jquery (3.7.1)
-
-GEM
-=======
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   remote: https://rubygems.org/
   specs:
     actioncable (7.0.8)
@@ -95,35 +85,15 @@ GEM
       ruby2_keywords (>= 0.0.2)
     autoprefixer-rails (10.4.21.0)
       execjs (~> 2)
-<<<<<<< HEAD
-    aws-eventstream (1.3.2)
-    aws-partitions (1.1107.0)
-    aws-sdk-core (3.224.0)
-=======
     aws-eventstream (1.4.0)
     aws-partitions (1.1119.0)
     aws-sdk-core (3.226.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
       base64
       jmespath (~> 1, >= 1.6.1)
       logger
-<<<<<<< HEAD
-    aws-sdk-kms (1.101.0)
-      aws-sdk-core (~> 3, >= 3.216.0)
-      aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.186.1)
-      aws-sdk-core (~> 3, >= 3.216.0)
-      aws-sdk-kms (~> 1)
-      aws-sigv4 (~> 1.5)
-    aws-sigv4 (1.11.0)
-      aws-eventstream (~> 1, >= 1.0.2)
-    base64 (0.2.0)
-    bcrypt (3.1.20)
-    bigdecimal (3.1.9)
-=======
     aws-sdk-kms (1.105.0)
       aws-sdk-core (~> 3, >= 3.225.0)
       aws-sigv4 (~> 1.5)
@@ -137,7 +107,6 @@ GEM
     bcrypt (3.1.20)
     benchmark (0.4.1)
     bigdecimal (3.2.2)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     bindex (0.8.1)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
@@ -158,10 +127,6 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-<<<<<<< HEAD
-    chartkick (5.1.5)
-    climate_control (0.2.0)
-=======
     carrierwave (3.1.2)
       activemodel (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -173,7 +138,6 @@ GEM
     climate_control (0.2.0)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -183,11 +147,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.3.4)
     crass (1.0.6)
-<<<<<<< HEAD
-    csv (3.3.4)
-=======
     csv (3.3.5)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.1)
@@ -212,10 +172,7 @@ GEM
     execjs (2.10.0)
     faraday (0.17.6)
       multipart-post (>= 1.2, < 3)
-<<<<<<< HEAD
-=======
     ffi (1.17.2-x64-mingw-ucrt)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     ffi (1.17.2-x86_64-linux-gnu)
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
@@ -231,21 +188,14 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-<<<<<<< HEAD
-    groupdate (6.4.0)
-      activesupport (>= 6.1)
-=======
     groupdate (6.5.1)
       activesupport (>= 7)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     has_scope (0.8.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
     hashie (5.0.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-<<<<<<< HEAD
-=======
     image_processing (1.14.0)
       mini_magick (>= 4.9.5, < 6)
       ruby-vips (>= 2.0.17, < 3)
@@ -253,7 +203,6 @@ GEM
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     inherited_resources (1.14.0)
       actionpack (>= 6.0)
       has_scope (>= 0.6)
@@ -295,21 +244,11 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-<<<<<<< HEAD
-    matrix (0.4.2)
-=======
     matrix (0.4.3)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     method_source (1.1.0)
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-<<<<<<< HEAD
-    mime-types-data (3.2025.0520)
-    mimemagic (0.3.10)
-      nokogiri (~> 1)
-      rake
-=======
     mime-types-data (3.2025.0617)
     mimemagic (0.3.10)
       nokogiri (~> 1)
@@ -317,23 +256,15 @@ GEM
     mini_magick (5.2.0)
       benchmark
       logger
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     mini_mime (1.1.5)
     minitest (5.25.5)
     momentjs-rails (2.17.1)
       railties (>= 3.1)
     multi_json (1.15.0)
-<<<<<<< HEAD
-    multi_xml (0.7.1)
-      bigdecimal (~> 3.1)
-    multipart-post (2.4.1)
-    net-imap (0.5.8)
-=======
     multi_xml (0.7.2)
       bigdecimal (~> 3.1)
     multipart-post (2.4.1)
     net-imap (0.5.9)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
       date
       net-protocol
     net-pop (0.1.2)
@@ -348,17 +279,11 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-<<<<<<< HEAD
-    nokogiri (1.18.8-x86_64-linux-gnu)
-      racc (~> 1.4)
-    oauth2 (2.0.11)
-=======
     nokogiri (1.18.8-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.12)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
       faraday (>= 0.17.3, < 4.0)
       jwt (>= 1.0, < 4.0)
       logger (~> 1.2)
@@ -382,16 +307,6 @@ GEM
       omniauth (~> 1.3)
       omniauth-oauth2 (~> 1.4)
     orm_adapter (0.5.0)
-<<<<<<< HEAD
-    ostruct (0.6.1)
-    paperclip (6.1.0)
-      activemodel (>= 4.2.0)
-      activesupport (>= 4.2.0)
-      mime-types
-      mimemagic (~> 0.3.0)
-      terrapin (~> 0.6.0)
-    pg (1.5.9)
-=======
     ostruct (0.6.2)
     paperclip (5.1.0)
       activemodel (>= 4.2.0)
@@ -401,16 +316,11 @@ GEM
       mimemagic (~> 0.3.0)
     pg (1.5.9)
     pg (1.5.9-x64-mingw-ucrt)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-<<<<<<< HEAD
-    rack (2.2.16)
-=======
     rack (2.2.17)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     rack-test (2.2.0)
       rack (>= 1.3)
     rails (7.0.8)
@@ -427,10 +337,7 @@ GEM
       activesupport (= 7.0.8)
       bundler (>= 1.15.0)
       railties (= 7.0.8)
-<<<<<<< HEAD
-=======
     rails-assets-jquery (3.7.1)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -450,11 +357,7 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
       zeitwerk (~> 2.5)
-<<<<<<< HEAD
-    rake (13.2.1)
-=======
     rake (13.3.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     ransack (4.3.0)
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
@@ -467,20 +370,6 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-<<<<<<< HEAD
-    rspec-core (3.13.3)
-      rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.4)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.4)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-rails (6.1.5)
-      actionpack (>= 6.1)
-      activesupport (>= 6.1)
-      railties (>= 6.1)
-=======
     rspec-core (3.13.4)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -493,19 +382,14 @@ GEM
       actionpack (>= 7.0)
       activesupport (>= 7.0)
       railties (>= 7.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
       rspec-core (~> 3.13)
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
-<<<<<<< HEAD
-    rspec-support (3.13.3)
-=======
     rspec-support (3.13.4)
     ruby-vips (2.2.4)
       ffi (~> 1.12)
       logger
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     ruby2_keywords (0.0.5)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -534,10 +418,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-<<<<<<< HEAD
-=======
     sqlite3 (1.7.3-x64-mingw-ucrt)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     sqlite3 (1.7.3-x86_64-linux)
     sshkit (1.24.0)
       base64
@@ -546,12 +427,6 @@ GEM
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
       ostruct
-<<<<<<< HEAD
-    stripe (3.0.3)
-      faraday (~> 0.9)
-    terrapin (0.6.0)
-      climate_control (>= 0.0.3, < 1.0)
-=======
     ssrf_filter (1.3.0)
     stripe (3.0.3)
       faraday (~> 0.9)
@@ -559,18 +434,14 @@ GEM
       railties (>= 7.0.0)
     tailwindcss-rails (2.7.9-x86_64-linux)
       railties (>= 7.0.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     thor (1.3.2)
     tilt (2.6.0)
     timeout (0.4.3)
     toastr-rails (1.0.3)
       railties (>= 3.1.0)
-<<<<<<< HEAD
-=======
     turbo-rails (2.0.12)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -580,11 +451,8 @@ GEM
       multi_json (>= 1.3.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-<<<<<<< HEAD
-=======
     tzinfo-data (1.2025.2)
       tzinfo (>= 1.0.0)
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
     version_gem (1.1.8)
@@ -601,18 +469,11 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-<<<<<<< HEAD
-    zeitwerk (2.6.18)
-
-PLATFORMS
-  x86_64-linux
-=======
     zeitwerk (2.7.3)
 
 PLATFORMS
   x64-mingw-ucrt
   x86_64-linux-gnu
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 
 DEPENDENCIES
   activeadmin
@@ -622,10 +483,7 @@ DEPENDENCIES
   byebug (>= 4.2.6)
   capistrano
   capybara
-<<<<<<< HEAD
-=======
   carrierwave
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   chartkick (>= 3.2.0)
   coffee-rails (~> 4.2)
   concurrent-ruby (= 1.3.4)
@@ -637,11 +495,8 @@ DEPENDENCIES
   fullcalendar-rails (~> 3.4.0)
   geocoder (~> 1.8)
   groupdate
-<<<<<<< HEAD
-=======
   image_processing (~> 1.2)
   importmap-rails
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   jbuilder (~> 2.5)
   jquery-rails
   jquery-ui-rails (~> 5.0)
@@ -651,20 +506,11 @@ DEPENDENCIES
   omniauth-facebook (~> 4.0)
   omniauth-google-oauth2
   omniauth-stripe-connect (~> 2.10.0)
-<<<<<<< HEAD
-  paperclip
-  pg (~> 1.1)
-  puma
-  rails (= 7.0.8)
-  rails-assets-card!
-  rails-assets-jquery!
-=======
   paperclip (~> 5.1.0)
   pg (~> 1.1)
   puma
   rails (= 7.0.8)
   rails-assets-jquery
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   rails_12factor
   ransack
   redis (~> 4.0)
@@ -675,13 +521,9 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   sqlite3 (~> 1.4)
   stripe (~> 3.0.0)
-<<<<<<< HEAD
-  toastr-rails (~> 1.0)
-=======
   tailwindcss-rails (~> 2.0)
   toastr-rails (~> 1.0)
   turbo-rails
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
   turbolinks (~> 5)
   twilio-ruby (~> 4.11.1)
   tzinfo-data
@@ -692,8 +534,4 @@ RUBY VERSION
    ruby 3.2.3p157
 
 BUNDLED WITH
-<<<<<<< HEAD
-   2.4.22
-=======
    2.6.9
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
