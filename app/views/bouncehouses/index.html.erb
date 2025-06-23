@@ -39,9 +39,7 @@
                       <!-- ACTION BUTTONS -->
                       <div class="col-md-4">
                         <%= link_to "Update", edit_bouncehouse_path(bouncehouse), class: "btn btn-form" %>
-                        <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger ml-2" do %>
-                          Delete
-                        <% end %>  
+                        <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger ml-2" %>Delete<% end %>  
                       </div>
                     </div>
                   </div>
