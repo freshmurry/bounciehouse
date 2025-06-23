@@ -13,8 +13,7 @@ class BouncehousesController < ApplicationController
   end
 
   def new
-    @bouncehouse = Bouncehouse.new(instant: 'request')
-    @reservation = @bouncehouse.reservations.new
+    @bouncehouse = current_user.bouncehouses.build
   end
 
   def create
