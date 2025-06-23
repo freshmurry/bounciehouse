@@ -1,4 +1,4 @@
-<% if @bouncehouse.photos.attached? %>
+<% if @bouncehouse.photos.any? %>
   <div class="row">
     <% @bouncehouse.photos.each do |photo| %>
       <% if photo.images.attached? %>
