@@ -1,15 +1,17 @@
 namespace :migrate_paperclip do
   desc "Migrate Paperclip images to Active Storage for Photo"
   task photos: :environment do
+    require 'open-uri'
     Photo.find_each do |photo|
-      if photo.respond_to?(:image) && photo.image_file_name.present?
+      if photo.respond_to?(:image) && photo.image.present? && photo.image_file_name.present?
         begin
           file_io =
-            if photo.image.path && File.exist?(photo.image.path)
+            if photo.image.respond_to?(:path) && photo.image.path && File.exist?(photo.image.path)
               File.open(photo.image.path)
+            elsif photo.image.respond_to?(:expiring_url)
+              URI.open(photo.image.expiring_url(3600))
             else
-              # Download from S3 if not on disk
-              open(photo.image.expiring_url(3600))
+              raise "No image file found for Photo ##{photo.id}"
             end
 
           photo.images.attach(
