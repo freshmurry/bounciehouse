@@ -1,6 +1,10 @@
 class PhotosController < ApplicationController
   before_action :set_bouncehouse
 
+  def index
+    @photos = Photo.all
+  end
+
   def destroy
     photo = @bouncehouse.photos.find(params[:id])
     photo.purge
