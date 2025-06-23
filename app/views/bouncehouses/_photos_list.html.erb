@@ -1,22 +1,20 @@
-<% if @bouncehouse.photos.any? %> <!-- Check if there are any photos at all -->
+<% if @photos %>
   <div class="row">
-    <% @bouncehouse.photos.each do |photo| %>
-      <% if photo.images.attached? %> <!-- Check if the photo has attached images -->
-        <div class="col-12 col-sm-6 col-md-4 mb-4">
-          <div class="card shadow-sm position-relative">
-            <% photo.images.each do |image| %> <!-- Iterate over each attached image -->
-              <%= image_tag rails_blob_path(image, only_path: true), class: "card-img-top", style: "height: 220px; object-fit: cover;" %>
-            <% end %>
+    <% @photos.each do |photo| %>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading preview">
+            <%= image_tag photo.image.url() %>
           </div>
-
-          <!-- Delete button -->
-          <%= link_to bouncehouse_photo_path(@bouncehouse, photo), method: :delete, data: { confirm: "Are you sure?" }, class: "rounded-circle d-flex align-items-center justify-content-center", style: "position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; z-index: 2;" do %>
-            <i class="fas fa-times-circle fa-lg"></i>
-          <% end %>
+          <div class="panel-body">
+            <span class="pull-right">
+              <%= link_to bouncehouse_photo_path(photo.bouncehouse_id, photo), remote: true, method: :delete, data: {confirm: "Are you sure?"} do %>
+                <i class="fa fa-times fa-lg"></i>
+              <% end %>
+            </span>
+          </div>
         </div>
-      <% end %>
+      </div>
     <% end %>
   </div>
-<% else %>
-  <p>No photos available.</p>
 <% end %>
