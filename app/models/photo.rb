@@ -1,7 +1,5 @@
 class Photo < ApplicationRecord
   belongs_to :bouncehouse
-
-  # Use ActiveStorage for attaching images
   has_many_attached :images
 
   # Validation is not necessary for ActiveStorage since it validates automatically for content types

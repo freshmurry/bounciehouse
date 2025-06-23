@@ -2,7 +2,6 @@ class PhotosController < ApplicationController
   before_action :set_bouncehouse
 
   def create
-    @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
     @photo = @bouncehouse.photos.build(photo_params)
 
     if @photo.save
@@ -18,10 +17,6 @@ class PhotosController < ApplicationController
     photo.destroy # Optionally destroy the Photo record itself
     redirect_to edit_bouncehouse_path(@bouncehouse), notice: "Photo deleted."
   end
-
-  # def show
-  #   @bouncehouse = Bouncehouse.find(params[:id])
-  # end
 
   private
 
