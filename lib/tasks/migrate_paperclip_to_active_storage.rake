@@ -3,6 +3,9 @@ namespace :migrate_paperclip do
   task photos: :environment do
     require 'open-uri'
     Photo.find_each do |photo|
+      puts "Photo ##{photo.id} - Paperclip: #{photo.image_file_name.inspect} - Already attached? #{photo.images.attached?}"
+      next if photo.images.attached?
+
       if photo.respond_to?(:image) && photo.image.present? && photo.image_file_name.present?
         begin
           file_io =
