@@ -11,6 +11,10 @@ class PhotosController < ApplicationController
     redirect_to edit_bouncehouse_path(@bouncehouse), notice: "Photo deleted."
   end
 
+  def show
+    @bouncehouse = Bouncehouse.find(params[:id])
+  end
+
   private
 
   def set_bouncehouse
