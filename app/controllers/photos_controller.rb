@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
   before_action :set_bouncehouse
 
   def index
-    @photos = Photo.all
+    @photos = @bouncehouse.photos
   end
 
   def destroy
