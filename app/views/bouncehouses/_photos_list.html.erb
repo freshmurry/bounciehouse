@@ -1,11 +1,11 @@
-<% if @bouncehouse.photos.any? %>  <!-- Check if there are any photos at all -->
+<% if @bouncehouse.photos.any? %> <!-- Check if there are any photos at all -->
   <div class="row">
     <% @bouncehouse.photos.each do |photo| %>
-      <% if photo.images.attached? %>  <!-- Check if the photo has attached images -->
+      <% if photo.images.attached? %> <!-- Check if the photo has attached images -->
         <div class="col-12 col-sm-6 col-md-4 mb-4">
           <div class="card shadow-sm position-relative">
-            <% photo.images.each do |image| %>  <!-- Iterate over each attached image -->
-              <%= image_tag url_for(image), class: "card-img-top", style: "height: 220px; object-fit: cover;" %>
+            <% photo.images.each do |image| %> <!-- Iterate over each attached image -->
+              <%= image_tag rails_blob_path(image, only_path: true), class: "card-img-top", style: "height: 220px; object-fit: cover;" %>
             <% end %>
           </div>
 
