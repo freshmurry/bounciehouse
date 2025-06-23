@@ -7,7 +7,6 @@ git_source(:github) do |repo_name|
 end
 
 gem 'rails', '7.0.8'
-gem 'sass-rails', '>= 6'
 gem 'uglifier', '>= 4.0.2'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
@@ -19,7 +18,6 @@ gem 'redis', '~> 4.0'
 gem 'paperclip', '~> 6.1'
 gem 'mimemagic', '~> 0.3.10'
 gem 'image_processing', '~> 1.2'
-gem 'tailwindcss-rails', '~> 2.0'
 gem 'turbo-rails'
 gem 'importmap-rails'
 
@@ -38,10 +36,10 @@ end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# gem 'bootstrap-sass', '~> 3.3.6'
-gem "bootstrap-sass", ">= 3.4.1"
+# Removed the bootstrap-sass gem and kept only bootstrap 5
+gem 'bootstrap', '~> 5.0'
 gem "devise", ">= 4.6.0"
-gem 'toastr-rails', '~> 1.0'
+gem 'toastr-rails'
 gem 'omniauth', '~> 1.6'
 gem 'omniauth-facebook', '~> 4.0'
 gem 'carrierwave'
@@ -51,16 +49,18 @@ gem 'jquery-ui-rails', '~> 5.0'
 gem 'ransack'
 gem 'concurrent-ruby', '1.3.4'
 gem 'wdm' if Gem.win_platform?
+gem 'sassc-rails'
 
 group :production do
   gem 'pg', '~> 1.1'
   gem 'rails_12factor'
+  gem 'webpacker'
 end
 
 group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
-  #adding database cleaner for tests
+  # Adding database cleaner for tests
   gem 'database_cleaner'
 end
 

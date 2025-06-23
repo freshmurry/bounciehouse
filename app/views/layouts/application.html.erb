@@ -36,7 +36,9 @@
     <title>BouncieHouse | Book a Bounce House Near You</title>
 
     <!-- Stylesheets -->
+    <%= stylesheet_link_tag "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'toastr' %>
 
     <link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu|Cabin" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -52,12 +54,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
     <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6ZCFF13GD"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-W6ZCFF13GD');
     </script>
+
     <script type="text/javascript">
       (function(window, document, dataLayerName, id) {
         window[dataLayerName]=window[dataLayerName]||[],window[dataLayerName].push({start:(new Date).getTime(),event:"stg.start"});var scripts=document.getElementsByTagName('script')[0],tags=document.createElement('script');
