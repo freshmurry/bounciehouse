@@ -88,11 +88,17 @@ class BouncehousesController < ApplicationController
   end
 
   def authorized_user!
-    redirect_to root_path, alert: "You don't have permission" unless current_user.id == @bouncehouse.user_id
+    unless @bouncehouse && current_user.id == @bouncehouse.user_id
+      redirect_to root_path, alert: "You don't have permission"
+    end
   end
 
-  def is_ready_bouncehouse
-    @bouncehouse.bouncehouse_type.present? && @bouncehouse.listing_name.present? && @bouncehouse.description.present? && @bouncehouse.address.present? && @bouncehouse.price.present?
+  def set_bouncehouse
+    @bouncehouse = Bouncehouse.find_by(id: params[:id])
+    if @bouncehouse.nil?
+      flash[:alert] = "Bouncehouse not found."
+      redirect_to root_path
+    end
   end
   
   def bouncehouse_params
