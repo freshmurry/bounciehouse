@@ -7,4 +7,5 @@ test:
 production:
   adapter: redis
   url: <%= ENV['REDIS_URL'] %>
-  channel_prefix: BouncieHouse_production
+  ssl_params:
+    verify_mode: <%= OpenSSL::SSL::VERIFY_NONE %>
