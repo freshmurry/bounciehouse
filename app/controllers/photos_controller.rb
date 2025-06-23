@@ -3,14 +3,12 @@ class PhotosController < ApplicationController
 
   def create
     @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
+    @photo = @bouncehouse.photos.build(photo_params)
 
-    if params[:images]
-        params[:images].each do |img|
-        @bouncehouse.photos.create(image: img)
-      end
-
-      @photos = @bouncehouse.photos
-      redirect_back(fallback_location: request.referer, notice: "Saved...")
+    if @photo.save
+      redirect_to @bouncehouse, notice: "Photo added successfully!"
+    else
+      render :new
     end
   end
 
@@ -29,5 +27,9 @@ class PhotosController < ApplicationController
 
   def set_bouncehouse
     @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
+  end
+
+  def photo_params
+    params.require(:photo).permit(images: [])
   end
 end

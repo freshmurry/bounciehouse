@@ -1,13 +1,13 @@
 class BouncehousesController < ApplicationController
   before_action :set_bouncehouse, only: [:update, :edit, :destroy, :show, :preload_reservations, :preview_reservations]
   before_action :authorized_user!, only: [:edit, :update, :destroy]
-  
+
   def index
     @bouncehouses = current_user.bouncehouses
   end
 
   def show
-    @bouncehouse = Bouncehouse.find(params[:id])
+    # Ensure @bouncehouse is being loaded with its associated photos
     @photos = @bouncehouse.photos
     @guest_reviews = Review.where(type: "GuestReview")
   end
@@ -18,10 +18,11 @@ class BouncehousesController < ApplicationController
 
   def create
     @bouncehouse = Bouncehouse.new(bouncehouse_params.except(:photos))
-    if params[:bouncehouse][:photos]
+    if params[:bouncehouse][:photos].present?
       ordered_files = order_files(params[:bouncehouse][:photos], params[:photo_order])
       ordered_files.each { |file| @bouncehouse.photos.attach(file) }
     end
+
     if @bouncehouse.save
       redirect_to @bouncehouse, notice: "Bouncehouse created!"
     else
@@ -30,15 +31,15 @@ class BouncehousesController < ApplicationController
   end
 
   def edit
-    @photos = @bouncehouse.photos
+    # @photos is already set via set_bouncehouse, no need to load it again here
   end
 
   def update
-    @bouncehouse = Bouncehouse.find(params[:id])
-    if params[:bouncehouse][:photos]
+    if params[:bouncehouse][:photos].present?
       ordered_files = order_files(params[:bouncehouse][:photos], params[:photo_order])
       ordered_files.each { |file| @bouncehouse.photos.attach(file) }
     end
+
     if @bouncehouse.update(bouncehouse_params.except(:photos))
       redirect_to @bouncehouse, notice: "Bouncehouse updated!"
     else
@@ -46,7 +47,7 @@ class BouncehousesController < ApplicationController
     end
   end
 
-  # ----- RESERVATIONS -----
+  # ----- RESERVATIONS ----- 
   def preload_reservations
     begin
       @reservations = @bouncehouse.reservations.where("start_date <= ? AND end_date >= ?", Date.today, Date.today)
@@ -81,10 +82,12 @@ class BouncehousesController < ApplicationController
   private
 
   def set_bouncehouse
-    @bouncehouse = Bouncehouse.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "Bouncehouse not found."
-    redirect_to root_path
+    # Use find_by for graceful error handling in case the bouncehouse is not found
+    @bouncehouse = Bouncehouse.find_by(id: params[:id])
+    if @bouncehouse.nil?
+      flash[:alert] = "Bouncehouse not found."
+      redirect_to root_path
+    end
   end
 
   def authorized_user!
@@ -93,14 +96,6 @@ class BouncehousesController < ApplicationController
     end
   end
 
-  def set_bouncehouse
-    @bouncehouse = Bouncehouse.find_by(id: params[:id])
-    if @bouncehouse.nil?
-      flash[:alert] = "Bouncehouse not found."
-      redirect_to root_path
-    end
-  end
-  
   def bouncehouse_params
     params.require(:bouncehouse).permit(:listing_name, :description, :price, :address, :active, :bouncehouse_type, :time_limit, :pickup_type, :instant, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, photos: [])
   end
