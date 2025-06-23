@@ -84,9 +84,11 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox">
             <% @photos.each_with_index do |photo, index| %>
-              <div class="item <%= 'active' if index == 0 %>">
-                <%= image_tag url_for(photo), class: "img-responsive" %>
-              </div>
+              <% if photo.images.attached? %>
+                <div class="item <%= 'active' if index == 0 %>">
+                  <%= image_tag url_for(photo.images.first), class: "img-responsive" %>
+                </div>
+              <% end %>
             <% end %>
           </div>
         <% else %>
