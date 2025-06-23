@@ -189,11 +189,7 @@
                       <li class="<%= 'text-line-through' if !@bouncehouse.is_sprinkler %>">Sprinkler</li>
                     </ul>
                   </div>
-<<<<<<< HEAD
-                  <div class="col-xs-4 col-sm-4 col-md-4">
-=======
                   <div class="">
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
                     <ul class="amenities">
                       <li class="<%= 'text-line-through' if !@bouncehouse.is_speakers %>">Wifi Speakers</li>
                       <li class="<%= 'text-line-through' if !@bouncehouse.is_wall_climb %>">Wall Climb</li>
@@ -217,11 +213,7 @@
               <div class="panel-body">
                 <div><%= render "reviews/guest_list" %></div>
                 <% if @guest_reviews.count == 0 %>
-<<<<<<< HEAD
-                  <p>No reviews yet. Be the first to leave a review!</p>
-=======
                   <p class="text-center">Be the first to leave a review!</p>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
                 <% end %>
               </div>
             </div>
@@ -231,13 +223,6 @@
         
       <!-- GOOGLE MAP -->
       <div class="container">
-<<<<<<< HEAD
-        <div class="row">
-          <div id="map" style="width: 100%; height: 400px"></div>
-        </div>
-      </div>
-      <hr/>
-=======
       <div class="row">
         <div id="map" style="width: 100%; height: 400px"></div>
         <!-- <script src="https://maps.googleapis.com/maps/api/js"></script> -->
@@ -268,7 +253,6 @@
       </div>
     </div>  
     <hr/>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
 
       <!-- NEARBY BOUNCE HOUSES -->
       <div class="container">
@@ -280,11 +264,7 @@
                   <div class="col-md-4">
                     <div class="panel panel-default">
                       <div class="panel-heading preview">
-<<<<<<< HEAD
-                        <%= image_tag nearby_bouncehouse.cover_photo(:medium), skip_pipeline: true %>
-=======
                         <%= image_tag url_for(nearby_bouncehouse.cover_photo(:medium)), class: "img-responsive" if nearby_bouncehouse.photos.attached? %>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
                       </div>
                       <div class="panel-body">
                         <div class="container">
@@ -297,11 +277,7 @@
                 <% end %>
               <% else %>
                 <div class="text-center">
-<<<<<<< HEAD
-                  <h4>There are no nearby bouncehouses.</h4>
-=======
                   <h4>There are no nearby bounce houses.</h4>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
                 </div>
               <% end %>
           </div>
