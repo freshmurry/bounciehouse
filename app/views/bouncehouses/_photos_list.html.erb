@@ -2,23 +2,17 @@
   <div class="row">
     <% @bouncehouse.photos.each do |photo| %>
       <% if photo.images.attached? %>
-        <div class="col-md-4">
-          <div class="panel panel-default">
-            <div class="panel-heading preview">
-              <!-- Display the first image attached to this photo -->
-              <%= image_tag url_for(photo.images.first), alt: "Photo", class: "img-responsive" %>
-            </div>
-
-            <div class="panel-body">
-              <div class="container"> 
-                <span class="pull-right">
-                  <%= link_to "Delete", bouncehouse_photo_path(@bouncehouse, photo), remote: true, method: :delete, data: { confirm: "Are you sure?" } do %>
-                    <i class="fa fa-trash fa-lg"></i>
-                  <% end %>
-                </span>
-              </div> 
-            </div>
+        <div class="col-12 col-sm-6 col-md-4 mb-4">
+          <div class="card shadow-sm position-relative">
+            <% photo.images.each do |image| %>
+              <%= image_tag url_for(image), class: "card-img-top", style: "height: 220px; object-fit: cover;" %> 
+            <% end %>
           </div>
+
+          <!-- Delete button -->
+          <%= link_to bouncehouse_photo_path(@bouncehouse, photo), method: :delete, data: { confirm: "Are you sure?" }, class: "rounded-circle d-flex align-items-center justify-content-center", style: "position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; z-index: 2;" do %>
+            <i class="fas fa-times-circle fa-lg"></i>
+          <% end %>
         </div>
       <% end %>
     <% end %>
