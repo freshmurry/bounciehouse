@@ -23,10 +23,11 @@
                     <!-- COVER PHOTO -->
                     <div class="row align-items-center">
                       <div class="col-md-2">
-                        <% if bouncehouse.photos.attached? %>
-                          <%= image_tag bouncehouse.photos.first.variant(resize_to_fill: [100, 100]) %>
+                        <% first_photo = bouncehouse.photos.joins(:images_attachments).first %>
+                        <% if first_photo&.images&.attached? %>
+                          <%= image_tag first_photo.images.first.variant(resize_to_fill: [100, 100]), class: "img-thumbnail" %>
                         <% else %>
-                          <%= image_tag "", style: "" %>
+                          <%= image_tag "blank.jpg", class: "img-thumbnail" %>
                         <% end %>                 
                       </div>
                       

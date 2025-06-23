@@ -152,7 +152,7 @@
           <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.bouncehouse_type %></div>
           <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.time_limit %></div>
           <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.pickup_type %></div>
-          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.instant.capitalize %></div>
+          <div class="col-xs-3 col-sm-3 col-md-3"><%= @bouncehouse.instant&.capitalize || "N/A" %></div>
         </div>
       </div>  
       <hr/>
