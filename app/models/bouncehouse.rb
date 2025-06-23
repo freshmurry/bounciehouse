@@ -64,9 +64,6 @@ class Bouncehouse < ApplicationRecord
       "tip",
       "updated_at",
       "user_id"
-
-
-
-end  end    ]    ]
+    ]
   end
 end
