@@ -1,10 +1,8 @@
 class Bouncehouse < ApplicationRecord
   enum instant: { Request: 1, Instant: 0 }
 
+  has_many_attached :photos
   belongs_to :user
-
-  # Use the Photo model association, not direct Active Storage
-  has_many :photos, dependent: :destroy
 
   has_many :reservations
   has_many :guest_reviews
