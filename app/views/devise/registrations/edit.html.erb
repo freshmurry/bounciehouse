@@ -6,20 +6,12 @@
       <div class="avatar-full">
         <div class="panel panel-default">
           <div class="panel-heading preview">
-<<<<<<< HEAD
-            <% if @user.image.exists? %>
-                  <%= image_tag @user.image.url %>
-                <% else %>
-                  <%= image_tag "blank.jpg" %>
-                <% end %>
-=======
             <% if @user.image.present? %>
               <%= image_tag @user.image %>
             <% else %>
               <%= image_tag 'blank.jpg' %>
             <% end %>
             <h4 class="text-center">Profile Photo</h4>
->>>>>>> 16de8cb7 (Updated App to Ruby 3.2.3 and Rails 7)
           </div>
                   
           <div class="panel-body">
