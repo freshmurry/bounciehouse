@@ -24,12 +24,17 @@ class Bouncehouse < ApplicationRecord
   end
 
   def cover_photo(size)
-    if self.photos.length > 0
-      self.photos[0].image.url(size)
+    photo = photos.first
+    if photo&.image.exists?
+      photo.image.url(size)
     else
       "blank.jpg"
     end
+  rescue => e
+    Rails.logger.error "Error loading photo: #{e.message}"
+    "blank.jpg"
   end
+
 
   def average_rating
     guest_reviews.average(:star)&.round(2) || 0

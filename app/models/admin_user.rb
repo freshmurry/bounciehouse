@@ -2,7 +2,7 @@ class AdminUser < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_one_attached :profile_image
+  has_one :profile_image
   # validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\z/
   validates_acceptance_of :profile_image, allow_blank: true
   validates :email, presence: true, uniqueness: true

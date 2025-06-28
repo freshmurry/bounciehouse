@@ -266,7 +266,7 @@
                   <div class="col-md-4">
                     <div class="panel panel-default">
                       <div class="panel-heading preview">
-                        <%= image_tag url_for(nearby_bouncehouse.cover_photo(:medium)), class: "img-responsive" if nearby_bouncehouse.photos.attached? %>
+                        <%= image_tag bouncehouse.cover_photo(:medium) %>
                       </div>
                       <div class="panel-body">
                         <div class="container">
