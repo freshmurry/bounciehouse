@@ -23,12 +23,7 @@
                     <!-- COVER PHOTO -->
                     <div class="row align-items-center">
                       <div class="col-md-2">
-                        <% first_photo = bouncehouse.photos.joins(:images_attachments).first %>
-                        <% if first_photo&.images&.attached? %>
-                          <%= image_tag first_photo.images.first.variant(resize_to_fill: [100, 100]), class: "img-thumbnail" %>
-                        <% else %>
-                          <%= image_tag "blank.jpg", class: "img-thumbnail" %>
-                        <% end %>                 
+                        <%= image_tag bouncehouse.cover_photo(:medium), class: "img-thumbnail" %>
                       </div>
                       
                       <!-- Listing Name -->
@@ -39,7 +34,9 @@
                       <!-- ACTION BUTTONS -->
                       <div class="col-md-4">
                         <%= link_to "Update", edit_bouncehouse_path(bouncehouse), class: "btn btn-form" %>
-                        <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger ml-2" %>Delete<% end %>  
+                        <%= link_to bouncehouse, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger ml-2" do %>
+                          Delete
+                        <% end %>
                       </div>
                     </div>
                   </div>

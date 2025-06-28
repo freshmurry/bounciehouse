@@ -1,37 +1,32 @@
 <% bouncehouses.each do |bouncehouse| %>
-  <div class="col-md-3">
-    <div class="">
-      <div class="panel-heading preview" style="position: relative; padding: 0;">
-        <% if bouncehouse %>
-          <%= link_to bouncehouse do %>
-            <%= image_tag(bouncehouse.cover_photo(:medium), style: "width: 100%; height: 180px; object-fit: cover; display: block;") %>
-          <% end %>
-          <% if user_signed_in? && bouncehouse.user_id != current_user.id %>
-            <div style="position: absolute; top: 10px; right: 10px; z-index: 2;">
-              <% if current_user.favorite_bouncehouses.include?(bouncehouse) %>
-                <%= button_to bouncehouse_favorite_path(bouncehouse), method: :delete, form: { data: { turbo_stream: true } }, class: "bg-white bg-opacity-70 rounded-full p-2 shadow border-0", style: "border: none;" do %>
-                  <i class="fas fa-heart text-danger fa-lg"></i>
-                <% end %>
-              <% else %>
-                <%= button_to bouncehouse_favorite_path(bouncehouse), method: :post, form: { data: { turbo_stream: true } }, class: "bg-white bg-opacity-70 rounded-full p-2 shadow border-0", style: "border: none;" do %>
-                  <i class="far fa-heart text-secondary fa-lg"></i>
-                <% end %>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading preview">
+        <%= link_to image_tag(bouncehouse.cover_photo(:medium)) %>
+        <% if user_signed_in? && bouncehouse.user_id != current_user.id %>
+          <div class="position-absolute top-0 end-0 m-2">
+            <% if current_user.favorite_bouncehouses.include?(bouncehouse) %>
+              <%= button_to bouncehouse_favorite_path(bouncehouse), method: :delete, form: { data: { turbo_stream: true } }, class: "btn btn-sm btn-outline-danger rounded-circle shadow-sm" do %>
+                <i class="fas fa-heart"></i>
               <% end %>
-            </div>
-          <% end %>
+            <% else %>
+              <%= button_to bouncehouse_favorite_path(bouncehouse), method: :post, form: { data: { turbo_stream: true } }, class: "btn btn-sm btn-outline-secondary rounded-circle shadow-sm" do %>
+                <i class="far fa-heart"></i>
+              <% end %>
+            <% end %>
+          </div>
         <% end %>
       </div>
       <div class="panel-body">
         <div class="container">
-          <span class="col-md-12" style="padding-left: 0px; padding-right: 0px;"><strong><%= link_to bouncehouse.listing_name, bouncehouse %></strong></span></br>
+          <span class="col-md-12" style="padding-left: 0px; padding-right: 0px;"><%= link_to bouncehouse.listing_name, bouncehouse %></span></br>
           <span class="col-md-12" style="padding-left: 0px; padding-right: 0px;"><span id="star_<%= bouncehouse.id %>"></span>&nbsp;<%= pluralize(bouncehouse.guest_reviews.count, "review") %>
-          <div>
-            <b>$<%= bouncehouse.price %></b>
-          </div> 
+          <span class="pull-right" style="border: 1px solid black; padding: 5px;"><b>$<%= bouncehouse.price %></b></span>
         </div>
       </div>
     </div>
   </div>
+  
   
   <script>
     $('#star_<%= bouncehouse.id %>').raty({

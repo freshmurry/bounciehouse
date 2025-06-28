@@ -2,7 +2,14 @@ require 'net/http'
 
 module ApplicationHelper
   def image(user)
-    user.image.attached? ? url_for(user.image) : "blank.jpg"
+    if user.image
+      "https://graph.facebook.com/#{user.uid}/picture?type=large"
+    elsif
+      gravatar_id = Digest::MD5::hexdigest(user.email).downcase
+      "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identical&s=150"
+    else
+      'blank.jog'
+    end
   end
 
   private

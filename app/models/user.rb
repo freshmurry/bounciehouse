@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  has_one_attached :image
-
   # Devise modules
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
@@ -8,7 +6,7 @@ class User < ApplicationRecord
   # Validations
   validates :fullname, presence: true, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true
-
+  
   # Associations
   has_many :bouncehouses, dependent: :delete_all
   has_many :reservations

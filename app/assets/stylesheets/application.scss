@@ -1,15 +1,24 @@
-// Import Bootstrap's SCSS (ensure this is above any custom styles)
-@import "toastr/toastr";
+// @import "bootstrap-sprockets";
+@import "bootstrap";
+@import "toastr";
 @import "fullcalendar";
-@import "~bootstrap/scss/bootstrap";
 
-// Global Styles
+// For separting pool's key features into two colums on pools/shows
+// @media only screen and (max-width: 768px) {
+//   .row.text-babu.text-center {
+//     width: 50%;
+//     clear: both;
+//     float: left;
+//     padding: 20px;
+//   }
+// }
+
 html {
   overflow-x: hidden;
 }
 
 .text-babu, .icon-babu {
-  line-height: 2;
+    line-height: 2;
 }
 
 body {
@@ -21,11 +30,11 @@ body {
   overflow-x: hidden;
   width: 100%;
   display: flex;
-  min-height: 100vh;
-  flex-direction: column;
+	min-height: 100vh;
+	flex-direction: column;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 a {
@@ -65,18 +74,15 @@ div.panel-body {
 }
 
 .navbar-default.static-top {
-  border-radius: 0;
-}
-
-.navbar-brand {
-  padding: 10px 15px;
+  -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }
 
 .navbar-default .navbar-brand {
   color: #2C3E50;
   font-size: 2.5em;
-  font-weight: bold;
-  font-family: Ubuntu;
+  font-weight: bold; font-family: Ubuntu;
   margin-top: 5px;
 }
 
@@ -85,7 +91,7 @@ ul.nav.navbar-nav.navbar-right a {
 }
 
 .navbar-default .navbar-nav > li > a {
-  color: #2C3E50;
+    color: #2C3E50;
 }
 
 // BUTTONS
@@ -131,6 +137,11 @@ ul.nav.navbar-nav.navbar-right a {
   border: 1px solid #34495E;
   background-color: #34495E;
 }
+
+// .btn-small {
+//   padding: 5px 15px;
+//   margin-top: 15px;
+// }
 
 .btn.btn-form.btn-small {
   margin-left: 10px;
@@ -244,8 +255,8 @@ button.btn.btn-form.btn-small {
   border-radius: 5px;
   padding: 10px;
   appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari & Chrome */
 }
 
 .select:before {
@@ -267,6 +278,8 @@ button.btn.btn-form.btn-small {
   border: 1px solid #34495E;
   border-radius: 2px;
   appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 .form-group input[type="checkbox"]:checked:before {
@@ -362,6 +375,8 @@ div.price-box-wrapper {
 div.box-wrapper {
   padding: 4px 8px;
   color: #fff;
+  // background-color: rgba(0,0,0,.5);
+  box-sizing: border-box;
   font-size: 14px;
   font-weight: bold;
 }
@@ -489,7 +504,8 @@ div.box-wrapper {
   left: -5px;
 }
 
-// PAYMENT FORM
+
+//PAYMENT FORM
 #add-card form {
   width: 480px;
   margin: 20px auto;
@@ -540,12 +556,13 @@ div.box-wrapper {
   background-image: linear-gradient(-180deg, #34495E 0%, #2C3E50 100%);
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10), inset 0 -1px 0 0 #34495D;
   color: white;
+  // border-radius: 15px;
   border: 0;
   font-size: 17px;
   font-weight: 500;
   width: 100%;
   height: 48px;
-  line-height: 28px;
+  line-height: 28px; //Centers the text
   outline: none;
   padding-bottom: 30px;
 }
@@ -579,17 +596,17 @@ div.box-wrapper {
   color: #E4584C;
 }
 
-// Footer
+// Footer//
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 100px;
+  height: 100;
   background-color: #f5f5f5;
   left: auto;
   right: 0px;
 }
 
 .container .text-muted {
-  margin: 20px -55px 20px -55px;
+    margin: 20px -55px 20px -55px;
 }

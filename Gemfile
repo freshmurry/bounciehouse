@@ -10,15 +10,15 @@ gem 'rails', '7.0.8'
 gem 'uglifier', '>= 4.0.2'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
-gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'delayed_job'
 gem 'activeadmin'
 gem 'redis', '~> 4.0'
+gem 'figaro'
 gem 'paperclip', '~> 6.1'
 gem 'mimemagic', '~> 0.3.10'
 gem 'image_processing', '~> 1.2'
-gem 'turbo-rails'
+# gem 'turbo-rails'
 gem 'importmap-rails'
 
 group :development, :test do
@@ -36,8 +36,7 @@ end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Removed the bootstrap-sass gem and kept only bootstrap 5
-gem 'bootstrap', '~> 5.0'
+gem "bootstrap-sass", ">= 3.4.1"
 gem "devise", ">= 4.6.0"
 gem 'toastr-rails'
 gem 'omniauth', '~> 1.6'
@@ -47,8 +46,8 @@ gem 'aws-sdk-s3'
 gem 'geocoder', '~> 1.8'
 gem 'jquery-ui-rails', '~> 5.0'
 gem 'ransack'
-gem 'concurrent-ruby', '1.3.4'
-gem 'wdm' if Gem.win_platform?
+# gem 'concurrent-ruby', '1.3.4'
+# gem 'wdm' if Gem.win_platform?
 gem 'sassc-rails'
 
 group :production do
@@ -71,7 +70,7 @@ gem 'twilio-ruby', '~> 4.11.1'
 gem 'fullcalendar-rails', '~> 3.4.0'
 gem 'momentjs-rails', '~> 2.17.1'
 gem 'stripe', '~> 3.0.0'
-# gem 'rails-assets-card'
+gem 'rails-assets-card'
 gem 'omniauth-stripe-connect', '~> 2.10.0'
 gem "chartkick", '>= 3.2.0'
 gem 'omniauth-google-oauth2'

@@ -1,15 +1,10 @@
 class BouncehousesController < ApplicationController
-  before_action :set_bouncehouse, only: [:update, :edit, :destroy, :show, :preload_reservations, :preview_reservations]
-  before_action :authorized_user!, only: [:edit, :update, :destroy]
-
+  before_action :set_bouncehouse, except: [:index, :new, :create]
+  before_action :authenticate_user!, except: [:show, :preload, :preview]
+  before_action :is_authorized, only: [:listing, :pricing, :description, :photo_upload, :location, :update]
+  
   def index
     @bouncehouses = current_user.bouncehouses
-  end
-
-  def show
-    # Ensure @bouncehouse is being loaded with its associated photos
-    @photos = @bouncehouse.photos
-    @guest_reviews = Review.where(type: "GuestReview")
   end
 
   def new
@@ -17,92 +12,113 @@ class BouncehousesController < ApplicationController
   end
 
   def create
-    @bouncehouse = Bouncehouse.new(bouncehouse_params.except(:photos))
-    if params[:bouncehouse][:photos].present?
-      ordered_files = order_files(params[:bouncehouse][:photos], params[:photo_order])
-      ordered_files.each { |file| @bouncehouse.photos.attach(file) }
-    end
-
+    # This code makes host register with Stripe first. We want people to create their listing without having to signup with Stripe first.
+    # if !current_user.is_active_host
+    #   return redirect_to payout_path, alert: "Please Connect to Stripe Express first."
+    # end
+    
+    @bouncehouse = current_user.bouncehouses.build(bouncehouse_params)
     if @bouncehouse.save
-      redirect_to @bouncehouse, notice: "Bouncehouse created!"
+      redirect_to listing_bouncehouse_path(@bouncehouse), notice: "Saved..."
     else
+      flash[:alert] = "Something went wrong..."
       render :new
     end
   end
 
-  def edit
-    # @photos is already set via set_bouncehouse, no need to load it again here
+  def show
+    @bouncehouse = Bouncehouse.find(params[:id])
+    @photos = @bouncehouse.photos
+    @guest_reviews = Review.where(type: "GuestReview")
+  end
+  
+  def listing
+  end
+
+  def pricing
+  end
+
+  def description
+  end
+
+  def photo_upload
+    @photos = @bouncehouse.photos
+  end
+
+  def amenities
+  end
+
+  def location
   end
 
   def update
-    if params[:bouncehouse][:photos].present?
-      ordered_files = order_files(params[:bouncehouse][:photos], params[:photo_order])
-      ordered_files.each { |file| @bouncehouse.photos.attach(file) }
-    end
+    new_params = bouncehouse_params
+    new_params = bouncehouse_params.merge(active: true) if is_ready_bouncehouse
 
-    if @bouncehouse.update(bouncehouse_params.except(:photos))
-      redirect_to @bouncehouse, notice: "Bouncehouse updated!"
+    if @bouncehouse.update(new_params)
+      flash[:notice] = "Saved..."
     else
-      render :edit
+      flash[:alert] = "Something went wrong..."
     end
-  end
-
-  # ----- RESERVATIONS ----- 
-  def preload_reservations
-    begin
-      @reservations = @bouncehouse.reservations.where("start_date <= ? AND end_date >= ?", Date.today, Date.today)
-
-      respond_to do |format|
-        format.json { render json: { reservations: @reservations } }
-      end
-    rescue StandardError => e
-      render json: { error: e.message }, status: :internal_server_error
-    end
-  end
-
-  def preview_reservations
-    begin
-      start_date = params[:start_date]
-      end_date = params[:end_date]
-      @conflict = Reservation.is_conflict(@bouncehouse, start_date, end_date)
-
-      respond_to do |format|
-        format.json { render json: { conflict: @conflict } }
-      end
-    rescue StandardError => e
-      render json: { error: e.message }, status: :internal_server_error
-    end
+    redirect_back(fallback_location: request.referer)
+    # redirect_to bouncehouse_path(@bouncehouse), notice: "Saved..."
   end
 
   def destroy
+    @bouncehouse = Bouncehouse.find(params[:id])
     @bouncehouse.destroy
-    redirect_to bouncehouses_url, notice: 'Bouncehouse deleted successfully.'
+
+    # redirect_back(fallback_location: request.referer, notice: "Deleted...!")
+    redirect_to root_path, notice: "Deleted..."
+  end
+  
+  #---- RESERVATIONS ----
+  def preload
+    today = Date.today
+    reservations = @bouncehouse.reservations.where("(start_date >= ? OR end_date >= ?) AND status = ?", today, today, 1)
+    unavailable_dates = @bouncehouse.calendars.where("status = ? AND day > ?", 1, today)
+
+    special_dates = @bouncehouse.calendars.where("status = ? AND day > ? AND price <> ?", 0, today, @bouncehouse.price)
+    
+    render json: {
+      reservations: reservations,
+      unavailable_dates: unavailable_dates,
+      special_dates: special_dates
+    }
   end
 
+  def preview
+    start_date = Date.parse(params[:start_date])
+    end_date = Date.parse(params[:end_date])
+
+    output = {
+      conflict: is_conflict(start_date, end_date, @bouncehouse)
+    }
+
+    render json: output
+  end
+  
   private
-
-  def set_bouncehouse
-    # Use find_by for graceful error handling in case the bouncehouse is not found
-    @bouncehouse = Bouncehouse.find_by(id: params[:id])
-    if @bouncehouse.nil?
-      flash[:alert] = "Bouncehouse not found."
-      redirect_to root_path
+    def is_conflict(start_date, end_date, bouncehouse)
+      check = bouncehouse.reservations.where("(? < start_date AND end_date < ?) AND status = ?", start_date, end_date, 1)
+      check_2 = bouncehouse.calendars.where("day BETWEEN ? AND ? AND status = ?", start_date, end_date, 1).limit(1)
+      
+      check.size > 0 || check_2.size > 0 ? true : false 
     end
-  end
 
-  def authorized_user!
-    unless @bouncehouse && current_user.id == @bouncehouse.user_id
-      redirect_to root_path, alert: "You don't have permission"
+    def set_bouncehouse
+      @bouncehouse = Bouncehouse.find(params[:id])
     end
-  end
 
-  def bouncehouse_params
-    params.require(:bouncehouse).permit(:listing_name, :description, :price, :address, :active, :bouncehouse_type, :time_limit, :pickup_type, :instant, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, photos: [])
-  end
+    def is_authorized
+      redirect_to root_path, alert: "You don't have permission" unless current_user.id == @bouncehouse.user_id
+    end
 
-  def order_files(files, order_string)
-    return files unless order_string.present?
-    order = order_string.split(",").map(&:to_i)
-    order.map { |i| files[i] }
-  end
+    def is_ready_bouncehouse
+      !@bouncehouse.active && !@bouncehouse.price.blank? && !@bouncehouse.listing_name.blank? && !@bouncehouse.photos.blank? && !@bouncehouse.address.blank?
+    end
+
+    def bouncehouse_params
+      params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :listing_name, :description, :address, :price, :active, :instant)
+    end
 end

@@ -78,13 +78,13 @@ Rails.application.routes.draw do
   get '/payout_method', to: 'users#payout'
   post '/add_card', to: 'users#add_card'
 
-  # get '/notification_settings', to: 'settings#edit'
-  # post '/notification_settings', to: 'settings#update'
-  # delete '/notification_settings', to: 'settings#destroy'
   resource :notification_settings, only: [:edit, :update, :destroy]
 
+  get '/notification_settings' => 'settings#edit'
+  post '/notification_settings' => 'settings#update'
+  delete '/notification_settings' => 'settings#destroy'
 
-  get '/notifications', to: 'notifications#index'
+  get '/notifications' => 'notifications#index'
 
   # ACTION CABLE
   mount ActionCable.server => '/cable'

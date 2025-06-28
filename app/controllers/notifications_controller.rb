@@ -12,9 +12,12 @@ class NotificationsController < ApplicationController
     redirect_back(fallback_location: notifications_path, notice: "Notification Deleted!")
   end
 
+  def notification_settings
+  end
+
   private
 
   def set_notification
-    @notification = current_user.notifications.find(params[:id]) # Ensure the notification belongs to the current user
+    @notification = current_user.notifications.find(params[:id])
   end
 end

@@ -7,7 +7,7 @@
         <div class="panel panel-default">
           <div class="panel-heading preview">
             <% if @user.image.present? %>
-              <%= image_tag @user.image %>
+              <%= image_tag @user.image.url() %>
             <% else %>
               <%= image_tag 'blank.jpg' %>
             <% end %>

@@ -2,7 +2,7 @@
   <title><%= @bouncehouse.listing_name %></title>
   <meta property="og:title" content="<%= @bouncehouse.listing_name %>" />
   <meta property="og:description" content="Rent this amazing bounce house for <%= number_to_currency(@bouncehouse.price / 100.0) %>!" />
-  <meta property="og:image" content="<%= url_for(@bouncehouse.cover_photo(:medium)) if @bouncehouse.photos.joins(:images_attachments).exists? %>" />
+  <meta property="og:image" content="<%= @bouncehouse.cover_photo(:medium) if @bouncehouse.cover_photo(:medium).present? %>" />
   <meta property="og:url" content="<%= bouncehouse_url(@bouncehouse) %>" />
  
   <style>
@@ -47,7 +47,7 @@
       });
 
       var infoWindow = new google.maps.InfoWindow({
-        content: '<div id="content"><%= image_tag @bouncehouse.cover_photo(:medium) %></div>'
+        content: '<div id="content"><div id="content"><%= image_tag @bouncehouse.photos.first.image.url(:medium) if @bouncehouse.photos.any? %></div>'
       });
 
       marker.addListener('click', function() {
@@ -64,11 +64,11 @@
         <% if user_signed_in? && current_user != @bouncehouse.user %>
           <div style="position: absolute; top: 20px; right: 30px; z-index: 10;">
             <% if current_user.favorite_bouncehouses.include?(@bouncehouse) %>
-              <%= button_to bouncehouse_favorite_path(@bouncehouse), method: :delete, form: { data: { turbo_stream: true } }, class: "bg-black bg-opacity-70 rounded-full p-2 shadow border-0", style: "border: 1px;" do %>
+              <%= button_to bouncehouse_favorite_path(@bouncehouse), method: :delete, form: { data: { turbo_stream: } }, class: "bg-black bg-opacity- rounded-full p- shadow border-", style: "border: px solid black;" do %>
                 <i class="fas fa-heart" style="font-size: 48px; color: red;"></i>
               <% end %>
             <% else %>
-              <%= button_to bouncehouse_favorite_path(@bouncehouse), method: :post, form: { data: { turbo_stream: true } }, class: "bg-black bg-opacity-70 rounded-full p-2 shadow border-0", style: "border: 1px;" do %>
+              <%= button_to bouncehouse_favorite_path(@bouncehouse), method: :post, form: { data: { turbo_stream: } }, class: "bg-black bg-opacity- rounded-full p- shadow border-", style: "border: px solid black;" do %>
                 <i class="fas fa-heart text-secondary fa-2x"></i>
               <% end %>
             <% end %>
@@ -83,10 +83,10 @@
           </ol>
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox">
-            <% @photos.each_with_index do |photo, index| %>
-              <% if photo.images.attached? %>
-                <div class="item <%= 'active' if index == 0 %>">
-                  <%= image_tag url_for(photo.images.first), class: "img-responsive" %>
+            <% if @photos %>
+              <% @photos.each do |photo| %>
+                <div class="item <%= 'active' if photo.id == @photos[0].id %>">
+                  <%= image_tag photo.image.url() %>
                 </div>
               <% end %>
             <% end %>
@@ -243,7 +243,7 @@
             });
     
             var infoWindow = new google.maps.InfoWindow({
-              content: '<div id="content"><%= image_tag @bouncehouse.cover_photo(:medium) %></div>'
+              content: '<div id="content"><%= image_tag @bouncehouse.photos.first.image.url(:medium) if @bouncehouse.photos.any? %></div>'
             });
     
             infoWindow.open(map, marker);

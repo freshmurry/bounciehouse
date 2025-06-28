@@ -1,5 +1,3 @@
-import "toastr/build/toastr.min.css";
-
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -25,7 +23,5 @@ import "toastr/build/toastr.min.css";
 //= require Chart.bundle
 //= require chartkick
 //= require cable
-//= require rails-ujs
-//= require turbolinks
 //= require activestorage
 //= require_tree .

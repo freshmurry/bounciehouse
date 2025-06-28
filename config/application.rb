@@ -8,9 +8,13 @@ Bundler.require(*Rails.groups)
 
 module BouncieHouse
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 7.0
+
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # Uncomment to explicitly permit IPs for web_console if needed
     # config.web_console.permissions = '10.0.2.2'
   end
 end

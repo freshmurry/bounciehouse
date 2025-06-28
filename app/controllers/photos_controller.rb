@@ -1,35 +1,25 @@
 class PhotosController < ApplicationController
-  before_action :set_bouncehouse
 
   def create
-    @photo = @bouncehouse.photos.build(photo_params)
+    @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
 
-    if @photo.save
-      redirect_to @bouncehouse, notice: "Photo added successfully!"
-    else
-      logger.error "Failed to save photo: #{@photo.errors.full_messages}"
-      render :new
+    if params[:images]
+        params[:images].each do |img|
+        @bouncehouse.photos.create(image: img)
+      end
+
+      @photos = @bouncehouse.photos
+      redirect_back(fallback_location: request.referer, notice: "Saved...")
     end
   end
 
   def destroy
-    photo = @bouncehouse.photos.find(params[:id])
-    logger.debug "Destroying photo: #{photo.id}"
-    photo.images.each do |image|
-      logger.debug "Purging image: #{image.filename}"
-      image.purge
-    end
-    photo.destroy
-    redirect_to edit_bouncehouse_path(@bouncehouse), notice: "Photo deleted."
-  end
+    @photo = Photo.find(params[:id])
+    @bouncehouse = @photo.bouncehouse
 
-  private
+    @photo.destroy
+    @photos = Photo.where(bouncehouse_id: @bouncehouse.id)
 
-  def set_bouncehouse
-    @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
-  end
-
-  def photo_params
-    params.require(:photo).permit(images: [])
+    respond_to :js
   end
 end

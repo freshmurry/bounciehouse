@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :update_phone_number, :verify_phone_number, :payment, :payout, :add_card]
-  before_action :set_user, only: [:show, :update]
+  before_action :authenticate_user!, except: [:show]
 
   def show
+    @user = User.find(params[:id])
     @bouncehouses = @user.bouncehouses
-
     @guest_reviews = Review.where(type: "GuestReview", host_id: @user.id)
     @host_reviews = Review.where(type: "HostReview", guest_id: @user.id)
   end
@@ -27,19 +26,18 @@ class UsersController < ApplicationController
     end
 
     redirect_to edit_user_registration_path
+
+  rescue Exception => e
+    redirect_to edit_user_registration_path, alert: "#{e.message}"
   end
 
   def payment
-    # Implementation for payment view goes here
   end
 
   def payout
-    if current_user.merchant_id.present?
+    if !current_user.merchant_id.blank?
       account = Stripe::Account.retrieve(current_user.merchant_id)
-      @login_link = account.login_links.create
-    else
-      flash[:alert] = "No merchant account found. Please connect your Stripe account first."
-      redirect_to payment_path
+      @login_link = account.login_links.create()
     end
   end
 
@@ -55,34 +53,24 @@ class UsersController < ApplicationController
 
       customer.sources.create(source: params[:stripeToken])
       flash[:notice] = "Your card has been saved."
-      redirect_to payment_path
+      redirect_to payment_method_path
     rescue Stripe::CardError => e
       flash[:alert] = "Card error: #{e.message}"
-      redirect_to payment_path
+      redirect_to payment_method_path
     rescue => e
       flash[:alert] = "An unexpected error occurred: #{e.message}"
-      redirect_to payment_path
+      redirect_to payment_method_path
     end
   end
 
   # def update
+  #   @user = current_user
   #   if @user.update(user_params)
-  #     flash[:notice] = "Profile updated successfully."
-  #     redirect_to @user
+  #     redirect_to edit_user_registration_path, notice: 'Profile updated successfully.'
   #   else
-  #     flash[:alert] = "Failed to update profile."
   #     render :edit
   #   end
   # end
-
-  def update
-    @user = current_user
-    if @user.update(user_params)
-      redirect_to edit_user_registration_path, notice: 'Profile updated successfully.'
-    else
-      render :edit
-    end
-  end
 
   private
 
