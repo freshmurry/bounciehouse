@@ -3,19 +3,6 @@
     <div class="panel panel-default">
       <div class="panel-heading preview">
         <%= link_to image_tag(bouncehouse.cover_photo(:medium)) %>
-        <% if user_signed_in? && bouncehouse.user_id != current_user.id %>
-          <div class="position-absolute top-0 end-0 m-2">
-            <% if current_user.favorite_bouncehouses.include?(bouncehouse) %>
-              <%= button_to bouncehouse_favorite_path(bouncehouse), method: :delete, form: { data: { turbo_stream: true } }, class: "btn btn-sm btn-outline-danger rounded-circle shadow-sm" do %>
-                <i class="fas fa-heart"></i>
-              <% end %>
-            <% else %>
-              <%= button_to bouncehouse_favorite_path(bouncehouse), method: :post, form: { data: { turbo_stream: true } }, class: "btn btn-sm btn-outline-secondary rounded-circle shadow-sm" do %>
-                <i class="far fa-heart"></i>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %>
       </div>
       <div class="panel-body">
         <div class="container">
