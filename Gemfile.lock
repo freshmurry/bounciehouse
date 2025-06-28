@@ -352,9 +352,6 @@ GEM
       activesupport (= 7.0.8)
       bundler (>= 1.15.0)
       railties (= 7.0.8)
-    rails-assets-card (2.4.0)
-      rails-assets-jquery (>= 1.5)
-    rails-assets-jquery (3.7.1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -531,7 +528,6 @@ DEPENDENCIES
   pg (~> 1.1)
   puma
   rails (= 7.0.8)
-  rails-assets-card
   rails_12factor
   ransack
   redis (~> 4.0)
