@@ -1,23 +1,9 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_user!, except: [:notify]
   before_action :set_reservation, only: [:approve, :decline]
-  before_action :set_bouncehouse, only: [:create, :preview]
 
-  def preview
-    start_date = params[:start_date].to_date
-    end_date = params[:end_date].to_date
-    @conflict = Reservation.is_conflict(@bouncehouse, start_date, end_date)
-    respond_to do |format|
-      format.json { render json: { conflict: @conflict } }
-    end
-  end
-
-  def new
-    @reservation = Reservation.new(instant: 'request')  # Set 'request' as the default
-  end
-  
   def create
-    set_bouncehouse # Ensure @bouncehouse is set
+    bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
 
     if current_user == @bouncehouse.user
       flash[:alert] = "You cannot book your own Bouncehouse!"
@@ -72,10 +58,31 @@ class ReservationsController < ApplicationController
     redirect_to current_reservations_path
   end
 
+  # def new
+  #   @reservation = Reservation.new(instant: 'request')  # Set 'request' as the default
+  # end
+
+  # def preview
+  #   start_date = params[:start_date].to_date
+  #   end_date = params[:end_date].to_date
+  #   @conflict = Reservation.is_conflict(@bouncehouse, start_date, end_date)
+  #   respond_to do |format|
+  #     format.json { render json: { conflict: @conflict } }
+  #   end
+  # end
+
   private
 
-  def set_bouncehouse
-    @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
+  # def set_bouncehouse
+  #   @bouncehouse = Bouncehouse.find(params[:bouncehouse_id])
+  # end
+  def send_sms(bouncehouse, reservation)
+    @client = Twilio::REST::Client.new
+    @client.messages.create(
+      from: '+12013019666', # Twilio phone number
+      to: bouncehouse.user.phone_number,
+      body: "#{reservation.user.fullname} booked your '#{bouncehouse.listing_name}'"
+    )
   end
 
   def set_reservation
@@ -89,11 +96,11 @@ class ReservationsController < ApplicationController
       customer = Stripe::Customer.retrieve(reservation.user.stripe_id)
       charge = Stripe::Charge.create(
         customer: customer.id,
-        amount: (reservation.total * 100).to_i,
+        amount: (reservation.total * 85).to_i,
         description: bouncehouse.listing_name,
         currency: "usd",
         destination: {
-          amount: (reservation.total * 0.85 * 100).to_i, # 85% of the total amount in cents
+          amount: (reservation.total * 0.85 * 85).to_i, # 85% of the total amount in cents goes to the Host, 15% goes to BouncieHouse.
           account: bouncehouse.user.merchant_id
         }
       )

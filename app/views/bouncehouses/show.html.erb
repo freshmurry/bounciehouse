@@ -114,7 +114,11 @@
           </div>
 
           <div class="col-md-3 text-center">
-            <%= image_tag image(@bouncehouse.user), class: "img-circle avatar-large" %><br/>
+            <% if @bouncehouse.user.image.url.present? %>
+              <%= tag.img src: @bouncehouse.user.image.url(), class: "img-circle avatar-full" %>
+            <% else %>
+              <%= image_tag "blank.jpg", class: "img-circle avatar-small" %>
+            <% end %>
             <%= link_to user_path(@bouncehouse.user) do %>
               <%= @bouncehouse.user.fullname %>
             <% end %>

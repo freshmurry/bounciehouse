@@ -96,7 +96,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   
     config.action_mailer.delivery_method = :smtp
-    host = 'bounciehouse.herokuapp.com'
+    host = 'https://bounciehouse.com'
     config.action_mailer.default_url_options = { host: 'https://bounciehouse.com' }
     ActionMailer::Base.smtp_settings = {
       :address        => 'smtp.sendgrid.net',

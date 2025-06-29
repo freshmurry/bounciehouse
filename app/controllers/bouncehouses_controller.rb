@@ -1,7 +1,7 @@
 class BouncehousesController < ApplicationController
   before_action :set_bouncehouse, except: [:index, :new, :create]
   before_action :authenticate_user!, except: [:show, :preload, :preview]
-  before_action :is_authorized, only: [:listing, :pricing, :description, :photo_upload, :location, :update]
+  before_action :is_authorized, only: [:listing, :pricing, :description, :photo_upload, :location, :updat, :destroy]
   
   def index
     @bouncehouses = current_user.bouncehouses
@@ -45,23 +45,25 @@ class BouncehousesController < ApplicationController
     @photos = @bouncehouse.photos
   end
 
-  def amenities
-  end
-
   def location
   end
 
   def update
+    @bouncehouse = Bouncehouse.find(params[:id])
     new_params = bouncehouse_params
-    new_params = bouncehouse_params.merge(active: true) if is_ready_bouncehouse
 
     if @bouncehouse.update(new_params)
+      if params[:bouncehouse][:photos]
+        params[:bouncehouse][:photos].reject(&:blank?).each do |photo|
+          @bouncehouse.photos.create(image: photo)
+        end
+      end
       flash[:notice] = "Saved..."
+      redirect_to @bouncehouse
     else
       flash[:alert] = "Something went wrong..."
+      render :edit
     end
-    redirect_back(fallback_location: request.referer)
-    # redirect_to bouncehouse_path(@bouncehouse), notice: "Saved..."
   end
 
   def destroy
@@ -119,6 +121,6 @@ class BouncehousesController < ApplicationController
     end
 
     def bouncehouse_params
-      params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :listing_name, :description, :address, :price, :active, :instant)
+      params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :pickup_type, :listing_name, :description, :address, :price, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, :active, :instant, photos: [])
     end
 end

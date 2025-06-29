@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_28_000217) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_21_232335) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -69,10 +69,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_28_000217) do
     t.integer "user_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.string "cover_photo_file_name"
-    t.string "cover_photo_content_type"
-    t.integer "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
     t.index ["user_id"], name: "index_bouncehouses_on_user_id"
   end
 
@@ -203,10 +199,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_28_000217) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.string "cover_photo_file_name"
-    t.string "cover_photo_content_type"
-    t.integer "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["image_id"], name: "index_users_on_image_id"

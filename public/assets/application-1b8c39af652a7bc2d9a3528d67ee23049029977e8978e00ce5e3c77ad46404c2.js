@@ -1,0 +1,1 @@
+import"@hotwired/turbo-rails";import"jquery";import"jquery-ui";import"jquery_ujs";import"bootstrap-sprockets";import"toastr";import"moment";import"fullcalendar";import"sortablejs";import"jquery-raty";import"chart.js";import"chartkick";import"card";import"turbolinks";

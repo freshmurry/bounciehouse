@@ -1,14 +1,14 @@
-require 'net/http'
-
 module ApplicationHelper
   def image(user)
-    if user.image
+    if user.image.exists? # checks if Paperclip image is attached
+      user.image.url(:thumb) # or :medium or :original
+    elsif user.uid.present? # Facebook user id for profile picture
       "https://graph.facebook.com/#{user.uid}/picture?type=large"
-    elsif
-      gravatar_id = Digest::MD5::hexdigest(user.email).downcase
-      "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identical&s=150"
+    elsif user.email.present?
+      gravatar_id = Digest::MD5.hexdigest(user.email.strip.downcase)
+      "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identicon&s=150"
     else
-      'blank.jog'
+      'blank.jpg' # fallback image path in assets
     end
   end
 

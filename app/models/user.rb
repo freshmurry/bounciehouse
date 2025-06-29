@@ -1,12 +1,16 @@
 class User < ApplicationRecord
+  # has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "blank.jpg"
+  has_attached_file :image, :default_url => "blank.jpg"
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
+
   # Devise modules
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   # Validations
   validates :fullname, presence: true, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true
-  
+
   # Associations
   has_many :bouncehouses, dependent: :delete_all
   has_many :reservations
@@ -62,9 +66,13 @@ class User < ApplicationRecord
   def is_active_host
     merchant_id.present?
   end
+
+  def user_params
+    params.require(:user).permit(image: [:image_file_name, :image_file_size, :image_content_type, :image_updated_at])
+  end
 end
 
 # Strict password security measures. *Uncomment when app goes live!*
-  # validates :password, :presence => true,
-  #                   :on => :create,
-  #                   :format => {:with => /\A.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\!\@\#\$\%\^\&\+\=]).*\Z/ }
+# validates :password, :presence => true,
+#                   :on => :create,
+#                   :format => {:with => /\A.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\!\@\#\$\%\^\&\+\=]).*\Z/ }
