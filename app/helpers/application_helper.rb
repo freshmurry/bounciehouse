@@ -1,26 +1,37 @@
 module ApplicationHelper
+  # def image(user)
+  #   if user.image.exists? # checks if Paperclip image is attached
+  #     user.image.url(:thumb) # or :medium or :original
+  #   elsif user.uid.present? # Facebook user id for profile picture
+  #     "https://graph.facebook.com/#{user.uid}/picture?type=large"
+  #   elsif user.email.present?
+  #     gravatar_id = Digest::MD5.hexdigest(user.email.strip.downcase)
+  #     "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identicon&s=150"
+  #   else
+  #     'blank.jpg' # fallback image path in assets
+  #   end
+  # end
+
   def image(user)
-    if user.image.exists? # checks if Paperclip image is attached
-      user.image.url(:thumb) # or :medium or :original
-    elsif user.uid.present? # Facebook user id for profile picture
+    if user.image
       "https://graph.facebook.com/#{user.uid}/picture?type=large"
-    elsif user.email.present?
-      gravatar_id = Digest::MD5.hexdigest(user.email.strip.downcase)
-      "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identicon&s=150"
+    elsif
+      gravatar_id = Digest::MD5::hexdigest(user.email).downcase
+      "https://www.gravatar.com/avatar/#{gravatar_id}.jpg?d=identical&s=150"
     else
-      'blank.jpg' # fallback image path in assets
+      'profile-photo.png'
     end
   end
 
-  private
+  # private
 
-  def gravatar_exists?(gravatar_url)
-    response = Net::HTTP.get_response(URI.parse(gravatar_url))
-    response.code == "200"
-  rescue StandardError => e
-    Rails.logger.error "Gravatar check failed: #{e.message}"
-    false
-  end
+  # def gravatar_exists?(gravatar_url)
+  #   response = Net::HTTP.get_response(URI.parse(gravatar_url))
+  #   response.code == "200"
+  # rescue StandardError => e
+  #   Rails.logger.error "Gravatar check failed: #{e.message}"
+  #   false
+  # end
 
   def stripe_express_path
     if Rails.env.development?

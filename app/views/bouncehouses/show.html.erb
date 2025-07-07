@@ -115,7 +115,7 @@
 
           <div class="col-md-3 text-center">
             <% if @bouncehouse.user.image.url.present? %>
-              <%= tag.img src: @bouncehouse.user.image.url(), class: "img-circle avatar-full" %>
+              <%= tag.img src: @bouncehouse.user.image.url(:thumb), class: "img-circle avatar-full" %>
             <% else %>
               <%= image_tag "blank.jpg", class: "img-circle avatar-small" %>
             <% end %>
