@@ -27,11 +27,14 @@ class Bouncehouse < ApplicationRecord
 
   def cover_photo(size = :medium)
     if photos.any? && photos.first.image.present?
-      photos.first.image.url(size)
+      url = photos.first.image.url(size)
+      url = "https:#{url}" if url.start_with?("//")
+      url
     else
       ActionController::Base.helpers.asset_path('blank.jpg')
     end
   end
+
 
   def self.ransackable_attributes(auth_object = nil)
     %w[
