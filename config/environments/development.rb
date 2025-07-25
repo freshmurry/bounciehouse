@@ -49,7 +49,11 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
-  config.paperclip_defaults = { storage: :filesystem }
+  config.paperclip_defaults = {
+    storage: :filesystem,
+    url: '/system/:class/:attachment/:id_partition/:style/:filename',
+    path: ':rails_root/public:url'
+  }
   
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -68,9 +72,9 @@ Rails.application.configure do
   
   config.web_console.whitelisted_ips = ["127.0.0.1", "10.240.0.0/16"]
   
-  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  config.file_watcher = ActiveSupport::FileUpdateChecker
 
-  config.action_mailer.default_url_options = { host: 'localhost: 3000' }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   # Mailgun Integration
   
@@ -84,14 +88,16 @@ Rails.application.configure do
   #   password: '20e436f9190a67c9fbb9b852ab52cae8'
   # }
   
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.org',
-    port: 587,
-    # domain: 'info@shindigspace.com',
-    authentication: 'plain',
-    user_name: 'postmaster@sandbox849ca54dc98b42888da6976e40db3c35.mailgun.org',
-    password: '20e436f9190a67c9fbb9b852ab52cae8'
-  }
+    # config.action_mailer.delivery_method = :smtp
+    # config.action_mailer.smtp_settings = {
+    # address: 'smtp.mailgun.org',
+    # port: 587,
+    # # domain: 'info@shindigspace.com',
+    # authentication: 'plain',
+    # user_name: 'postmaster@sandbox849ca54dc98b42888da6976e40db3c35.mailgun.org',
+    # password: '20e436f9190a67c9fbb9b852ab52cae8'
+  # }
+
+  config.reload_classes_only_on_change = true
 
 end

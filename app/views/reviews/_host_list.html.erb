@@ -8,7 +8,11 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3 text-center">
-            <%= image_tag (r.host.image), class: "img-circle avatar-medium" %><br/><br/>
+            <% begin %>
+              <%= image_tag (r.host.image), class: "img-circle avatar-medium" %><br/><br/>
+            <% rescue StandardError %>
+              <%= image_tag "blank.jpg", class: "img-circle avatar-medium" %><br/><br/>
+            <% end %>
             <strong><%= r.host.fullname %></strong>
             <div id="star_<%= r.id %>"></div>
           </div>

@@ -14,7 +14,11 @@
                     <% if conversation.messages.any? %>
                       <div class="col-md-2">
                         <% if other %>
-                          <%= image_tag (other.image), class: "img-circle avatar-medium" %>
+                          <% begin %>
+                            <%= image_tag (other.image), class: "img-circle avatar-medium" %>
+                          <% rescue StandardError %>
+                            <%= image_tag "blank.jpg", class: "img-circle avatar-medium" %>
+                          <% end %>
                         <% end %>  
                       </div>
                       <div class="col-md-8">

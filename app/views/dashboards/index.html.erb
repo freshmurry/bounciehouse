@@ -2,9 +2,9 @@
   <div class="col-md-3">
     <div class="center">
       <% if current_user.image_file_name.present? %>
-        <%= tag.img src: current_user.image.url(:thumb), class: "avatar-full" %>
+        <%= image_tag @user.image, class: "avatar-full" %>
       <% else %>
-        <%= tag.img src: "blank.jpg", class: "avatar-full" %>
+        <%= image_tag "blank.jpg", class: "avatar-full" %>
       <% end %>
     </div>
 

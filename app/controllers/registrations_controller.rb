@@ -9,7 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
     if params[:password].present?
       resource.update_with_password(params)
     else
-      resource.update_without_password(params)
+      resource.update_without_password(params.except(:image_file_name, :image_file_size, :image_content_type, :image_updated_at))
     end
   rescue Aws::S3::Errors::AccessControlListNotSupported => e
     Rails.logger.error "S3 ACL error: #{e.message}"

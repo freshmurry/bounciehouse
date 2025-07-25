@@ -4,14 +4,15 @@ class Bouncehouse < ApplicationRecord
   belongs_to :user, required: false
   has_many :photos, dependent: :destroy
   
-  has_many :reservations
+  has_many :reservations, dependent: :destroy
   
-  has_many :guest_reviews
-  has_many :calendars
-  has_many :favorites
+  has_many :guest_reviews, dependent: :destroy
+  has_many :calendars, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   has_many :favorited_by, through: :favorites, source: :user
   
   geocoded_by :address
+  # Uncomment if you only want to geocode when address changes:
   # after_validation :geocode, if: :address_changed?
   reverse_geocoded_by :latitude, :longitude
   after_validation :geocode, :reverse_geocode
@@ -25,11 +26,12 @@ class Bouncehouse < ApplicationRecord
     end
   end
 
+  # Returns the URL for the cover photo (first photo) or a default image
   def cover_photo(size = :medium)
     if photos.any? && photos.first.image.present?
       url = photos.first.image.url(size)
-      url = "https:#{url}" if url.start_with?("//")
-      url
+      url = "https:#{url}" if url.present? && url.start_with?("//")
+      url.presence || ActionController::Base.helpers.asset_path('blank.jpg')
     else
       ActionController::Base.helpers.asset_path('blank.jpg')
     end

@@ -23,7 +23,11 @@
                     <!-- COVER PHOTO -->
                     <div class="row align-items-center">
                       <div class="col-md-2">
-                        <%= image_tag bouncehouse.cover_photo(:medium), class: "img-thumbnail" %>
+                        <% begin %>
+                          <%= image_tag bouncehouse.cover_photo(:medium), class: "img-thumbnail" %>
+                        <% rescue StandardError %>
+                          <%= image_tag 'blank.jpg', class: "img-thumbnail" %>
+                        <% end %>
                       </div>
                       
                       <!-- Listing Name -->

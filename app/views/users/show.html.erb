@@ -2,9 +2,13 @@
   <div class="col-md-3">
     <div class="center">
       <% if current_user.image_file_name.present? %>
-        <%= tag.img src: current_user.image.url(:thumb), class: "avatar-full" %>
+        <% begin %>
+          <%= image_tag @user.image, class: "avatar-full" %>
+        <% rescue StandardError %>
+          <%= image_tag "blank.jpg", class: "avatar-full" %>
+        <% end %>
       <% else %>
-        <%= tag.img src: "blank.jpg", class: "avatar-full" %>
+        <%= image_tag "blank.jpg", class: "avatar-full" %>
       <% end %>
 
       <% if current_user && current_user != @user %>

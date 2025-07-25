@@ -86,7 +86,11 @@
             <% if @photos %>
               <% @photos.each do |photo| %>
                 <div class="item <%= 'active' if photo.id == @photos[0].id %>">
-                  <%= image_tag photo.image.url() %>
+                  <% begin %>
+                    <%= image_tag photo.image.url() %>
+                  <% rescue StandardError %>
+                    <%= image_tag 'blank.jpg' %>
+                  <% end %>
                 </div>
               <% end %>
             <% end %>
@@ -115,7 +119,11 @@
 
           <div class="col-md-3 text-center">
             <% if @bouncehouse.user.image.url.present? %>
-              <%= tag.img src: @bouncehouse.user.image.url(:thumb), class: "img-circle avatar-full" %>
+              <% begin %>
+                <%= tag.img src: @bouncehouse.user.image.url(:thumb), class: "img-circle avatar-full" %>
+              <% rescue StandardError %>
+                <%= image_tag "blank.jpg", class: "img-circle avatar-small" %>
+              <% end %>
             <% else %>
               <%= image_tag "blank.jpg", class: "img-circle avatar-small" %>
             <% end %>

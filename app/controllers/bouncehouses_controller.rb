@@ -12,14 +12,19 @@ class BouncehousesController < ApplicationController
   end
 
   def create
-    # This code makes host register with Stripe first. We want people to create their listing without having to signup with Stripe first.
-    # if !current_user.is_active_host
-    #   return redirect_to payout_path, alert: "Please Connect to Stripe Express first."
-    # end
-    
+    # Remove any accidental scalar photo assignment
+    params[:bouncehouse].delete(:photo_id) if params[:bouncehouse]&.key?(:photo_id)
+
     @bouncehouse = current_user.bouncehouses.build(bouncehouse_params)
+
     if @bouncehouse.save
-      redirect_to listing_bouncehouse_path(@bouncehouse), notice: "Saved..."
+      # Handle photo uploads manually
+      if params[:bouncehouse][:photos]
+        params[:bouncehouse][:photos].reject(&:blank?).each do |photo|
+          @bouncehouse.photos.create(image: photo)
+        end
+      end
+      redirect_to @bouncehouse, notice: "Saved..."
     else
       flash[:alert] = "Something went wrong..."
       render :new
@@ -121,6 +126,11 @@ class BouncehousesController < ApplicationController
     end
 
     def bouncehouse_params
-      params.require(:bouncehouse).permit(:bouncehouse_type, :time_limit, :pickup_type, :listing_name, :description, :address, :price, :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler, :is_speakers, :is_wall_climb, :active, :instant, photos: [])
+      params.require(:bouncehouse).permit(
+        :bouncehouse_type, :time_limit, :pickup_type, :listing_name, :description, :address, :price,
+        :is_heated, :is_slide, :is_waterslide, :is_basketball_hoop, :is_lighting, :is_sprinkler,
+        :is_speakers, :is_wall_climb, :active, :instant
+        # photos: [] is intentionally omitted
+      )
     end
 end

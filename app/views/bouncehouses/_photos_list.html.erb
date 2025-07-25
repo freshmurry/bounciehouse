@@ -5,7 +5,11 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading preview">
-            <%= image_tag photo.image.url() %>
+            <% begin %>
+              <%= image_tag photo.image.url() %>
+            <% rescue StandardError %>
+              <%= image_tag 'blank.jpg' %>
+            <% end %>
           </div>
 
           <div class="panel-body">

@@ -3,7 +3,11 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <%= image_tag (message.user.image), class: "img-circle avatar-small" %>
+          <% begin %>
+            <%= image_tag (message.user.image), class: "img-circle avatar-small" %>
+          <% rescue StandardError %>
+            <%= image_tag "blank.jpg", class: "img-circle avatar-small" %>
+          <% end %>
           <%= message.user.fullname %>
           <span class="pull-right"><%= message.message_time %></span>
         </div>

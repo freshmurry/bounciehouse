@@ -8,7 +8,11 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3 text-center">
-            <%= image_tag (r.guest.image), class: "img-circle avatar-medium" %><br/>
+            <% begin %>
+              <%= image_tag (r.guest.image), class: "img-circle avatar-medium" %><br/>
+            <% rescue StandardError %>
+              <%= image_tag "blank.jpg", class: "img-circle avatar-medium" %><br/>
+            <% end %>
             <strong><%= r.guest.fullname %></strong>
           </div>
           

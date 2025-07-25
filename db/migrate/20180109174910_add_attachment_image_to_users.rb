@@ -1,11 +1,8 @@
 class AddAttachmentImageToUsers < ActiveRecord::Migration[7.0]
-  def self.up
-    change_table :users do |t|
-      t.references :image
-    end
-  end
-
-  def self.down
-    remove_attachment :users, :image
+  def change
+    add_column :users, :image_file_name, :string
+    add_column :users, :image_content_type, :string
+    add_column :users, :image_file_size, :integer
+    add_column :users, :image_updated_at, :datetime
   end
 end

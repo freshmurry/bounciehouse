@@ -1,7 +1,11 @@
 <div class="row">
   <div class="col-md-3 text-center">
     <% if @other %>
-      <%= image_tag (@other.image), class: "img-circle avatar-medium" %>
+      <% begin %>
+        <%= image_tag (@other.image), class: "img-circle avatar-medium" %>
+      <% rescue StandardError %>
+        <%= image_tag "blank.jpg", class: "img-circle avatar-medium" %>
+      <% end %>
       <strong><%= @other.fullname %></strong>
     <% end %>
     <%= link_to "View Profile", @other, class: "btn btn-default" %>&nbsp;

@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   # has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "blank.jpg"
-  has_attached_file :image, :default_url => "blank.jpg"
+  has_attached_file :image, styles: { thumb: "100x100#" }, default_url: "blank.jpg"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
 
   # Devise modules
@@ -67,8 +67,9 @@ class User < ApplicationRecord
     merchant_id.present?
   end
 
+  # Remove this method, strong params should not be in the model
   def user_params
-    params.require(:user).permit(image: [:image_file_name, :image_file_size, :image_content_type, :image_updated_at])
+    # removed
   end
 end
 
