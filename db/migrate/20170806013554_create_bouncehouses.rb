@@ -20,7 +20,7 @@ class CreateBouncehouses < ActiveRecord::Migration[7.0]
       t.boolean :active
       t.float :latitude
       t.float :longitude
-      t.integer :instant, deafault: 1
+      t.integer :instant, default: 1
       t.references :user, index: true, foreign_key: true
 
       t.timestamps null: false
