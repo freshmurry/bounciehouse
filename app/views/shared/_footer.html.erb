@@ -1,42 +1,27 @@
-<footer class="footer">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 bg-white shadow rounded-lg">
-    <div class="flex flex-col md:flex-row text-gray-500 text-sm">
-      <div class="flex-1 flex flex-col justify-center items-center md:items-start mb-4 md:mb-0">
-        <ul class="flex flex-wrap gap-2 mb-2">
-          
-          <li><%= link_to "About", about_path, class: "hover:text-babu-600 transition" %></li>
-          <li class="mx-2">⋅</li>
-          <li><%= link_to "Support", support_path, class: "hover:text-babu-600 transition" %></li>
-          <li class="mx-2">⋅</li>
-          <li><%= link_to "Terms & Policy", terms_path, class: "hover:text-babu-600 transition" %></li>
-          <li class="mx-2">⋅</li>
-          <li><%= link_to "FAQ", faq_path, class: "hover:text-babu-600 transition" %></li>
-          <li class="mx-2">⋅</li>
-          <li><%= link_to "Blog", blog_path, class: "hover:text-babu-600 transition" %></li>
-          <li class="mx-2">⋅</li>
-          <li><%= link_to "Careers", careers_path, class: "hover:text-babu-600 transition" %></li>
-          <li class="mx-2">⋅</li>
-          <li><span class="text-gray-400">BouncieHouse 2020. All Rights Reserved.</span></li>
+<footer class="footer" style="background-color: #FBFCFC; padding: 20px 0; border-top: 1px solid #e7e7e7;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline">
+          <li><%= link_to "About", about_path %></li>
+          <li>⋅</li>
+          <li><%= link_to "Support", support_path %></li>
+          <li>⋅</li>
+          <li><%= link_to "Terms & Policy", terms_path %></li>
+          <li>⋅</li>
+          <li><%= link_to "FAQ", faq_path %></li>
+          <li>⋅</li>
+          <li><%= link_to "Blog", blog_path %></li>
+          <li>⋅</li>
+          <li><%= link_to "Careers", careers_path %></li>
+          <li>⋅</li>
+          <li><span>BouncieHouse 2020. All Rights Reserved.</span></li>
         </ul>
       </div>
-      <div class="flex items-center justify-center md:justify-end md:w-1/4">
-        <ul class="flex gap-3 mb-2">
-          <li>
-            <a href="https://facebook.com" target="_blank" class="hover:text-babu-600 transition">
-              <i class="fab fa-facebook fa-2x fa-fw"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com" target="_blank" class="hover:text-babu-600 transition">
-              <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="hover:text-babu-600 transition">
-              <i class="fab fa-instagram fa-2x fa-fw"></i>
-            </a>
-          </li>
-        </ul>
+      <div class="col-md-4 text-right">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook fa-2x fa-fw"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter-square fa-2x fa-fw"></i></a>
+        <a href="#"><i class="fab fa-instagram fa-2x fa-fw"></i></a>
       </div>
     </div>
   </div>
