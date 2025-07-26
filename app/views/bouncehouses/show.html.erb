@@ -27,13 +27,7 @@
             <% if @photos %>
               <% @photos.each do |photo| %>
                 <div class="item <%= 'active' if photo.id == @photos[0].id %>">
-                  <% begin %>
-                    <% img_url = photo.image.url(:large, false) %>
-                    <% img_url = img_url.start_with?('http') ? img_url : "#{request.base_url}#{img_url}" %>
-                    <%= image_tag img_url, width: "100%" %>
-                  <% rescue StandardError %>
-                    <%= image_tag 'blank.jpg', width: "100%" %>
-                  <% end %>
+                  <%= image_tag photo.image.url(), width: "100%" %>
                 </div>
               <% end %>
             <% end %>
@@ -198,7 +192,7 @@
             });
     
             var infoWindow = new google.maps.InfoWindow({
-              content: '<div id="content"><% if @bouncehouse.photos.any? %><% begin %><% img_url = @bouncehouse.photos.first.image.url(:medium, false) %><% img_url = img_url.start_with?("http") ? img_url : "#{request.base_url}#{img_url}" %><%= image_tag img_url %><% rescue StandardError %><%= image_tag "blank.jpg" %><% end %><% else %><%= image_tag "blank.jpg" %><% end %></div>'
+              content: '<div id="content"><%= image_tag @bouncehouse.photos.first.image.url(:medium) if @bouncehouse.photos.any? %></div>'
             });
     
             infoWindow.open(map, marker);
@@ -221,7 +215,7 @@
                   <div class="col-md-4">
                     <div class="panel panel-default">
                       <div class="panel-heading preview">
-                        <%= image_tag nearby_bouncehouse.cover_photo(:medium) %>
+                        <%= image_tag bouncehouse.cover_photo(:medium) %>
                       </div>
                       <div class="panel-body">
                         <div class="container">
