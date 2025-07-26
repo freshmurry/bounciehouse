@@ -6,7 +6,9 @@
         <div class="panel panel-default">
           <div class="panel-heading preview">
             <% begin %>
-              <%= image_tag photo.image.url() %>
+              <% img_url = photo.image.url(:medium, false) %>
+              <% img_url = img_url.start_with?('http') ? img_url : "#{request.base_url}#{img_url}" %>
+              <%= image_tag img_url %>
             <% rescue StandardError %>
               <%= image_tag 'blank.jpg' %>
             <% end %>

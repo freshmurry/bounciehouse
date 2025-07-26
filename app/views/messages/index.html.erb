@@ -1,38 +1,32 @@
-<div class="row">
-  <div class="col-md-3 text-center">
+<div class="max-w-4xl mx-auto py-8 flex flex-col md:flex-row gap-8">
+  <div class="md:w-1/3 flex flex-col items-center bg-white shadow rounded-lg p-6">
     <% if @other %>
       <% begin %>
-        <%= image_tag (@other.image), class: "img-circle avatar-medium" %>
+        <%= image_tag (@other.image), class: "rounded-full h-20 w-20 object-cover border border-gray-200 mb-2" %>
       <% rescue StandardError %>
-        <%= image_tag "blank.jpg", class: "img-circle avatar-medium" %>
+        <%= image_tag "blank.jpg", class: "rounded-full h-20 w-20 object-cover border border-gray-200 mb-2" %>
       <% end %>
-      <strong><%= @other.fullname %></strong>
+      <div class="font-semibold text-lg text-gray-800 mb-2"><%= @other.fullname %></div>
     <% end %>
-    <%= link_to "View Profile", @other, class: "btn btn-default" %>&nbsp;
+    <%= link_to "View Profile", @other, class: "bg-babu-500 hover:bg-babu-600 text-white font-semibold px-4 py-2 rounded transition" %>
   </div>
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-          Conversation with <%= @other.fullname %> 
+  <div class="md:w-2/3">
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200 text-lg font-semibold text-babu-700 flex items-center gap-2">
+        <span>Conversation with</span>
+        <span class="font-bold"><%= @other.fullname %></span>
         <input id="conversation_id" type="hidden" value="<%= @conversation.id %>">
       </div>
-      <div class="panel-body">
-        <div class="container text-center">
-          <%= form_for [@conversation, @conversation.messages.new], remote: true do |f| %>
-            <div class="form-group">
-              <%= f.text_field :context, placeholder: "Start a conversation", class: "form-control" %>
-            </div>
-            <%= f.hidden_field :user_id, value: current_user.id %>
-            <div>
-              <%= f.submit "Send Message", class: "btn btn-normal" %>
-            </div>
-          <% end %>
-        </div>
+      <div class="p-6">
+        <%= form_for [@conversation, @conversation.messages.new], remote: true, html: {class: "flex gap-2 items-center"} do |f| %>
+          <%= f.text_field :context, placeholder: "Start a conversation", class: "flex-1 rounded border-gray-300 focus:ring focus:ring-babu-200 focus:border-babu-400 px-4 py-2 text-sm" %>
+          <%= f.hidden_field :user_id, value: current_user.id %>
+          <%= f.submit "Send", class: "bg-babu-500 hover:bg-babu-600 text-white font-semibold px-4 py-2 rounded transition" %>
+        <% end %>
+      </div>
+      <div id="chat" class="px-6 pb-6">
+        <%= render @messages %>
       </div>
     </div>
-    <div id="chat">
-      <%= render @messages %>
-    </div>
-
   </div>
 </div>

@@ -1,121 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%= csrf_meta_tags %>
-  <%= action_cable_meta_tag %>
+  <head>
+    <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <meta name="author" content="BouncieHouse">
-  <meta name="keywords" content="Bounce house rental, bouncy house rentals, bouncie house, bounce house inflatable, rent a bounce house, rent a bounce house near me, Bounce house rental near me">
-  <meta name="description" content="BouncieHouse allows you to book and rent a bounce house near you.">
-  <meta name="google-site-verification" content="iaOgBh0ngIx4hheLrH4JU1_1Cl2Mq9SBgpVRf_av_zM">
+    <meta name="author" content="BouncieHouse">
+    <meta name="keywords" content="Bounce house rental, bouncy house rentals, bouncie house, bounce house inflatable, rent a bounce house, rent a bounce house near me, Bounce house rental near me">
+    <meta name="description" content="BouncieHouse allows you to book and rent a bounce house near you.">
+    <meta name="google-site-verification" content="iaOgBh0ngIx4hheLrH4JU1_1Cl2Mq9SBgpVRf_av_zM">
 
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="BouncieHouse">
-  <meta property="og:url" content="https://bounciehouse.com">
-  <meta property="og:title" content="BouncieHouse | Book and Rent a Bounce House">
-  <meta property="og:description" content="BouncieHouse allows you to book and rent a bounce house near you.">
-  <meta property="og:image" content="<%= image_url('bounciehouse-social-icon.png') %>">
-  <meta property="og:image:alt" content="Book and Rent a Bounce House">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="en_US">
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="BouncieHouse">
+    <meta property="og:url" content="https://bounciehouse.com">
+    <meta property="og:title" content="BouncieHouse | Book and Rent a Bounce House">
+    <meta property="og:description" content="BouncieHouse allows you to book and rent a bounce house near you.">
+    <meta property="og:image" content="<%= image_url('bounciehouse-social-icon.png') %>">
+    <meta property="og:image:alt" content="Book and Rent a Bounce House">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
 
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="BouncieHouse">
-  <meta name="twitter:description" content="BouncieHouse allows you to book and rent a bounce house near you.">
-  <meta name="twitter:image" content="<%= image_url('bounciehouse-social-icon.png') %>">
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="BouncieHouse">
+    <meta name="twitter:description" content="BouncieHouse allows you to book and rent a bounce house near you.">
+    <meta name="twitter:image" content="<%= image_url('bounciehouse-social-icon.png') %>">
 
-  <!-- Stylesheets -->
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
-  <link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu|Cabin" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- Stylesheets -->
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu|Cabin" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-  <title>BouncieHouse | Book a Bounce House Near You</title>
-  <%= javascript_importmap_tags %>
-  <%= javascript_include_tag 'application', type: "module", 'data-turbo-track': 'reload' %>
-</head>
+    <title>BouncieHouse | Book a Bounce House Near You</title>
+    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag 'application', type: "module", 'data-turbo-track': 'reload' %>
+  </head>
 
-<body>
-  <%= render 'shared/navbar' %>
-  <%= render 'shared/message' %>
+  <body>
+    <%= render 'shared/navbar' %>
+    <%= render 'shared/message' %>
 
-  <% if current_user %>
-    <input type="hidden" id="user_id" value="<%= h(current_user.id) %>">
-  <% end %>
+    <% if current_user %>
+      <input type="hidden" id="user_id" value="<%= h(current_user.id) %>">
+    <% end %>
 
-  <div class="container">
-    <%= yield %>
-  </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 bg-white shadow rounded-lg">
+      <%= yield %>
+    </div>
 
-  <%= render 'shared/footer' %>
-  <% debug(params) if Rails.env.development? %>
+    <%= render 'shared/footer' %>
+    <% debug(params) if Rails.env.development? %>
 
-  <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnqDrT86OzRZVorExsMjFhYdp0TTOKQpE&callback=initMap"></script>
+    <!-- Google Maps -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnqDrT86OzRZVorExsMjFhYdp0TTOKQpE&callback=initMap"></script>
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6ZCFF13GD"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-W6ZCFF13GD');
-  </script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6ZCFF13GD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W6ZCFF13GD');
+    </script>
 
-  <!-- Piwik Pro Tag Manager -->
-  <script>
-    (function(window, document, dataLayerName, id) {
-      window[dataLayerName] = window[dataLayerName] || [];
-      window[dataLayerName].push({ start: new Date().getTime(), event: "stg.start" });
+    <!-- Piwik Pro Tag Manager -->
+    <script>
+      (function(window, document, dataLayerName, id) {
+        window[dataLayerName] = window[dataLayerName] || [];
+        window[dataLayerName].push({ start: new Date().getTime(), event: "stg.start" });
 
-      var scripts = document.getElementsByTagName('script')[0];
-      var tags = document.createElement('script');
+        var scripts = document.getElementsByTagName('script')[0];
+        var tags = document.createElement('script');
 
-      function stgCreateCookie(a, b, c) {
-        var d = "";
-        if (c) {
-          var e = new Date;
-          e.setTime(e.getTime() + 24 * c * 60 * 60 * 1000);
-          d = "; expires=" + e.toUTCString();
+        function stgCreateCookie(a, b, c) {
+          var d = "";
+          if (c) {
+            var e = new Date;
+            e.setTime(e.getTime() + 24 * c * 60 * 60 * 1000);
+            d = "; expires=" + e.toUTCString();
+          }
+          document.cookie = a + "=" + b + d + "; path=/; SameSite=Strict";
         }
-        document.cookie = a + "=" + b + d + "; path=/; SameSite=Strict";
-      }
 
-      var isStgDebug = (window.location.href.match("stg_debug") || document.cookie.match("stg_debug")) && !window.location.href.match("stg_disable_debug");
-      stgCreateCookie("stg_debug", isStgDebug ? 1 : "", isStgDebug ? 14 : -1);
+        var isStgDebug = (window.location.href.match("stg_debug") || document.cookie.match("stg_debug")) && !window.location.href.match("stg_disable_debug");
+        stgCreateCookie("stg_debug", isStgDebug ? 1 : "", isStgDebug ? 14 : -1);
 
-      var qP = [];
-      if (dataLayerName !== "dataLayer") qP.push("data_layer_name=" + dataLayerName);
-      if (isStgDebug) qP.push("stg_debug");
+        var qP = [];
+        if (dataLayerName !== "dataLayer") qP.push("data_layer_name=" + dataLayerName);
+        if (isStgDebug) qP.push("stg_debug");
 
-      tags.async = true;
-      tags.src = "https://bounciehouse.containers.piwik.pro/" + id + ".js" + (qP.length ? "?" + qP.join("&") : "");
-      scripts.parentNode.insertBefore(tags, scripts);
+        tags.async = true;
+        tags.src = "https://bounciehouse.containers.piwik.pro/" + id + ".js" + (qP.length ? "?" + qP.join("&") : "");
+        scripts.parentNode.insertBefore(tags, scripts);
 
-      !function(a, n, i) {
-        a[n] = a[n] || {};
-        for (var c = 0; c < i.length; c++) {
-          !function(i) {
-            a[n][i] = a[n][i] || {};
-            a[n][i].api = a[n][i].api || function() {
-              var a = [].slice.call(arguments, 0);
-              if (typeof a[0] === "string") {
-                window[dataLayerName].push({ event: n + "." + i + ":" + a[0], parameters: [].slice.call(arguments, 1) });
-              }
-            };
-          }(i[c]);
-        }
-      }(window, "ppms", ["tm", "cm"]);
-    })(window, document, 'dataLayer', '730e39e0-563f-43f1-92f7-53563b61bc0a');
-  </script>
+        !function(a, n, i) {
+          a[n] = a[n] || {};
+          for (var c = 0; c < i.length; c++) {
+            !function(i) {
+              a[n][i] = a[n][i] || {};
+              a[n][i].api = a[n][i].api || function() {
+                var a = [].slice.call(arguments, 0);
+                if (typeof a[0] === "string") {
+                  window[dataLayerName].push({ event: n + "." + i + ":" + a[0], parameters: [].slice.call(arguments, 1) });
+                }
+              };
+            }(i[c]);
+          }
+        }(window, "ppms", ["tm", "cm"]);
+      })(window, document, 'dataLayer', '730e39e0-563f-43f1-92f7-53563b61bc0a');
+    </script>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </body>
 </html>

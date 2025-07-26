@@ -1,56 +1,45 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">Messages</div>
-      <div class="panel-body">
-        <div class="container">
-          <% if @conversations.any? %>
-            <% @conversations.each do |conversation| %>
-              <% other = current_user == conversation.sender ? conversation.recipient : conversation.sender %>
-              <%= link_to conversation_messages_path(conversation) do %>
-                  
-                <div class="container">
-                  <div class="row conversation">
-                    <% if conversation.messages.any? %>
-                      <div class="col-md-2">
-                        <% if other %>
-                          <% begin %>
-                            <%= image_tag (other.image), class: "img-circle avatar-medium" %>
-                          <% rescue StandardError %>
-                            <%= image_tag "blank.jpg", class: "img-circle avatar-medium" %>
-                          <% end %>
-                        <% end %>  
-                      </div>
-                      <div class="col-md-8">
-                        <%= conversation.messages.last.context %>
-                      </div>
-                      <div class="col-md-1">
-                        <% if other %>
-                          <b><%= other.fullname %></b>
-                        <% end %>  
-                        <%= conversation.messages.last.message_time %>
-                      </div>
-
-                      <div>
-                        <span class="col-md-1 pull-right">
-                          <%= link_to conversation_path(conversation), remote: true, method: :delete, data: {confirm: "Are you sure?"} do %>
-                            <i class="fas fa-trash-alt fa-md" aria-hidden="true"></i>
-                          <% end %>   
-                        </span>
-                      </div>
-                    <% else %>
-                      <h3 class="text-center">No messages in this conversation.</h3>
+<div class="max-w-3xl mx-auto py-8">
+  <div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 text-xl font-semibold text-babu-700">Messages</div>
+    <div class="p-6">
+      <% if @conversations.any? %>
+        <div class="space-y-4">
+          <% @conversations.each do |conversation| %>
+            <% other = current_user == conversation.sender ? conversation.recipient : conversation.sender %>
+            <%= link_to conversation_messages_path(conversation), class: "block hover:bg-babu-50 transition rounded-lg p-4 border border-gray-100" do %>
+              <div class="flex items-center gap-4">
+                <% if conversation.messages.any? %>
+                  <% if other %>
+                    <% begin %>
+                      <%= image_tag (other.image), class: "rounded-full h-12 w-12 object-cover border border-gray-200" %>
+                    <% rescue StandardError %>
+                      <%= image_tag "blank.jpg", class: "rounded-full h-12 w-12 object-cover border border-gray-200" %>
+                    <% end %>
+                  <% end %>
+                  <div class="flex-1">
+                    <div class="text-gray-800 font-medium truncate"><%= conversation.messages.last.context %></div>
+                    <div class="text-xs text-gray-400 mt-1 flex items-center gap-2">
+                      <% if other %>
+                        <span class="font-semibold"><%= other.fullname %></span>
+                      <% end %>
+                      <span><%= conversation.messages.last.message_time %></span>
+                    </div>
+                  </div>
+                  <div>
+                    <%= link_to conversation_path(conversation), remote: true, method: :delete, data: {confirm: "Are you sure?"}, class: "text-gray-400 hover:text-red-500 transition" do %>
+                      <i class="fas fa-trash-alt fa-lg" aria-hidden="true"></i>
                     <% end %>
                   </div>
-                </div>
-                  
-              <% end %>
+                <% else %>
+                  <div class="text-center w-full text-gray-400">No messages in this conversation.</div>
+                <% end %>
+              </div>
             <% end %>
-          <% else %>
-            <h3 class="text-center">You don't have any messages.</h3>
           <% end %>
         </div>
-      </div>
+      <% else %>
+        <div class="text-center text-gray-400 text-lg">You don't have any messages.</div>
+      <% end %>
     </div>
   </div>
 </div>

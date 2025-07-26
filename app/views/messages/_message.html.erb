@@ -1,34 +1,19 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <% begin %>
-            <%= image_tag (message.user.image), class: "img-circle avatar-small" %>
-          <% rescue StandardError %>
-            <%= image_tag "blank.jpg", class: "img-circle avatar-small" %>
-          <% end %>
-          <%= message.user.fullname %>
-          <span class="pull-right"><%= message.message_time %></span>
-        </div>
-
-        <div class="panel-body">
-          <div class="container">
-            
-            <div class="col-md-12">   
-              <%= message.context %>
-            </div>
-
-            <!-- <div class="col-md-3"> -->
-              <span class="pull-right">
-                <%= link_to conversation_message_path(message.conversation_id, message), remote: true, method: :delete, data: {confirm: "Are you sure?"} do %>
-                  <i class="fas fa-trash-alt fa-md" aria-hidden="true"></i>
-                <% end %>
-              </span>
-            <!-- </div> -->
-          </div>
-        </div>
-      </div>  
+<div class="flex items-start gap-4 py-4 border-b border-gray-100 group hover:bg-babu-50 transition">
+  <% begin %>
+    <%= image_tag (message.user.image), class: "rounded-full h-10 w-10 object-cover border border-gray-200" %>
+  <% rescue StandardError %>
+    <%= image_tag "blank.jpg", class: "rounded-full h-10 w-10 object-cover border border-gray-200" %>
+  <% end %>
+  <div class="flex-1">
+    <div class="flex items-center gap-2">
+      <span class="font-semibold text-babu-700"><%= message.user.fullname %></span>
+      <span class="text-xs text-gray-400"><%= message.message_time %></span>
+      <span class="ml-auto opacity-0 group-hover:opacity-100 transition">
+        <%= link_to conversation_message_path(message.conversation_id, message), remote: true, method: :delete, data: {confirm: "Are you sure?"}, class: "text-gray-400 hover:text-red-500" do %>
+          <i class="fas fa-trash-alt fa-md" aria-hidden="true"></i>
+        <% end %>
+      </span>
     </div>
+    <div class="mt-1 text-gray-800"><%= message.context %></div>
   </div>
 </div>
